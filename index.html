@@ -5,8 +5,8 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title> Learning CSS Basics</title>
     <style>
-      img {
-        width:100px;
+      #box-model{
+        width:300px;
         }
       h1{
         color: rgb(17, 36, 204);
@@ -16,6 +16,9 @@
       body{
         background-color:rgb(195, 251, 213);
         font-size:20px;
+        padding: 20px;
+        margin-left:20px;
+        margin-right:10px;
         }
         
         #how-to-use-ids
@@ -23,20 +26,105 @@
           background-color:yellow
         }
         .why-do-we-need-classes{
-          background-color:blueviolet;
-          font-family:"Lucida Sans", "Verdana";          
+          font-family:cursive, "sans-serif" ;         
         }
         table, th, td {
           border:2px solid black;
         }
+        .span-class{
+          color:brown;
+          font-family: fantasy;
+        }
+        #introductory-lessons{
+          background-color:rgb(190, 184, 184);
+          width:55%;
+          height:180px;
+          overflow:auto; 
+          margin:20px;
+          padding-left: 100px;
+        }
+        #why-classes{
+          background-color:rgb(130, 230, 162);
+          border: 3px solid rgb(17, 36, 204) ;  
+          padding:2px 10px 5px 0px;
+          border-top: 10px solid purple;
+          
+        }
+      #position-explaination{
+        background-color:rgb(205, 209, 87);
+      }
+      #landscape {
+        width: 250px;
+        position: absolute;
+        top: 20px;
+        right: 10px;
+        z-index: 1;
+    }
+    
+    #winston {
+        position: absolute;
+        top: 50px;
+        right: 50px;
+        z-index: 2;
+    }
+    #hopper {
+        position: fixed;
+        top: 30px;
+        right: 80px;
+        z-index: 3;
+    }
+    #first-header {
+      position: relative;
+      z-index: 4;
+      left: 30px;
+  }
+  #hopper-pic {
+    width: 100px;
+    float: left;
+    margin-right: 6px;
+    margin-bottom: 6px;
+    
+}
+#shift-right{
+  float:right;
+  width : 30%;
+  clear: both;
+}
+.orange {
+  background-color: orange;
+}
+
+.yellow {
+  background-color: yellow;
+}
+
+.purple {
+  background-color: purple;
+  color: white;
+}
+
+p .purple {
+  color: purple;
+  background-color: transparent;
+}
+
+ul.spacey li strong {
+  line-height: 2em;
+}
+
+a:hover, p:hover {
+  background-color: black;
+  color:white;
+}
+
     </style>
   </head>
-  
+  <!-- avoid using overfow as it can easily become annoying for the user.
+   Three aspects of the border are: thickness, style and color
+  -->
   <body>
-    <!--
-      Khanacademy is full of cool courses!
-    -->
-    <h1> Let's do some  exercises:</h1>
+    <!-- Khanacademy is full of cool courses! -->
+    <h1 id="first-header"> Let's do some  exercises:</h1>
     <p>I am following ... <br> this course on <em>Khanacademy </em> platform</p>
     <hr />
     <a href="https://www.khanacademy.org/computing/computer-programming/html-css/intro-to-html/pt/html-text-emphasis" target="_blank"
@@ -48,10 +136,11 @@
     <a href="https://www.imdb.com/title/tt10731768/" target="_blank">Link 3!</a>
     <br>
 
-    <img src="./main_files/cube.jpg" alt="It is good!" />
+    <img src="./main_files/cube.jpg" alt="It is good!" width="200px" />
     <br >
 
-    <h4>This is a new heading!</h4>
+<div id="introductory-lessons">
+    <h4>Let us learn about new stuff</h4>
 
     <p> Using <strong> Strong </strong> tag we can make the text bold!</p>
 
@@ -78,7 +167,9 @@
   In order to specify the style of a paragraph (object?) <br>
   we need to use <strong>ids</strong> in order to specify that in the style section.
 </p>
+</div>
 
+<div id="why-classes">
 <h3> Class selector</h3>
 <p class="why-do-we-need-classes">
   What if we wanted to set a change for multiple paragraphs. One way would be to set an id for each paragraph
@@ -90,7 +181,7 @@
 <p class="why-do-we-need-classes"> 
   CSS <em>font-family</em> property is awesome.
 </p>
-
+</div>
 <h3 id="huis-73">
   Huis 73
 </h3>
@@ -103,7 +194,7 @@ to grab a bite and study. I <strong>love</strong> the vibe here.
   Internal references are used to make e.g., table of contenet or refer to different parts of the webpage, 
   especially for long pages.
 </p>
-
+<div id="shift-right">
 <h3> Let's create a table in our webpage:</h3>
 <table>
   <thead>
@@ -126,5 +217,87 @@ to grab a bite and study. I <strong>love</strong> the vibe here.
     </tr>
   </tbody>
 </table>
+</div>
+<h3>
+  The span attribute
+</h3>
+<p>
+  The <span class="span-class">span</span> attribute is used the group a bunch of text. 
+  <span class="span-class">Span</span> is important and extremle helpful.
+</p>
+<br>
+<h2>The Box Model</h2>
+<p> <img id="box-model" src="https://upload.wikimedia.org/wikipedia/commons/e/ed/Box-model.svg" alt="the box model"></p>
+    
+<div id="position-explaination">
+  <h2>
+    Positioning of the elements
+  </h2>
+  <p>
+    We can move things around inside the webpage using the <em>position</em> property. 
+  </p>
+  <img src="https://www.kasandbox.org/programming-images/landscapes/fields-of-grain.png" id="landscape">
+  <img src="https://www.kasandbox.org/programming-images/avatars/Hopper-jumping.gif" id="hopper">
+  <img src="https://www.kasandbox.org/programming-images/creatures/Winston.png" id="winston">
+
+</div>
+
+<div>
+
+<h2>What if you wanted to wrap text about picture?</h2>
+
+<p id="hopper-bio">
+  It is really easy using the <em>float</em> property in css.
+
+  <img id="hopper-pic" src="https://www.kasandbox.org/programming-images/creatures/Hopper-Cool.png" alt="Hopper image">
+    I'm Hopper! I was named after Grace Hopper, one of the first American computer scientists and an admiral in the Navy.
+     Grace Hopper invented the term "debugging" for fixing computer bugs, after finding a moth in a computer, plus she
+      invented the first compiler.
+  </p>
+</div>
+<br>
+<h2>Some notes</h2>
+<ul>
+  <li>We can define multiple classes for an item at once, e.g., <em>class="apple fruit box"</em></li>
+  <li> Check out <a href="#css-descendant-selectors"> CSS descendant selectors</a>: we use spaces to specify which tag we want to change. </li>
+  <li> We can use comma to group selectors in CSS, e.g., if we want <em>h1</em> and <em>h2</em> have the  </li>
+  same properties we then can group them. Remember it is different from spaces used in decendant selectors.
+</ul>
+
+
+<h3 id="css-decendant-selectors"> Carrot Facts</h3>
+<h4> CSS descendant selectors</h4>
+<p>Colors that carrots come in:</p>
+<ul class="spacey">
+    <li>
+        <strong class="orange">Orange</strong>
+    </li>
+    <li>
+        <strong class="purple">Purple</strong>
+    </li>
+    <li>
+        <strong class="yellow">Yellow</strong>
+    </li>
+</ul>
+
+<p>Did you know? Carrots were <strong class="purple">purple</strong> before the 17th century, but then were cultivated by Dutch farmers until they became the sweet orange carrots that we know today.</p>
+<h2>Let's talk about pseudo-classes</h2>
+<p>It is cool and important as always.<br>
+To see click <a href="https://www.w3schools.com/cssref/sel_hover.asp" target="_blank">here</a>
+</p>
+
+<h2>Get the size of the current screen/window</h2>
+<p>The example displays the browser window's height and width: (NOT including toolbars/scrollbars)
+
+<p id="demo"></p>
+
+<script>
+var w = window.innerWidth;
+var h = window.innerHeight;
+
+var x = document.getElementById("demo");
+x.innerHTML = "Browser width: " + w + ", height: " + h + ".";
+</script>
+
   </body>
 </html>
