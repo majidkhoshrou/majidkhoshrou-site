@@ -14,7 +14,7 @@
         text-shadow: 10px 10px 10px;
       }
       body{
-        background-color:rgb(195, 251, 213);
+        background-color:rgb(191, 202, 195);
         font-size:20px;
         padding: 20px;
         margin-left:20px;
@@ -85,6 +85,9 @@
     margin-bottom: 6px;
     
 }
+h4.timeline{
+  float: left;
+}
 #shift-right{
   float:right;
   width : 30%;
@@ -112,33 +115,55 @@ ul.spacey li strong {
   line-height: 2em;
 }
 
-a:hover, p:hover {
-  background-color: black;
+a:hover {
+  background-color: rgb(234, 185, 185);
   color:white;
 }
-
+ins{
+  text-decoration: none;
+  color: green;
+}
     </style>
   </head>
-  <!-- avoid using overfow as it can easily become annoying for the user.
+  <!-- avoid using overflow as it can easily become annoying for the user.
    Three aspects of the border are: thickness, style and color
   -->
   <body>
-    <!-- Khanacademy is full of cool courses! -->
-    <h1 id="first-header"> Let's do some  exercises:</h1>
-    <p>I am following ... <br> this course on <em>Khanacademy </em> platform</p>
+    <h1 id="first-header"> Welcome to my page</h1>
+    <img src="./figures/majid.jpg" alt="A personal photo of the author" height="128px"> 
+    <address>
+      <p>
+        <a href="mailto:majid.khoshrou@gmail.com">majid.khoshrou@gmail.com</a>
+      </p>
+      <p>'s-Hertogenbosch, The Netherlands</p>
+    </address>
+    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2472.9837043872553!2d5.318630015976921!3d51.696743304662085!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47c6ee53bc89edd9%3A0x2a68213f0c1aeed9!2sVan%20Grobbendoncklaan%2C%20&#39;s-Hertogenbosch!5e0!3m2!1sen!2snl!4v1658652179766!5m2!1sen!2snl" width="300px" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+    <p><a href="about-us.html" target="_blank">About us</a></p>
     <hr />
-    <a href="https://www.khanacademy.org/computing/computer-programming/html-css/intro-to-html/pt/html-text-emphasis" target="_blank"
-      >html-css</a
-    >
-    <br>
-    <a href="https://www.imdb.com/title/tt10731768/" target="_blank">Link 2!</a>
-    <br>
-    <a href="https://www.imdb.com/title/tt10731768/" target="_blank">Link 3!</a>
-    <br>
+    <ul>
+      <li> <a href="#work_experience">Work Experience</a> </li>
+      <li> <a href="#education">Education</a> </li>
+      <li> <a href="#publication">Publication</a> </li>
+    </ul>
+    <h2 id="work_experience">Work Experience</h2>
+    <dl>
+      <dt>Researcher</dt>
+      <dd>Joint project between Centrum Wiskunde & Informatica (CWI) and multiple companies </dd>
+      
+      <dt>Flexibility forecasting analysis </dt>
+      <dd>
+          <ul>
+            <li>Flexibility forecasting for Electric Vehicles ( using a new ML-based model we improved the performance
+              by 30%).</li>
+              <li>Electricity market revenue calculations</li>
+              <li>Code refactoring</li>
+          </ul>   
+      </dd>   
+    </dl>
 
-    <img src="./main_files/cube.jpg" alt="It is good!" width="200px" />
-    <br >
-
+    <h2 id="education">Education</h2>
+    <h2 id="publication">Publications</h2>
+    
 <div id="introductory-lessons">
     <h4>Let us learn about new stuff</h4>
 
@@ -303,4 +328,14 @@ x.innerHTML = "Browser width: " + w + ", height: " + h + ".";
 <p>We can use different tags to change the font of words <b>bold</b> or <i>italic words</i>. <hr> You can do some cool stuff in 21<sup>st</sup> century.
 However according to the official reports, the amount of CO<sub>2</sub> grew by 2<abbr title="parts per minute">ppm</abbr>! </p>
   </body>
+I really liek this saying that says 
+<blockquote cite="https://www.google.com/"><p>He who says he can then he can.</p> </blockquote>
+or
+<q cite="https://www.google.com/">He who says he can then he can.</q>
+
+<p>This item <del>222</del>&euro; <ins>95</ins>&euro; </p>
+<p>Tafel kleding:</p>
+<p><s>Was 120&euro;</s></p>
+<p>Nonw only 80&euro;</p>
+
 </html>
