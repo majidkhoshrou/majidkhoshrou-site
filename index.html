@@ -3,7 +3,7 @@
 <html>
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title> Learning CSS Basics</title>
+    <title>Homepage Abdolrahman Khoshrou</title>
     <style>
       #box-model{
         width:300px;
@@ -16,7 +16,7 @@
       body{
         background-color:rgb(191, 202, 195);
         font-size:20px;
-        padding: 20px;
+        padding: 50px;
         margin-left:20px;
         margin-right:10px;
         }
@@ -28,8 +28,8 @@
         .why-do-we-need-classes{
           font-family:cursive, "sans-serif" ;         
         }
-        table, th, td {
-          border:2px solid black;
+        th, td {
+          border:1px solid black;
         }
         .span-class{
           color:brown;
@@ -130,7 +130,13 @@ ins{
   -->
   <body>
     <h1 id="first-header"> Welcome to my page</h1>
-    <img src="./figures/majid.jpg" alt="A personal photo of the author" height="128px"> 
+    <figure>
+      <img src="./images/majid.jpg" alt="A personal photo of the author" title="It is me over 10 years ago!" height="128px" /> 
+      <figcaption>I was a bit younger!</figcaption>
+
+    </figure>
+    
+    <p>Abdolrahman Khoshrou </p>
     <address>
       <p>
         <a href="mailto:majid.khoshrou@gmail.com">majid.khoshrou@gmail.com</a>
@@ -138,14 +144,33 @@ ins{
       <p>'s-Hertogenbosch, The Netherlands</p>
     </address>
     <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2472.9837043872553!2d5.318630015976921!3d51.696743304662085!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47c6ee53bc89edd9%3A0x2a68213f0c1aeed9!2sVan%20Grobbendoncklaan%2C%20&#39;s-Hertogenbosch!5e0!3m2!1sen!2snl!4v1658652179766!5m2!1sen!2snl" width="300px" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+
     <p><a href="about-us.html" target="_blank">About us</a></p>
     <hr />
     <ul>
       <li> <a href="#work_experience">Work Experience</a> </li>
       <li> <a href="#education">Education</a> </li>
       <li> <a href="#publication">Publication</a> </li>
+      <li>Hobbies</li>
     </ul>
     <h2 id="work_experience">Work Experience</h2>
+    <table>
+      <tr>
+        <td>Researcher</td>
+      </tr>
+      <tr>
+        <th scope="row">march-may</th>
+        <td>Joint project between Centrum Wiskunde & Informatica (CWI) and multiple companies</td>
+        <td>
+          <ul>
+            <li>Flexibility forecasting for Electric Vehicles ( using a new ML-based model we improved the performance
+              by 30%).</li>
+              <li>Electricity market revenue calculations</li>
+              <li>Code refactoring</li>
+          </ul> 
+        </td>
+      </tr>
+    </table>
     <dl>
       <dt>Researcher</dt>
       <dd>Joint project between Centrum Wiskunde & Informatica (CWI) and multiple companies </dd>
@@ -160,7 +185,7 @@ ins{
           </ul>   
       </dd>   
     </dl>
-
+or use <span>span</span> element.
     <h2 id="education">Education</h2>
     <h2 id="publication">Publications</h2>
     
