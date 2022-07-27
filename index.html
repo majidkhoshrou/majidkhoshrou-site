@@ -118,10 +118,71 @@ ul.spacey li strong {
 a:hover {
   background-color: rgb(234, 185, 185);
   color:white;
+  
 }
 ins{
   text-decoration: none;
   color: green;
+}
+img {
+  border-radius: 5%;
+  vertical-align: middle;
+}
+.avatar {
+  vertical-align: middle;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+}
+#personal-photo{
+position: absolute;
+  top: 400px;
+  left: 1000px;
+  
+}
+#fig11{
+  float: left;
+  margin-right: 30px;
+}
+
+
+.container {
+  position: relative;
+  width: 50%;
+}
+
+.image {
+  display: block;
+  width: 200px;
+  height: auto;
+}
+
+.overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: #008CBA;
+  overflow: hidden;
+  width: 200px;
+  height: 0;
+  transition: .5s ease;
+}
+
+.container:hover .overlay {
+  height: 100%;
+}
+
+.text {
+  color: white;
+  font-size: 20px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+  text-align: center;
 }
     </style>
   </head>
@@ -129,21 +190,40 @@ ins{
    Three aspects of the border are: thickness, style and color
   -->
   <body>
-    <h1 id="first-header"> Welcome to my page</h1>
+   
+      <h1 id="first-header"> Welcome to my page</h1>
     <figure>
-      <img src="./images/majid.jpg" alt="A personal photo of the author" title="It is me over 10 years ago!" height="128px" /> 
+      <img id="top-header-img" src="./images/nature.jpg" alt="A picture of a beautiful pond." width="1800" height="400">
+      <img id="personal-photo" src="./images/majid.jpg" alt="A personal photo of the author" title="It is me over 10 years ago!" height="200px" width="200px" /> 
       <figcaption>I was a bit younger!</figcaption>
-
     </figure>
-    
-    <p>Abdolrahman Khoshrou </p>
+
+    <div id="header-top">
+
+   
+      <img id="fig11" src="./images/majid.jpg" alt="A personal photo of the author" title="It is me over 10 years ago!" height="200px" width="200px"/>
+      <img id="fig12" src="./images/majid.jpg" alt="A personal photo of the author" title="It is me over 10 years ago!" height="200px" width="200px" /> 
+      
+      <div class="container">
+      <a href="#education">
+        <img src="./images/majid.jpg" alt="Avatar" class="image" height="200px" width="200px">
+        <div class="overlay">
+          <div class="text">Education</div>
+        </div>
+      </a>
+      </div>
+
+    </div>
+
+    <br />
+    <p>For image guide click <a href="https://www.w3schools.com/howto/howto_css_topnav_equal_width.asp" target="_blank"> here</a></p>
     <address>
       <p>
         <a href="mailto:majid.khoshrou@gmail.com">majid.khoshrou@gmail.com</a>
       </p>
       <p>'s-Hertogenbosch, The Netherlands</p>
     </address>
-    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2472.9837043872553!2d5.318630015976921!3d51.696743304662085!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47c6ee53bc89edd9%3A0x2a68213f0c1aeed9!2sVan%20Grobbendoncklaan%2C%20&#39;s-Hertogenbosch!5e0!3m2!1sen!2snl!4v1658652179766!5m2!1sen!2snl" width="300px" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2472.9837043872553!2d5.318630015976921!3d51.696743304662085!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47c6ee53bc89edd9%3A0x2a68213f0c1aeed9!2sVan%20Grobbendoncklaan%2C%20&#39;s-Hertogenbosch!5e0!3m2!1sen!2snl!4v1658652179766!5m2!1sen!2snl" width="500px" height="500px" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade" id="google-map"></iframe>
 
     <p><a href="about-us.html" target="_blank">About us</a></p>
     <hr />
