@@ -1,20 +1,10 @@
-body {
-  background-color: powderblue;
-}
-h1 {
-  color: blue;
-}
-h2 {
-  color: red;
-}
+
+
+
 p {
   color: rgb(0, 0, 128);
 }
 
-img {
-width:60px;
-height:50px;
-}
 
 a:link {
   color: green;
@@ -35,4 +25,184 @@ a:active {
   color: yellow;
   background-color: transparent;
   text-decoration: underline;
+}
+
+#box-model{
+  width:300px;
+  }
+h1{
+  color: rgb(17, 36, 204);
+  font-size:3em; 
+  text-shadow: 10px 10px 10px;
+}
+body{
+  background-color:rgb(191, 202, 195);
+  font-size:20px;
+  padding: 50px;
+  margin-left:20px;
+  margin-right:10px;
+  }
+  
+  #how-to-use-ids
+  {
+    background-color:yellow
+  }
+  .why-do-we-need-classes{
+    font-family:cursive, "sans-serif" ;         
+  }
+  th, td {
+    border:1px solid black;
+  }
+  .span-class{
+    color:brown;
+    font-family: fantasy;
+  }
+  #introductory-lessons{
+    background-color:rgb(190, 184, 184);
+    width:55%;
+    height:180px;
+    overflow:auto; 
+    margin:20px;
+    padding-left: 100px;
+  }
+  #why-classes{
+    background-color:rgb(130, 230, 162);
+    border: 3px solid rgb(17, 36, 204) ;  
+    padding:2px 10px 5px 0px;
+    border-top: 10px solid purple;
+    
+  }
+#position-explaination{
+  background-color:rgb(205, 209, 87);
+}
+#landscape {
+  width: 250px;
+  position: absolute;
+  top: 20px;
+  right: 10px;
+  z-index: 1;
+}
+
+#winston {
+  position: absolute;
+  top: 50px;
+  right: 50px;
+  z-index: 2;
+}
+#hopper {
+  position: fixed;
+  top: 30px;
+  right: 80px;
+  z-index: 3;
+}
+#first-header {
+position: relative;
+z-index: 4;
+left: 30px;
+}
+#hopper-pic {
+width: 100px;
+float: left;
+margin-right: 6px;
+margin-bottom: 6px;
+
+}
+h4.timeline{
+float: left;
+}
+#shift-right{
+float:right;
+width : 30%;
+clear: both;
+}
+.orange {
+background-color: orange;
+}
+
+.yellow {
+background-color: yellow;
+}
+
+.purple {
+background-color: purple;
+color: white;
+}
+
+p .purple {
+color: purple;
+background-color: transparent;
+}
+
+ul.spacey li strong {
+line-height: 2em;
+}
+
+a:hover {
+background-color: rgb(234, 185, 185);
+color:white;
+
+}
+ins{
+text-decoration: none;
+color: green;
+}
+img {
+border-radius: 5%;
+vertical-align: middle;
+}
+.avatar {
+vertical-align: middle;
+width: 50px;
+height: 50px;
+border-radius: 50%;
+}
+#personal-photo{
+position: absolute;
+top: 400px;
+left: 1000px;
+
+}
+#fig11{
+float: left;
+margin-right: 30px;
+}
+
+
+.container {
+position: relative;
+width: 50%;
+}
+
+.image {
+display: block;
+width: 200px;
+height: auto;
+}
+
+.overlay {
+position: absolute;
+bottom: 0;
+left: 0;
+right: 0;
+background-color: #008CBA;
+overflow: hidden;
+width: 200px;
+height: 0;
+transition: .5s ease;
+}
+
+.container:hover .overlay {
+height: 100%;
+}
+
+.text {
+color: white;
+font-size: 20px;
+position: absolute;
+top: 50%;
+left: 50%;
+-webkit-transform: translate(-50%, -50%);
+-ms-transform: translate(-50%, -50%);
+transform: translate(-50%, -50%);
+text-align: center;
 }
