@@ -155,10 +155,12 @@ height: 50px;
 border-radius: 50%;
 }
 #personal-photo{
-position: relative;
+position:absolute;
 top: 430px;
 left: 200px;
 border-radius: 100%;
+width: 200px;
+height: 200px;
 }
 #fig11{
 float: left;
