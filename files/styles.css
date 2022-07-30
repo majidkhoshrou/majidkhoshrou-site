@@ -1,6 +1,4 @@
 
-
-
 p {
   color: rgb(0, 0, 128);
 }
@@ -38,9 +36,9 @@ h1{
 body{
   background-color:rgb(191, 202, 195);
   font-size:20px;
-  padding: 50px;
-  margin-left:20px;
-  margin-right:10px;
+  padding: 0px;
+  margin-left:2px;
+  margin-right:2px;
   }
   
   #how-to-use-ids
@@ -158,15 +156,14 @@ border-radius: 50%;
 }
 #personal-photo{
 position: absolute;
-top: 400px;
-left: 1000px;
-
+top: 430px;
+left: 200px;
+border-radius: 100%;
 }
 #fig11{
 float: left;
 margin-right: 30px;
 }
-
 
 .container {
 position: relative;
