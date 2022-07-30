@@ -155,7 +155,7 @@ height: 50px;
 border-radius: 50%;
 }
 #personal-photo{
-position: absolute;
+position: relative;
 top: 430px;
 left: 200px;
 border-radius: 100%;
