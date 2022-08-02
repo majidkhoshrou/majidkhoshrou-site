@@ -2,29 +2,32 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <meta name="description" content="An interactive CV of mine" />
-    <meta http-equiv="pragma" content="no-cache"/> <!--This prevents the browser from caching the page.-->
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+      <meta name="description" content="An interactive CV of mine" />
+      <meta http-equiv="pragma" content="no-cache"/> <!--This prevents the browser from caching the page-->
     <title>Homepage</title>
     <!-- Use CSS external file -->
-    <link rel="stylesheet" href="./files/styles.css" />
+    <link rel="stylesheet" href="./css/styles.css"  type="text/css"/>
   </head>
   <!-- avoid using overflow as it can easily become annoying for the user.
    Three aspects of the border are: thickness, style and color
   -->
   <body>
-    <div id="header">
-      <h1 id="first-header"> Welcome to my page</h1>
-      <figure>
-        <img id="top-header-img" src="./images/nature.jpg" alt="A picture of a beautiful pond." width="100%" height="400">
+
+    <div class="header">
+        <img id="top-header-img" src="./images/nature.jpg" alt="A picture of a beautiful pond." width="100%" height="200">
         <img id="personal-photo" src="./images/majid.jpg" alt="A personal photo of the author" title="It is me over 10 years ago!"  /> 
-      </figure>
-      <ul>
-        <li>Home</li>
-        <li>Curriculum Vitae</li>
-        <li>Sample Projects</li>
-        <li>Hobbies</li>
-      </ul>
+        <h1 id="first-header"> Welcome to my page</h1>
+
+      <div class="navbar">
+        <ul >
+          <li><a href="index.html">Home</a></li>
+          <li><a href="about-us.html">Curriculum Vitae</a> </li>
+          <li><a href="about-us.html">Sample Projects</a> </li>
+          <li><a href="about-us.html">Hobbies</a> </li>
+          <li><a href="about-us.html">Blog</a> </li>
+        </ul>
+      </div> 
     </div> <!--end of header div-->
    
  
@@ -206,10 +209,12 @@ to grab a bite and study. I <strong>love</strong> the vibe here.
   <p>
     We can move things around inside the webpage using the <em>position</em> property. 
   </p>
+  <!--
+    Their css set up was interesting for me.
   <img src="https://www.kasandbox.org/programming-images/landscapes/fields-of-grain.png" id="landscape">
   <img src="https://www.kasandbox.org/programming-images/avatars/Hopper-jumping.gif" id="hopper">
   <img src="https://www.kasandbox.org/programming-images/creatures/Winston.png" id="winston">
-
+  -->
 </div>
 
 <div>
