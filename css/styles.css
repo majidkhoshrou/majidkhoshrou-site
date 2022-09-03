@@ -28,11 +28,13 @@ a:active {
 #box-model{
   width:300px;
   }
+
 h1{
   color: rgb(17, 36, 204);
   font-size:3em; 
   text-shadow: 10px 10px 10px;
 }
+
 body{
   background-color:rgb(191, 202, 195);
   font-size:20px;
@@ -41,20 +43,8 @@ body{
   margin-right:2px;
   }
   
-  #how-to-use-ids
-  {
-    background-color:yellow
-  }
-  .why-do-we-need-classes{
-    font-family:cursive, "sans-serif" ;         
-  }
-  th, td {
-    border:1px solid black;
-  }
-  .span-class{
-    color:brown;
-    font-family: fantasy;
-  }
+  
+
   #introductory-lessons{
     background-color:rgb(190, 184, 184);
     width:55%;
@@ -81,78 +71,22 @@ body{
   z-index: 1;
 }
 
-#winston {
-  position: absolute;
-  top: 50px;
-  right: 50px;
-  z-index: 2;
-}
-#hopper {
-  position: fixed;
-  top: 30px;
-  right: 80px;
-  z-index: 3;
-}
-#first-header {
-position: relative;
-z-index: 4;
-left: 30px;
-}
-#hopper-pic {
-width: 100px;
-float: left;
-margin-right: 6px;
-margin-bottom: 6px;
 
-}
-h4.timeline{
-float: left;
-}
-#shift-right{
-float:right;
-width : 30%;
-clear: both;
-}
-.orange {
-background-color: orange;
-}
-
-.yellow {
-background-color: yellow;
-}
-
-.purple {
-background-color: purple;
-color: white;
-}
-
-p .purple {
-color: purple;
-background-color: transparent;
-}
-
-ul.spacey li strong {
-line-height: 2em;
-}
 
 a:hover {
 background-color: rgb(234, 185, 185);
 color:white;
+}
 
-}
-ins{
-text-decoration: none;
-color: green;
-}
-img {
-vertical-align: middle;
-}
+
+
 .avatar {
 vertical-align: middle;
 width: 50px;
 height: 50px;
 border-radius: 50%;
 }
+
 #personal-photo{
 position:absolute;
 top: 100 px;
@@ -161,10 +95,7 @@ border-radius: 100%;
 width: 200px;
 height: 200px;
 }
-#fig11{
-float: left;
-margin-right: 30px;
-}
+
 
 .container {
 position: relative;
@@ -236,3 +167,4 @@ div.header div.navbar {
   border-radius: 10px;
   background: rgb(42, 42, 223);
 }
+

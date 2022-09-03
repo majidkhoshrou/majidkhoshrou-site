@@ -8,26 +8,25 @@
     <title>Homepage</title>
     <!-- Use CSS external file -->
     <link rel="stylesheet" href="./css/styles.css"  type="text/css"/>
+    <link rel="stylesheet" href="./css/header-style.css"  type="text/css"/>
   </head>
   <!-- avoid using overflow as it can easily become annoying for the user.
    Three aspects of the border are: thickness, style and color
   -->
   <body>
 
-    <div class="header">
-        <img id="top-header-img" src="./images/nature.jpg" alt="A picture of a beautiful pond." width="100%" height="200">
-        <img id="personal-photo" src="./images/majid.jpg" alt="A personal photo of the author" title="It is me over 10 years ago!"  /> 
-        <h1 id="first-header"> Welcome to my page</h1>
+    <div class="header"> <!-- beginning of header div -->
 
       <div class="navbar">
         <ul >
-          <li><a href="index.html">Home</a></li>
-          <li><a href="cv.html">CV</a> </li>
-          <li><a href="about-us.html">Sample Projects</a> </li>
-          <li><a href="about-us.html">Hobbies</a> </li>
-          <li><a href="about-us.html">Blog</a> </li>
+          <li><a href="index.html"> Home </a></li>
+          <li><a href="cv.html"> CV </a> </li>
+          <li><a href="about-us.html"> Sample Projects </a> </li>
+          <li><a href="about-us.html"> Hobbies </a> </li>
+          <li><a href="about-us.html"> Blog </a> </li>
         </ul>
       </div> 
+
     </div> <!--end of header div-->
    
  
@@ -43,14 +42,6 @@
 </div>
 
    
- <br />
-    <p>For image guide click <a href="https://www.w3schools.com/howto/howto_css_topnav_equal_width.asp" target="_blank"> here</a></p>
-    <address>
-      <p>
-        <a href="mailto:majid.khoshrou@gmail.com">majid.khoshrou@gmail.com</a>
-      </p>
-      <p>'s-Hertogenbosch, The Netherlands</p>
-    </address>
     <iframe 
     src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2472.9837043872553!2d5.318630015976921!3d51.696743304662085!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47c6ee53bc89edd9%3A0x2a68213f0c1aeed9!2sVan%20Grobbendoncklaan%2C%20&#39;s-Hertogenbosch!5e0!3m2!1sen!2snl!4v1658652179766!5m2!1sen!2snl" 
        width="500px"
@@ -58,234 +49,18 @@
        referrerpolicy="no-referrer-when-downgrade" id="google-map">
     </iframe>
 
-    <p><a href="about-us.html" target="_blank">About us</a></p>
-    <hr />
-    <form action="http://www.example.com/login.php" method="get"> 
-      <p>Username:<input type="text" name="username" size="9" maxlength="4"  /> </p>
-    </form>
-    <br />
-    <form action="http://www.example.com/bookings/" method="post">
-      <label for="username"> Interview date:</label>
-      <input type="date" name="depart" />
-      <input type="submit" value="Submit" />
-    </form>
-    <hr />
-    <ul>
-      <li> <a href="#work_experience">Work Experience</a> </li>
-      <li> <a href="#education">Education</a> </li>
-      <li> <a href="#publication">Publication</a> </li>
-      <li>Hobbies</li>
-    </ul>
-    <h2 id="work_experience">Work Experience</h2>
-    <table>
-      <tr>
-        <td>Researcher</td>
-      </tr>
-      <tr>
-        <th scope="row">march-may</th>
-        <td>Joint project between Centrum Wiskunde & Informatica (CWI) and multiple companies</td>
-        <td>
-          <ul>
-            <li>Flexibility forecasting for Electric Vehicles ( using a new ML-based model we improved the performance
-              by 30%).</li>
-              <li>Electricity market revenue calculations</li>
-              <li>Code refactoring</li>
-          </ul> 
-        </td>
-      </tr>
-    </table>
-    <dl>
-      <dt>Researcher</dt>
-      <dd>Joint project between Centrum Wiskunde & Informatica (CWI) and multiple companies </dd>
-      
-      <dt>Flexibility forecasting analysis </dt>
-      <dd>
-          <ul>
-            <li>Flexibility forecasting for Electric Vehicles ( using a new ML-based model we improved the performance
-              by 30%).</li>
-              <li>Electricity market revenue calculations</li>
-              <li>Code refactoring</li>
-          </ul>   
-      </dd>   
-    </dl>
-or use <span>span</span> element.
-    <h2 id="education">Education</h2>
-    <h2 id="publication">Publications</h2>
-    
-<div id="introductory-lessons">
-    <h4>Let us learn about new stuff</h4>
-
-    <p> Using <strong> Strong </strong> tag we can make the text bold!</p>
-
-    <br />
-    <p>
-      <img src="./images/cube.jpg" alt="cube" style="float:inline-end"  height="140px"/> The
-      image will float to the right of the text.
-    </p>
-<br>
-<h3>
-  How to use internal references in HTML?
-</h3>
-<p>
-  It is as easy as defining a unique id for each section.
-  <ul>
-    <li> <a href="#how-to-use-ids">How and why to use ids</a> </li>
-    <li> <a href="#huis-73">Huis 73</a> </li>
-  </ul>
-</p>
-<h3>
- How and why to use ids:
- </h3>
-<p id="how-to-use-ids">
-  In order to specify the style of a paragraph (object?) <br>
-  we need to use <strong>ids</strong> in order to specify that in the style section.
-</p>
-</div>
-
-<div id="why-classes">
-<h3> Class selector</h3>
-<p class="why-do-we-need-classes">
-  What if we wanted to set a change for multiple paragraphs. One way would be to set an id for each paragraph
-  and set it in the style argument but that is exhuasting.
-</p>
-<p class="why-do-we-need-classes"> 
-   A better way would be to define a class.
-</p>
-<p class="why-do-we-need-classes"> 
-  CSS <em>font-family</em> property is awesome.
-</p>
-</div>
-<h3 id="huis-73">
-  Huis 73
-</h3>
-<p>On a typical Saturday morning I go to <a href="https://www.huis73.nl/home.html" target="_blank"> Huis 73</a>
-to grab a bite and study. I <strong>love</strong> the vibe here. 
-</p>
-
-<h2> Using internal references</h2>
-<p>
-  Internal references are used to make e.g., table of contenet or refer to different parts of the webpage, 
-  especially for long pages.
-</p>
-<div id="shift-right">
-<h3> Let's create a table in our webpage:</h3>
-<table>
-  <thead>
-    <tr>
-      <th>Company</th>
-      <th>Contact</th>
-      <th>Country</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>Alfreds Futterkiste</td>
-      <td>Maria Anders</td>
-      <td>Germany</td>
-    </tr>
-    <tr>
-      <td>Centro comercial Moctezuma</td>
-      <td>Francisco Chang</td>
-      <td>Mexico</td>
-    </tr>
-  </tbody>
-</table>
-</div>
-<h3>
-  The span attribute
-</h3>
-<p>
-  The <span class="span-class">span</span> attribute is used the group a bunch of text. 
-  <span class="span-class">Span</span> is important and extremle helpful.
-</p>
-<br>
-<h2>The Box Model</h2>
-<p> <img id="box-model" src="https://upload.wikimedia.org/wikipedia/commons/e/ed/Box-model.svg" alt="the box model"></p>
-    
-<div id="position-explaination">
-  <h2>
-    Positioning of the elements
-  </h2>
-  <p>
-    We can move things around inside the webpage using the <em>position</em> property. 
-  </p>
-  <!--
-    Their css set up was interesting for me.
-  <img src="https://www.kasandbox.org/programming-images/landscapes/fields-of-grain.png" id="landscape">
-  <img src="https://www.kasandbox.org/programming-images/avatars/Hopper-jumping.gif" id="hopper">
-  <img src="https://www.kasandbox.org/programming-images/creatures/Winston.png" id="winston">
-  -->
-</div>
-
-<div>
-
-<h2>What if you wanted to wrap text about picture?</h2>
-
-<p id="hopper-bio">
-  It is really easy using the <em>float</em> property in css.
-
-  <img id="hopper-pic" src="https://www.kasandbox.org/programming-images/creatures/Hopper-Cool.png" alt="Hopper image">
-    I'm Hopper! I was named after Grace Hopper, one of the first American computer scientists and an admiral in the Navy.
-     Grace Hopper invented the term "debugging" for fixing computer bugs, after finding a moth in a computer, plus she
-      invented the first compiler.
-  </p>
-</div>
-<br>
-<h2>Some notes</h2>
-<ul>
-  <li>We can define multiple classes for an item at once, e.g., <em>class="apple fruit box"</em></li>
-  <li> Check out <a href="#css-descendant-selectors"> CSS descendant selectors</a>: we use spaces to specify which tag we want to change. </li>
-  <li> We can use comma to group selectors in CSS, e.g., if we want <em>h1</em> and <em>h2</em> have the  </li>
-  same properties we then can group them. Remember it is different from spaces used in decendant selectors.
-</ul>
-
-
-<h3 id="css-decendant-selectors"> Carrot Facts</h3>
-<h4> CSS descendant selectors</h4>
-<p>Colors that carrots come in:</p>
-<ul class="spacey">
-    <li>
-        <strong class="orange">Orange</strong>
-    </li>
-    <li>
-        <strong class="purple">Purple</strong>
-    </li>
-    <li>
-        <strong class="yellow">Yellow</strong>
-    </li>
-</ul>
-
-<p>Did you know? Carrots were <strong class="purple">purple</strong> before the 17th century, but then were cultivated by Dutch farmers until they became the sweet orange carrots that we know today.</p>
-<h2>Let's talk about pseudo-classes</h2>
-<p>It is cool and important as always.<br>
-To see click <a href="https://www.w3schools.com/cssref/sel_hover.asp" target="_blank">here</a>
-</p>
 
 <h2>Get the size of the current screen/window</h2>
 <p>The example displays the browser window's height and width: (NOT including toolbars/scrollbars)
 
 <p id="demo"></p>
-
 <script>
 var w = window.innerWidth;
 var h = window.innerHeight;
-
 var x = document.getElementById("demo");
-x.innerHTML = "Browser width: " + w + ", height: " + h + ".";
+x.innerHTML = "Browser width: " + w + ", height: " + h ;
 </script>
 
-<h3>HTML & CSS BOOK</h3>
-<p>We can use different tags to change the font of words <b>bold</b> or <i>italic words</i>. <hr> You can do some cool stuff in 21<sup>st</sup> century.
-However according to the official reports, the amount of CO<sub>2</sub> grew by 2<abbr title="parts per minute">ppm</abbr>! </p>
-  </body>
-I really liek this saying that says 
-<blockquote cite="https://www.google.com/"><p>He who says he can then he can.</p> </blockquote>
-or
-<q cite="https://www.google.com/">He who says he can then he can.</q>
-
-<p>This item <del>222</del>&euro; <ins>95</ins>&euro; </p>
-<p>Tafel kleding:</p>
-<p><s>Was 120&euro;</s></p>
-<p>Nonw only 80&euro;</p>
+</body>
 
 </html>

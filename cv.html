@@ -8,30 +8,43 @@
             body{
                 width: 100%;
                 font-size: 20px;
-                overflow: scroll;
                 min-width: 500px;
                 min-height: 500px;
             }
 
+            .column1of2-container{
+                float: left;
+                width:33%;
+            }
+            .column2of2-container{
+                float:left;
+                width:60%;
+            }
+
             .column1of2{
                 background-color: rgb(118, 218, 161);
-                width: 30%;
-                float: left;
-                margin-left:auto;
                 color: rgb(46, 44, 44);
-                overflow: visible;
-                padding: 10px;
-                height: 2000px;
+                width: 100%;  /* need to add it o.w. when minimize the page the right col drops under*/
+                float: left;
+                margin-left:auto;                
+                padding: 20px;
+                height:1500px; 
+                position:relative;
+                left:20px;
+                overflow: auto;
+
             }
 
             .column2of2{
                 background-color: rgb(175, 214, 106);
-                width:60%;
-                float: left;
-                margin-right:auto;
-                min-width: 200px;
-                padding: 10px;
-                height: 2000px;
+                width:100%;
+                float: right;
+                padding: 20px;
+                height:1500px;                 
+                margin-left:auto;
+                position:relative;
+                left:20px;
+                overflow: auto;
             }
             
             div.personal-info{
@@ -115,22 +128,23 @@
     </head>
 </html>
 <body>
-    <div class="header">
-        <img id="top-header-img" src="./images/nature.jpg" alt="A picture of a beautiful pond." width="100%" height="200">
+    <div class="header"> <!-- beginning of header div -->
 
-      <div class="navbar">
-        <ul >
-          <li><a href="index.html">Home</a> </li>
-          <li><a href="cv.html">CV</a> </li>
-          <li><a href="about-us.html">Sample Projects</a> </li>
-          <li><a href="about-us.html">Hobbies</a> </li>
-          <li><a href="about-us.html">Blog</a> </li>
-        </ul>
-      </div> 
-    </div> <!--end of header div-->
-    <div class="column1of2">
-        
-        <h2>Info</h2>
+        <div class="navbar">
+          <ul >
+            <li><a href="index.html"> Home </a></li>
+            <li><a href="cv.html"> CV </a> </li>
+            <li><a href="about-us.html"> Sample Projects </a> </li>
+            <li><a href="about-us.html"> Hobbies </a> </li>
+            <li><a href="about-us.html"> Blog </a> </li>
+          </ul>
+        </div> 
+  
+      </div> <!--end of header div-->
+
+    <div class="column1of2-container">
+        <div class="column1of2">
+            <h2>Info</h2>
 
             <div class="personal-info">
                     <a href="mailto:majid.khoshrou@gmail.com?subject=Interesting portfolio&body=Let's have a call.">
@@ -141,22 +155,21 @@
             <div class="personal-info">
                     <a href="https://www.linkedin.com/in/majid-khoshrou-a2728349/" target="_blank">
                         <img src="./Icons/Linkedin-Icon.png" alt="LinkedIn icon">
-                        LinkedIn
+                        My LinkedIn
                     </a>
             </div>  <br>
             <div class="personal-info">
                     <a href="https://scholar.google.com/citations?hl=en&user=RPdtjy0AAAAJ" target="_blank">
                         <img src="./Icons/icon-ggle-schlr.png" alt="google scholar icon">
-                        Google Scholar
+                        My Google Scholar
                     </a>
             </div> <br>
 
         <section>
             <h2>Top Skills</h2>
             <ul> <!-- beginning of top skills-->
-                <li>Data Analysis</li>
-                <li>Machine Learning</li>
-                <li>Artificial Intelligence</li>
+                <li>Data Science and Analysis</li>
+                <li>Full stack developer</li>
             </ul> <!-- end of top skills-->
         </section> <!--end of section top skills-->
 
@@ -179,129 +192,135 @@
                 <li>Statistics Fundamentals with Python Track</li>
             </ul>
         </section>  <!--end of certifications section-->
+        </div>
+        
+
 
     </div>
 
 
-    <div class="column2of2"> <!-- beginning of the right column -->
-
-        <section id="name-and-summary"> <!-- begging of the name and summary section -->
-            <div>
-                <h1>Abdolrahman Khoshrou</h1>
-                <span>Data Science and Analytics</span> <br>
-                <span>'s-Hertogenbosch, Noord Brabant, The Netherlands</span>
-            </div> <!-- end of name div -->
-            <div id="summary">
-                <h3>Summary</h3>
-                <p>
-                    A life long learner. Skilled in Python, PySpark, MATLAB, MachineLearning algorithms and tools. 
-                    Passionate about using innovativemethodologies and technologies to tackle real-world problems 
-                    and toadd values to the communities and businesses.
-                </p>
-
-            </div> <!-- end of summary div -->
-        </section> <!-- end of the name and summary section -->
-
-        <div id="horizontal_line">
-            <hr>
+    <div class="column2of2-container"> <!-- beginning of the right column -->
+        <div class="column2of2">
+            <section id="name-and-summary"> <!-- begging of the name and summary section -->
+                <div>
+                    <h1>Abdolrahman Khoshrou</h1>
+                    <span>Data Science and Analytics</span> <br>
+                    <span>'s-Hertogenbosch, Noord Brabant, The Netherlands</span>
+                </div> <!-- end of name div -->
+                <div id="summary">
+                    <h3>Summary</h3>
+                    <p>
+                        A life long learner. Skilled in Python, PySpark, MATLAB, MachineLearning algorithms and tools. 
+                        Passionate about using innovativemethodologies and technologies to tackle real-world problems 
+                        and toadd values to the communities and businesses.
+                    </p>
+    
+                </div> <!-- end of summary div -->
+            </section> <!-- end of the name and summary section -->
+    
+            <div id="horizontal_line">
+                <hr>
+            </div>
+    
+            <section id="experience">  <!-- beginning of the experience section -->
+                <h1>Experience</h1>
+                <div class="work-item"> <!-- beginning of the work item div -->
+                    <div class="work-item-employer">
+                        <a href="https://www.cwi.nl/research/groups/intelligent-and-autonomous-systems" target="_blank">Centrum Wiskunde & Informatica</a>
+                    </div>
+                    <div class="work-item-role">
+                        Researcher
+                    </div>
+                    <div class="work-item-timeperiod">
+                        July 2020 - Present
+                    </div>
+                    <div class="work-item-location">
+                        Amsterdam, North Holland, Netherlands
+                    </div>
+                </div> <!-- end of the work item div -->
+    
+                <div class="work-item"> <!-- beginning of the work item div -->
+                    <div class="work-item-employer">
+                        <a href="https://sympower.net/" target="_blank">Sympower</a>
+                    </div>
+                    <div class="work-item-role">
+                        Data Science Researcher
+                    </div>
+                    <div class="work-item-timeperiod">
+                        August 2020 - April 2021
+                    </div>
+                    <div class="work-item-location">
+                        Amsterdam, North Holland, Netherlands
+                    </div>
+                </div> <!-- end of the work item div -->
+    
+                <div class="work-item"> <!-- beginning of the work item div -->
+                    <div class="work-item-employer">
+                        <a href="https://maistering.com/" target="_blank">Maistering B.V.</a>
+                    </div>
+                    <div class="work-item-role">
+                        Data Scientist
+                    </div>
+                    <div class="work-item-timeperiod">
+                        November 2019 - July 2020
+                    </div>
+                    <div class="work-item-location">
+                        Amsterdam, North Holland, Netherlands
+                    </div>
+                </div> <!-- end of the work item div -->
+    
+                <div class="work-item"> <!-- beginning of the work item div -->
+                    <div class="work-item-employer">
+                        <a href="https://www.cwi.nl/research/groups/intelligent-and-autonomous-systems" target="_blank">Centrum Wiskunde & Informatica</a>
+    
+                    </div>
+                    <div class="work-item-role">
+                        Researcher PhD Candidate 
+                    </div>
+                    <div class="work-item-timeperiod">
+                        December 2015 - November 2019
+                    </div>
+                    <div class="work-item-location">
+                        Amsterdam, North Holland, Netherlands
+                    </div>
+                </div> <!-- end of the work item div -->
+            </section>   <!-- end of the experience section -->
+    
+            <div id="horizontal_line">
+                <hr>
+            </div>
+    
+            <section id="education"> <!-- beginning of education section-->
+                <h1>Education</h1>
+    
+                <div class="education-item"> <!-- beginning of the education item div -->
+                    <div class="education-item-institute">
+                        <a href="https://sigarra.up.pt/feup/en/web_page.inicial" target="_blank">Faculdade de Engenharia da Universidade do Porto</a>
+                    </div>
+                    <div class="education-item-degree">
+                        Master's degree, Information Engineering
+                    </div>
+                    <div class="work-item-timeperiod">
+                        2012 - 2015
+                    </div>
+                </div> <!-- end of the education item div -->
+    
+                <div class="education-item"> <!-- beginning of the education item div -->
+                    <div class="education-item-institute">
+                        <a href="https://nit.ac.ir/en" target="_blank">University of Mazandaran</a>
+                    </div>
+                    <div class="education-item-degree">
+                        Bachelor's degree, Electrical and Power Engineering
+                    </div>
+                    <div class="work-item-timeperiod">
+                        2002 - 2007
+                    </div>
+                </div> <!-- end of the education item div -->
+    
+            </section> <!-- end of education section-->
         </div>
 
-        <section id="experience">  <!-- beginning of the experience section -->
-            <h1>Experience</h1>
-            <div class="work-item"> <!-- beginning of the work item div -->
-                <div class="work-item-employer">
-                    <a href="https://www.cwi.nl/research/groups/intelligent-and-autonomous-systems" target="_blank">Centrum Wiskunde & Informatica</a>
-                </div>
-                <div class="work-item-role">
-                    Researcher
-                </div>
-                <div class="work-item-timeperiod">
-                    July 2020 - Present
-                </div>
-                <div class="work-item-location">
-                    Amsterdam, North Holland, Netherlands
-                </div>
-            </div> <!-- end of the work item div -->
 
-            <div class="work-item"> <!-- beginning of the work item div -->
-                <div class="work-item-employer">
-                    <a href="https://sympower.net/" target="_blank">Sympower</a>
-                </div>
-                <div class="work-item-role">
-                    Data Science Researcher
-                </div>
-                <div class="work-item-timeperiod">
-                    August 2020 - April 2021
-                </div>
-                <div class="work-item-location">
-                    Amsterdam, North Holland, Netherlands
-                </div>
-            </div> <!-- end of the work item div -->
-
-            <div class="work-item"> <!-- beginning of the work item div -->
-                <div class="work-item-employer">
-                    <a href="https://maistering.com/" target="_blank">Maistering B.V.</a>
-                </div>
-                <div class="work-item-role">
-                    Data Scientist
-                </div>
-                <div class="work-item-timeperiod">
-                    November 2019 - July 2020
-                </div>
-                <div class="work-item-location">
-                    Amsterdam, North Holland, Netherlands
-                </div>
-            </div> <!-- end of the work item div -->
-
-            <div class="work-item"> <!-- beginning of the work item div -->
-                <div class="work-item-employer">
-                    <a href="https://www.cwi.nl/research/groups/intelligent-and-autonomous-systems" target="_blank">Centrum Wiskunde & Informatica</a>
-
-                </div>
-                <div class="work-item-role">
-                    Researcher PhD Candidate 
-                </div>
-                <div class="work-item-timeperiod">
-                    December 2015 - November 2019
-                </div>
-                <div class="work-item-location">
-                    Amsterdam, North Holland, Netherlands
-                </div>
-            </div> <!-- end of the work item div -->
-        </section>   <!-- end of the experience section -->
-
-        <div id="horizontal_line">
-            <hr>
-        </div>
-
-        <section id="education"> <!-- beginning of education section-->
-            <h1>Education</h1>
-
-            <div class="education-item"> <!-- beginning of the education item div -->
-                <div class="education-item-institute">
-                    <a href="https://sigarra.up.pt/feup/en/web_page.inicial" target="_blank">Faculdade de Engenharia da Universidade do Porto</a>
-                </div>
-                <div class="education-item-degree">
-                    Master's degree, Information Engineering
-                </div>
-                <div class="work-item-timeperiod">
-                    2012 - 2015
-                </div>
-            </div> <!-- end of the education item div -->
-
-            <div class="education-item"> <!-- beginning of the education item div -->
-                <div class="education-item-institute">
-                    <a href="https://nit.ac.ir/en" target="_blank">University of Mazandaran</a>
-                </div>
-                <div class="education-item-degree">
-                    Bachelor's degree, Electrical and Power Engineering
-                </div>
-                <div class="work-item-timeperiod">
-                    2002 - 2007
-                </div>
-            </div> <!-- end of the education item div -->
-
-        </section> <!-- end of education section-->
     </div> <!-- end of the right column -->
 
 </body>
