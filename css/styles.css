@@ -10,6 +10,7 @@ body{
   min-width: 500px;
   min-height: 500px;
   margin:0 0 auto auto;
+  /* border: 3px dashed black; */
   }
     
   h1{
@@ -75,8 +76,8 @@ body{
 div#header{
   background-color: rgb(165, 165, 209);
   width:100%;
-  margin: 0px ;
   height: 30px;
+  /*   border: 2px solid red; */
 }
 
 div#header #header-image{
