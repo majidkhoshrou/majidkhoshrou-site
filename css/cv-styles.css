@@ -8,16 +8,17 @@ html{
     color: azure;
     position: relative;
     float: left;
-    width: 40%;
+    width: 35%;
     overflow: hidden;
     margin: 0 auto;
+    padding: 20px 3px 0px 20px;
 }
 
 .column2of2-container{
     background-color: transparent;
     position: relative;
     float: left;
-    width: 60%;
+    width: 55%;
     overflow: hidden;
     margin:0 auto;
 }
@@ -28,12 +29,6 @@ html{
     height: 1500px; 
     position: relative;
     width: 100%;  /* need to add it o.w. when minimize the page the right col drops under*/
-    overflow: auto;
-}
-
-
-#info, #top-skills, #languages, #certifications{
-    padding: 2px;
 }
 
 .column1of2 h2, .column2of2 h2{

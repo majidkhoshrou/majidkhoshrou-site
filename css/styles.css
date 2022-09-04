@@ -6,10 +6,10 @@ html{
 body{
   background-color:rgb(191, 202, 195);
   font-size:20px;
-  width:90%;
+  width:95%;
   min-width: 500px;
   min-height: 500px;
-  margin:0 auto;
+  margin:0 0 auto auto;
   }
     
   h1{
@@ -88,7 +88,7 @@ div#header #header-image{
 div#header div.navbar {
   position: absolute;
   top: 0px;
-  right:1px;
+  right:10px;
   margin:0px 2px 0px 0px;
 }
 
