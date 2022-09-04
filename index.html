@@ -5,23 +5,22 @@
       <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
       <meta name="description" content="An interactive CV of mine" />
       <meta http-equiv="pragma" content="no-cache"/> <!--This prevents the browser from caching the page-->
-    <title>Homepage</title>
+    <title>Homepage Majid Khoshrou</title>
     <!-- Use CSS external file -->
     <link rel="stylesheet" href="./css/styles.css"  type="text/css"/>
-    <link rel="stylesheet" href="./css/header-style.css"  type="text/css"/>
   </head>
-  <!-- avoid using overflow as it can easily become annoying for the user.
-   Three aspects of the border are: thickness, style and color
-  -->
+
   <body>
 
-    <div class="header"> <!-- beginning of header div -->
+    <div id="header"> <!-- beginning of header div -->
+
+      <img src="./images/majid.jpg" alt="image majid" id="header-image" >
 
       <div class="navbar">
         <ul >
           <li><a href="index.html"> Home </a></li>
           <li><a href="cv.html"> CV </a> </li>
-          <li><a href="about-us.html"> Sample Projects </a> </li>
+          <li><a href="about-us.html"> Portfolio </a> </li>
           <li><a href="about-us.html"> Hobbies </a> </li>
           <li><a href="about-us.html"> Blog </a> </li>
         </ul>
@@ -30,10 +29,23 @@
     </div> <!--end of header div-->
    
  
+
+
+<h2>Get the size of the current screen/window</h2>
+<p>The example displays the browser window's height and width: (NOT including toolbars/scrollbars)
+
+<p id="demo"></p>
+<script>
+var w = window.innerWidth;
+var h = window.innerHeight;
+var x = document.getElementById("demo");
+x.innerHTML = "Browser width: " + w + ", height: " + h ;
+</script>
+
 <div id="content">
   <div class="container">
     <a href="#education">
-      <img src="./images/majid.jpg" alt="image majid" class="image" height="200px" width="200px">
+      <img src="./images/majid.jpg" alt="image majid" class="image" width="30px">
       <div class="overlay">
         <div class="text">Education</div>
       </div>
@@ -49,17 +61,6 @@
        referrerpolicy="no-referrer-when-downgrade" id="google-map">
     </iframe>
 
-
-<h2>Get the size of the current screen/window</h2>
-<p>The example displays the browser window's height and width: (NOT including toolbars/scrollbars)
-
-<p id="demo"></p>
-<script>
-var w = window.innerWidth;
-var h = window.innerHeight;
-var x = document.getElementById("demo");
-x.innerHTML = "Browser width: " + w + ", height: " + h ;
-</script>
 
 </body>
 

@@ -1,9 +1,121 @@
 
-p {
-  color: rgb(0, 0, 128);
+html{
+  overflow-y: scroll;
+}
+
+body{
+  background-color:rgb(191, 202, 195);
+  font-size:20px;
+  width:100%;
+  min-width: 500px;
+  min-height: 500px;
+  margin:0px;
+  }
+    
+  h1{
+    color: rgb(17, 36, 204);
+    text-shadow: 10px 10px 10px;
+  }
+
+.avatar {
+  vertical-align: middle;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+}
+
+#personal-photo{
+  position:absolute;
+  top: 100 px;
+  left: 200px;
+  border-radius: 100%;
+  width: 200px;
+  height: 200px;
 }
 
 
+.container {
+  position: relative;
+  width: 12%;
+}
+
+.image {
+  display: block;
+}
+
+.overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: #008CBA;
+  overflow: hidden;
+  width: 200px;
+  height: 0;
+  transition: .5s ease;
+}
+
+.container:hover .overlay {
+  height: 100%;
+}
+
+.text {
+  color: white;
+  font-size: 20px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+  text-align: center;
+}
+
+
+div#header{
+  background-color: rgb(165, 165, 209);
+  width:100%;
+  margin: 0px ;
+  height: 30px;
+}
+
+div#header #header-image{
+  height:30px;
+  border-radius: 90%;
+  margin-left: 10px;
+}
+
+div#header div.navbar {
+  position: absolute;
+  top: 0px;
+  right:1px;
+  margin:0px 2px 0px 0px;
+}
+
+div.navbar ul {
+  list-style-type: none;
+  margin: 0px 20px 0px 0px;
+  padding: 3px;
+  overflow: hidden;
+}
+
+div.navbar ul li {
+  display:block;
+  float: left;
+  padding-left: 20px;
+  font-weight:bolder;
+}
+
+div.navbar ul li a {
+  text-decoration: none;
+  color:black;
+}
+
+a:hover{
+  opacity: 0.3;
+}
+
+/*
 a:link {
   color: green;
   background-color: transparent;
@@ -24,147 +136,4 @@ a:active {
   background-color: transparent;
   text-decoration: underline;
 }
-
-#box-model{
-  width:300px;
-  }
-
-h1{
-  color: rgb(17, 36, 204);
-  font-size:3em; 
-  text-shadow: 10px 10px 10px;
-}
-
-body{
-  background-color:rgb(191, 202, 195);
-  font-size:20px;
-  padding: 0px;
-  margin-left:2px;
-  margin-right:2px;
-  }
-  
-  
-
-  #introductory-lessons{
-    background-color:rgb(190, 184, 184);
-    width:55%;
-    height:180px;
-    overflow:auto; 
-    margin:20px;
-    padding-left: 100px;
-  }
-  #why-classes{
-    background-color:rgb(130, 230, 162);
-    border: 3px solid rgb(17, 36, 204) ;  
-    padding:2px 10px 5px 0px;
-    border-top: 10px solid purple;
-    
-  }
-#position-explaination{
-  background-color:rgb(205, 209, 87);
-}
-#landscape {
-  width: 250px;
-  position: absolute;
-  top: 20px;
-  right: 10px;
-  z-index: 1;
-}
-
-
-
-a:hover {
-background-color: rgb(234, 185, 185);
-color:white;
-}
-
-
-
-.avatar {
-vertical-align: middle;
-width: 50px;
-height: 50px;
-border-radius: 50%;
-}
-
-#personal-photo{
-position:absolute;
-top: 100 px;
-left: 200px;
-border-radius: 100%;
-width: 200px;
-height: 200px;
-}
-
-
-.container {
-position: relative;
-width: 12%;
-}
-
-.image {
-display: block;
-width: 200px;
-height: auto;
-}
-
-.overlay {
-position: absolute;
-bottom: 0;
-left: 0;
-right: 0;
-background-color: #008CBA;
-overflow: hidden;
-width: 200px;
-height: 0;
-transition: .5s ease;
-}
-
-.container:hover .overlay {
-height: 100%;
-}
-
-.text {
-color: white;
-font-size: 20px;
-position: absolute;
-top: 50%;
-left: 50%;
--webkit-transform: translate(-50%, -50%);
--ms-transform: translate(-50%, -50%);
-transform: translate(-50%, -50%);
-text-align: center;
-}
-
-div.navbar ul {
-  list-style-type: none;
-  margin: 0;
-  padding: 0;
-  overflow: hidden;
-}
-
-div.navbar ul li {
-  float: left;
-}
-
-div.navbar ul li a {
-  display: block;
-  padding: 8px;
-  background-color: orange;
-  height:20px;
-}
-
-div.header div.navbar {
-  position:absolute;
-  top: 10px;
-  right:10px;
-}
-
-::-webkit-scrollbar {
-  border-radius: 10px;
-}
-::-webkit-scrollbar-thumb:vertical {
-  border-radius: 10px;
-  background: rgb(42, 42, 223);
-}
-
+*/

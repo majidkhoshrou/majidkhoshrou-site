@@ -1,0 +1,112 @@
+
+html{
+    overflow-y: scroll;
+  }
+
+.column1of2-container{
+    background-color: rgb(118, 218, 161);
+    float: left;
+    position: relative;
+    width:35%;
+}
+
+.column2of2-container{
+    background-color: rgb(175, 214, 106);
+    float:left;
+    position:relative;
+    width:65%;
+}
+
+.column1of2{
+    margin:0px;
+    padding:10px 10px 0px 20px;
+    height:1500px; 
+    position:relative;
+    float: left;
+    width: 100%;  /* need to add it o.w. when minimize the page the right col drops under*/
+    overflow: scroll;
+}
+
+.column2of2{
+    margin:0px;
+    padding:10px 10px 0px 20px;
+    height:1500px;                 
+    position:relative;
+    float: left;
+    width:100%;
+    overflow: scroll;
+}
+
+div.personal-info{
+    line-height: 90%;
+    padding:0px;
+}
+
+div.personal-info img{
+    width:30px;
+    height:30px;
+    float:left ;
+    border-radius:90%;
+}
+
+div.personal-info a{
+    font-style: normal;
+    font-size: .97em;
+    margin-left:6px;
+    display: inline;
+    clear:left;
+}
+
+div.column1of2 ul li{
+    font-family: 'Courier New', Courier, monospace;
+    font-weight: bold;
+    text-transform: capitalize;
+}
+
+div.column1of2 li span{
+    color:rgb(99, 92, 92);
+    font-size: .93em
+}
+
+div.column2of2 #name-and-summary{
+    padding-left: 50px;
+}
+
+div.column2of2 #name-and-summary span{
+    font-size:1em;
+    font-style: italic;
+}
+
+div.column2of2 section#experience, section#education {
+    padding: 10px 5px 20px 50px;
+}
+
+div.work-item, div.education-item {
+    margin:10px 2px 30px 2px;
+}
+
+div.work-item-employer , div.education-item-institute {
+    font-size:22px;
+    font-weight: bold;
+}
+
+div.work-item-role, div.work-item-timeperiod, div.work-item-location {
+    font-size:18px;
+}
+
+div.work-item-role{
+    font-style: italic;
+}
+
+div.work-item-location{
+    color: rgb(99, 92, 92);
+}
+
+a:hover{
+    opacity: 0.3;
+}
+
+div#horizontal_line{
+    margin-left: 100px;
+    width: 20%;
+}

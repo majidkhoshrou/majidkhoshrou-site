@@ -3,138 +3,21 @@
     <head>
         <meta http-equiv="pragma" content="no-cache"/> <!--This prevents the browser from caching the page.-->
         <title>CV Majid Khoshrou</title>
-        <style type="text/css">
-
-            body{
-                width: 100%;
-                font-size: 20px;
-                min-width: 500px;
-                min-height: 500px;
-            }
-
-            .column1of2-container{
-                float: left;
-                width:33%;
-            }
-            .column2of2-container{
-                float:left;
-                width:60%;
-            }
-
-            .column1of2{
-                background-color: rgb(118, 218, 161);
-                color: rgb(46, 44, 44);
-                width: 100%;  /* need to add it o.w. when minimize the page the right col drops under*/
-                float: left;
-                margin-left:auto;                
-                padding: 20px;
-                height:1500px; 
-                position:relative;
-                left:20px;
-                overflow: auto;
-
-            }
-
-            .column2of2{
-                background-color: rgb(175, 214, 106);
-                width:100%;
-                float: right;
-                padding: 20px;
-                height:1500px;                 
-                margin-left:auto;
-                position:relative;
-                left:20px;
-                overflow: auto;
-            }
-            
-            div.personal-info{
-                line-height: 90%;
-                padding:0px;
-            }
-
-            div.personal-info img{
-                width:30px;
-                height:30px;
-                float:left ;
-                border-radius:10px;
-            }
-
-            div.personal-info a{
-                font-style: normal;
-                font-size: 1em;
-                margin-left:10px;
-                display: inline;
-                clear:left;
-            }
-
-            div.column1of2 ul li{
-                font-family: 'Courier New', Courier, monospace;
-                font-weight: bold;
-                text-transform: capitalize;
-            }
-
-            div.column1of2 li span{
-                color:rgb(99, 92, 92);
-                font-size: .93em
-            }
-
-            div.column2of2 #name-and-summary{
-                padding: 10px 10px 20px 100px;
-         
-            }
-
-            div.column2of2 #name-and-summary h1{
-                font-size:2em;
-            }
-
-            div.column2of2 #name-and-summary span{
-                font-size:1em;
-                font-style: italic;
-            }
-            section#experience, section#education {
-                padding: 10px 10px 20px 100px;
-            }
-
-            div.work-item, div.education-item {
-                margin:10px 2px 30px 2px;
-            }
-            
-            div.work-item-employer , div.education-item-institute {
-                font-size:22px;
-                font-weight: bold;
-            }
-
-            div.work-item-role, div.work-item-timeperiod, div.work-item-location {
-                font-size:18px;
-            }
-
-            div.work-item-role{
-                font-style: italic;
-            }
-
-            div.work-item-location{
-                color: rgb(99, 92, 92);
-            }
-
-            a:hover{
-                opacity: 0.3;
-            }
-
-            div#horizontal_line{
-                margin-left: 100px;
-                width: 20%;
-            }
-        </style>
+        <!-- Use CSS external file -->
+        <link rel="stylesheet" href="./css/styles.css"  type="text/css"/>
+        <link rel="stylesheet" href="./css/cv-styles.css"  type="text/css"/>
     </head>
 </html>
 <body>
-    <div class="header"> <!-- beginning of header div -->
+    <div id="header"> <!-- beginning of header div -->
 
+        <img src="./images/majid.jpg" alt="image majid" id="header-image" >
+  
         <div class="navbar">
           <ul >
             <li><a href="index.html"> Home </a></li>
             <li><a href="cv.html"> CV </a> </li>
-            <li><a href="about-us.html"> Sample Projects </a> </li>
+            <li><a href="about-us.html"> Portfolio </a> </li>
             <li><a href="about-us.html"> Hobbies </a> </li>
             <li><a href="about-us.html"> Blog </a> </li>
           </ul>
@@ -163,7 +46,8 @@
                         <img src="./Icons/icon-ggle-schlr.png" alt="google scholar icon">
                         My Google Scholar
                     </a>
-            </div> <br>
+            </div> 
+        <br> <br>
 
         <section>
             <h2>Top Skills</h2>
@@ -194,8 +78,6 @@
         </section>  <!--end of certifications section-->
         </div>
         
-
-
     </div>
 
 
@@ -223,7 +105,7 @@
             </div>
     
             <section id="experience">  <!-- beginning of the experience section -->
-                <h1>Experience</h1>
+                <h2>Experience</h2>
                 <div class="work-item"> <!-- beginning of the work item div -->
                     <div class="work-item-employer">
                         <a href="https://www.cwi.nl/research/groups/intelligent-and-autonomous-systems" target="_blank">Centrum Wiskunde & Informatica</a>
@@ -291,7 +173,7 @@
             </div>
     
             <section id="education"> <!-- beginning of education section-->
-                <h1>Education</h1>
+                <h2>Education</h2>
     
                 <div class="education-item"> <!-- beginning of the education item div -->
                     <div class="education-item-institute">
