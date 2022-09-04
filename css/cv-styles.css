@@ -7,7 +7,7 @@ html{
     background-color: rgb(66, 72, 67);
     position: relative;
     float: left;
-    width:33%;
+    width: 35%;
     color:azure;
 }
 
@@ -15,7 +15,7 @@ html{
     background-color: transparent;
     position:relative;
     float:left;
-    width:66%;
+    width: 60%;
 }
 
 .column1of2{
@@ -26,6 +26,10 @@ html{
     width: 100%;  /* need to add it o.w. when minimize the page the right col drops under*/
     overflow:auto;
     font-size: .8em;
+}
+
+#top-skills, #languages, #certifications{
+    width:90%;
 }
 
 .column2of2{
