@@ -6,7 +6,7 @@ html{
 body{
   background-color:rgb(191, 202, 195);
   font-size:20px;
-  width:100%;
+  width:auto;
   min-width: 500px;
   min-height: 500px;
   margin:0px;

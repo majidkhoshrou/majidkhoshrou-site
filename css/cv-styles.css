@@ -4,37 +4,38 @@ html{
   }
 
 .column1of2-container{
-    background-color: rgb(118, 218, 161);
-    float: left;
+    background-color: rgb(66, 72, 67);
     position: relative;
-    width:35%;
+    float: left;
+    width:33%;
+    color:azure;
 }
 
 .column2of2-container{
-    background-color: rgb(175, 214, 106);
-    float:left;
+    background-color: transparent;
     position:relative;
-    width:65%;
+    float:left;
+    width:66%;
 }
 
 .column1of2{
     margin:0px;
-    padding:10px 10px 0px 20px;
+    padding:10px 5px 0px 20px;
     height:1500px; 
     position:relative;
-    float: left;
     width: 100%;  /* need to add it o.w. when minimize the page the right col drops under*/
-    overflow: scroll;
+    overflow:auto;
+    font-size: .8em;
 }
 
 .column2of2{
     margin:0px;
-    padding:10px 10px 0px 20px;
+    padding:10px 5px 0px 20px;
     height:1500px;                 
     position:relative;
     float: left;
     width:100%;
-    overflow: scroll;
+    overflow: auto;
 }
 
 div.personal-info{
@@ -54,7 +55,7 @@ div.personal-info a{
     font-size: .97em;
     margin-left:6px;
     display: inline;
-    clear:left;
+    color: azure;
 }
 
 div.column1of2 ul li{
@@ -64,7 +65,7 @@ div.column1of2 ul li{
 }
 
 div.column1of2 li span{
-    color:rgb(99, 92, 92);
+    color:rgb(199, 180, 180);
     font-size: .93em
 }
 
