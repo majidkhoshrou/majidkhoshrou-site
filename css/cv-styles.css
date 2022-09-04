@@ -5,45 +5,44 @@ html{
 
 .column1of2-container{
     background-color: rgb(66, 72, 67);
+    color: azure;
     position: relative;
     float: left;
-    width: 35%;
-    color:azure;
+    width: 40%;
+    overflow: hidden;
+    margin: 0 auto;
 }
 
 .column2of2-container{
     background-color: transparent;
-    position:relative;
-    float:left;
-    width: 60%;
-}
-
-.column1of2{
-    margin:0px;
-    padding:10px 5px 0px 20px;
-    height:1500px; 
-    position:relative;
-    width: 100%;  /* need to add it o.w. when minimize the page the right col drops under*/
-    overflow:auto;
-    font-size: .8em;
-}
-
-#top-skills, #languages, #certifications{
-    width:90%;
-}
-
-.column2of2{
-    margin:0px;
-    padding:10px 5px 0px 20px;
-    height:1500px;                 
-    position:relative;
+    position: relative;
     float: left;
-    width:100%;
+    width: 60%;
+    overflow: hidden;
+    margin:0 auto;
+}
+
+.column1of2, .column2of2{
+    margin: 0px;
+    padding: 10 auto;
+    height: 1500px; 
+    position: relative;
+    width: 100%;  /* need to add it o.w. when minimize the page the right col drops under*/
     overflow: auto;
 }
 
+
+#info, #top-skills, #languages, #certifications{
+    padding: 2px;
+}
+
+.column1of2 h2, .column2of2 h2{
+    font-size: 90%;
+}
+
+
 div.personal-info{
-    line-height: 90%;
+    line-height: 1.1em;
     padding:0px;
 }
 
@@ -64,13 +63,13 @@ div.personal-info a{
 
 div.column1of2 ul li{
     font-family: 'Courier New', Courier, monospace;
-    font-weight: bold;
+    font-size: 16px;
     text-transform: capitalize;
 }
 
 div.column1of2 li span{
     color:rgb(199, 180, 180);
-    font-size: .93em
+    font-size: 14px; 
 }
 
 div.column2of2 #name-and-summary{

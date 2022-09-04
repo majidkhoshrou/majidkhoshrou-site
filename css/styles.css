@@ -6,10 +6,10 @@ html{
 body{
   background-color:rgb(191, 202, 195);
   font-size:20px;
-  width:auto;
+  width:90%;
   min-width: 500px;
   min-height: 500px;
-  margin:0px;
+  margin:0 auto;
   }
     
   h1{
