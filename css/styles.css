@@ -149,3 +149,46 @@ footer {
     flex-direction: column;
   }
 }
+
+
+/* NAVIGATION STYLES */
+nav ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  background-color: #1565c0;
+}
+
+nav li {
+  margin: 0;
+}
+
+nav a {
+  display: block;
+  padding: 12px 16px;
+  color: white;
+  text-decoration: none;
+  font-weight: bold;
+  transition: background-color 0.3s;
+}
+
+/* HOVER EFFECT */
+nav a:hover,
+nav a:focus {
+  background-color: #0d47a1;
+}
+
+/* ACTIVE PAGE HIGHLIGHT */
+nav a.active {
+  background-color: #0d47a1;
+}
+
+/* RESPONSIVE STACKING */
+@media (max-width: 600px) {
+  nav ul {
+    flex-direction: column;
+  }
+}
