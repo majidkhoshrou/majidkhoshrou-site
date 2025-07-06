@@ -1,140 +1,151 @@
-
-html{
-  overflow-y: scroll;
+/* ===========
+   Base styles
+============= */
+html, body {
+  margin: 0;
+  padding: 0;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f5f7fa;
+  color: #333;
+  line-height: 1.6;
 }
 
-body{
-  background-color:rgb(191, 202, 195);
-  font-size:20px;
-  width:95%;
-  min-width: 500px;
-  min-height: 500px;
-  margin:0 0 auto auto;
-  /* border: 3px dashed black; */
-  }
-    
-  h1{
-    color: rgb(17, 36, 204);
-    text-shadow: 10px 10px 10px;
-  }
-
-.avatar {
-  vertical-align: middle;
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-}
-
-#personal-photo{
-  position:absolute;
-  top: 100 px;
-  left: 200px;
-  border-radius: 100%;
-  width: 200px;
-  height: 200px;
-}
-
-
-.container {
-  position: relative;
-  width: 12%;
-}
-
-.image {
-  display: block;
-}
-
-.overlay {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  background-color: #008CBA;
-  overflow: hidden;
-  width: 200px;
-  height: 0;
-  transition: .5s ease;
-}
-
-.container:hover .overlay {
-  height: 100%;
-}
-
-.text {
+/* ===========
+   Header styles
+============= */
+header {
+  background-color: #0d47a1;
   color: white;
-  font-size: 20px;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  -webkit-transform: translate(-50%, -50%);
-  -ms-transform: translate(-50%, -50%);
-  transform: translate(-50%, -50%);
+  padding: 20px;
   text-align: center;
 }
 
-
-div#header{
-  background-color: rgb(144, 158, 149);
-  width:100%;
-  height: 30px;
-  /*   border: 2px solid red; */
+header .profile-photo {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  border: 3px solid #fff;
 }
 
-div#header #header-image{
-  height:30px;
-  border-radius: 90%;
-  margin-left: 10px;
+header h1 {
+  margin: 10px 0 5px;
+  font-size: 1.8em;
 }
 
-div#header div.navbar {
-  position: absolute;
-  top: 0px;
-  right:10px;
-  margin:0px 2px 0px 0px;
+header p {
+  margin: 0;
+  font-size: 1em;
 }
 
-div.navbar ul {
-  list-style-type: none;
-  margin: 0px 20px 0px 0px;
-  padding: 3px;
-  overflow: hidden;
+/* ===========
+   Navigation
+============= */
+nav ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  background-color: #1565c0;
 }
 
-div.navbar ul li {
-  display:block;
-  float: left;
-  padding-left: 20px;
-  font-weight:bolder;
+nav li {
+  margin: 0;
 }
 
-div.navbar ul li a {
+nav a {
+  display: block;
+  padding: 12px 16px;
+  color: white;
   text-decoration: none;
-  color:black;
+  font-weight: bold;
 }
 
-a:hover{
-  opacity: 0.3;
+nav a:hover,
+nav a:focus {
+  background-color: #0d47a1;
 }
 
-/*
-a:link {
-  color: green;
-  background-color: transparent;
+/* ===========
+   Main content
+============= */
+main {
+  max-width: 1000px;
+  margin: 20px auto;
+  padding: 0 15px;
+}
+
+.intro {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.intro h2 {
+  font-size: 1.5em;
+}
+
+.intro p {
+  font-size: 1.1em;
+}
+
+.button {
+  display: inline-block;
+  padding: 10px 20px;
+  background-color: #1565c0;
+  color: white;
   text-decoration: none;
+  border-radius: 4px;
+  margin-top: 10px;
 }
-a:visited {
-  color: #222222;
-  background-color: transparent;
-  text-decoration: none;
+
+.button:hover {
+  background-color: #0d47a1;
 }
-a:hover {
-  color: red;
-  background-color: transparent;
-  text-decoration: underline;
+
+/* ===========
+   Highlight cards
+============= */
+.highlights {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
 }
-a:active {
-  color: yellow;
-  background-color: transparent;
-  text-decoration: underline;
+
+.card {
+  background-color: white;
+  padding: 20px;
+  flex: 1 1 250px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  text-align: center;
 }
-*/
+
+.card h3 {
+  margin-top: 0;
+}
+
+.card p {
+  font-size: 0.95em;
+}
+
+/* ===========
+   Footer
+============= */
+footer {
+  text-align: center;
+  padding: 20px;
+  font-size: 0.9em;
+  background-color: #eeeeee;
+  margin-top: 40px;
+}
+
+/* ===========
+   Responsive adjustments
+============= */
+@media (max-width: 600px) {
+  nav ul {
+    flex-direction: column;
+  }
+}
