@@ -15,7 +15,7 @@ I am a Data Scientist with over 10 years of combined experience in academia and 
 - Sustainability metrics
 - Anomaly detection and time series analysis
 
-I am passionate about applying AI to solve real-world challenges and contributing to open-source tools like [OpenSTEF](https://github.com/OpenSTEF/openstef).
+I am passionate about applying AI to solve real-world challenges and contributing to open-source tools like [OpenSTEF](https://github.com/alliander/opstef).
 
 ---
 
@@ -36,3 +36,72 @@ This site includes the following sections:
 
 ## 📁 Folder Structure
 
+```
+/
+├── index.html
+├── about.html
+├── research.html
+├── projects.html
+├── talks.html
+├── contact.html
+├── cv.html
+├── chat.html
+│
+├── /css
+│   └── style.css
+│   └── responsive.css
+│
+├── /js
+│   └── main.js
+│   └── chatbot.js
+│
+├── /images
+│   └── profile.jpg
+│   └── project1.png
+│
+├── /icons
+│   └── favicon.ico
+│   └── linkedin.svg
+│
+├── /data
+│   └── publications.yaml
+│   └── projects.yaml
+│   └── site-config.yaml
+│
+└── README.md
+```
+
+---
+
+## 🛠️ Built With
+
+- HTML5
+- CSS3
+- JavaScript
+- GitHub Pages for hosting
+
+---
+
+## ✨ Future Enhancements
+
+- Integration with a chatbot using OpenAI API
+- Dynamic publication feed
+- Enhanced project showcases
+- Search across publications and talks
+
+---
+
+## 📬 Contact
+
+Feel free to connect:
+
+- [LinkedIn](https://www.linkedin.com/in/majid-khoshrou-a2728349/)
+- [Google Scholar](https://scholar.google.com/citations?user=RPdtjy0AAAAJ)
+- [GitHub](https://github.com/majidkhoshrou)
+- Email: majid.khoshrou@gmail.com
+
+---
+
+## 📄 License
+
+This project is licensed under the MIT License.
