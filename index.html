@@ -1,71 +1,74 @@
-<!-- saved from url=(0062)file:///C:/Users/majid/Documents/projects/Basic_HTML/main.html -->
 <!DOCTYPE html>
-<html>
-  <head>
-      <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-      <meta name="description" content="An interactive CV of mine" />
-      <meta http-equiv="pragma" content="no-cache"/> <!--This prevents the browser from caching the page-->
-    <title>Homepage Majid Khoshrou</title>
-    <!-- Use CSS external file -->
-    <link rel="stylesheet" href="./css/styles.css"  type="text/css"/>
-  </head>
-
-  <body>
-
-    <div id="header"> <!-- beginning of header div -->
-
-      <img src="./images/majid.jpg" alt="image majid" id="header-image" >
-
-      <div class="navbar">
-        <ul >
-          <li><a href="index.html"> Home </a></li>
-          <li><a href="cv.html"> CV </a> </li>
-          <li><a href="about-us.html"> Portfolio </a> </li>
-          <li><a href="about-us.html"> Hobbies </a> </li>
-          <li><a href="about-us.html"> Blog </a> </li>
-        </ul>
-      </div> 
-
-    </div> <!--end of header div-->
-   
- 
-
-
-<h2>Get the size of the current screen/window</h2>
-<p>The example displays the browser window's height and width: (NOT including toolbars/scrollbars)
-
-<p id="demo"></p>
-<script>
-var w = window.innerWidth;
-var h = window.innerHeight;
-var x = document.getElementById("demo");
-x.innerHTML = "Browser width: " + w + ", height: " + h ;
-</script>
-
-<div id="content">
-  <div class="container">
-    <a href="#education">
-      <img src="./images/majid.jpg" alt="image majid" class="image" width="30px">
-      <div class="overlay">
-        <div class="text">Education</div>
-      </div>
-    </a>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="description" content="Homepage of Majid Khoshrou – Data Scientist specializing in machine learning, forecasting, and real-time analytics." />
+  <title>Majid Khoshrou – Data Scientist</title>
+  <link rel="stylesheet" href="./css/style.css"/>
+</head>
+<body>
+  <header>
+    <div class="header-container">
+      <img src="./images/profile.jpg" alt="Majid Khoshrou" class="profile-photo">
+      <h1>Majid Khoshrou</h1>
+      <p>Data Scientist | Machine Learning | Forecasting | Real-Time Analytics</p>
     </div>
-</div>
+    <nav>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="about.html">About Me</a></li>
+        <li><a href="research.html">Research & Publications</a></li>
+        <li><a href="projects.html">Projects</a></li>
+        <li><a href="talks.html">Talks</a></li>
+        <li><a href="cv.html">CV</a></li>
+        <li><a href="contact.html">Contact</a></li>
+        <li><a href="chat.html">Chat</a></li>
+      </ul>
+    </nav>
+  </header>
 
-   
-    <iframe 
-    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2472.9837043872553!2d5.318630015976921!3d51.696743304662085!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47c6ee53bc89edd9%3A0x2a68213f0c1aeed9!2sVan%20Grobbendoncklaan%2C%20&#39;s-Hertogenbosch!5e0!3m2!1sen!2snl!4v1658652179766!5m2!1sen!2snl" 
-       width="500px"
-       height="500px" style="border:20;" allowfullscreen="" loading="lazy" 
-       referrerpolicy="no-referrer-when-downgrade" id="google-map">
-    </iframe>
+  <main>
+    <section class="intro">
+      <h2>Welcome</h2>
+      <p>
+        I am a Data Scientist with over a decade of experience applying machine learning, forecasting, and real-time analytics to solve complex challenges in energy systems, urban mobility, and sustainability.
+      </p>
+      <p>
+        Feel free to explore my research, projects, and publications, or get in touch for collaboration opportunities.
+      </p>
+      <a href="cv.html" class="button">View My CV</a>
+    </section>
 
-    <h2>Mehr 1401</h2>
-    <p>Check out snowflake <a href="https://snowflake.torproject.org/" target="_blank"> https://snowflake.torproject.org/ </a> </p>
-    <p><iframe src="https://snowflake.torproject.org/embed.html" width="320" height="240" frameborder="0" scrolling="no"></iframe>
-    </p>
+    <section class="highlights">
+      <h2>Highlights</h2>
+      <div class="cards">
+        <div class="card">
+          <h3>Research & Publications</h3>
+          <p>Discover my peer-reviewed research in time series forecasting and smart energy systems.</p>
+          <a href="research.html" class="button">Learn More</a>
+        </div>
+        <div class="card">
+          <h3>Projects</h3>
+          <p>Explore selected projects, open-source contributions, and real-world applications.</p>
+          <a href="projects.html" class="button">View Projects</a>
+        </div>
+        <div class="card">
+          <h3>Talks & Presentations</h3>
+          <p>See my invited talks, lectures, and recorded presentations.</p>
+          <a href="talks.html" class="button">Watch Talks</a>
+        </div>
+      </div>
+    </section>
+  </main>
 
+  <footer>
+    <p>&copy; 2025 Majid Khoshrou</p>
+    <div class="social-links">
+      <a href="https://www.linkedin.com/in/majid-khoshrou-a2728349/" target="_blank">LinkedIn</a> |
+      <a href="https://scholar.google.com/citations?user=RPdtjy0AAAAJ" target="_blank">Google Scholar</a> |
+      <a href="https://github.com/majidkhoshrou" target="_blank">GitHub</a>
+    </div>
+  </footer>
 </body>
-
 </html>
