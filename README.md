@@ -15,7 +15,7 @@ I am a Data Scientist with over 10 years of combined experience in academia and 
 - Sustainability metrics
 - Anomaly detection and time series analysis
 
-I am passionate about applying AI to solve real-world challenges and contributing to open-source tools like [OpenSTEF](https://github.com/alliander/opstef).
+I am passionate about applying AI to solve real-world challenges and contributing to open-source tools like [OpenSTEF](https://github.com/OpenSTEF/openstef).
 
 ---
 
