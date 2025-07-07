@@ -141,10 +141,19 @@ main {
   justify-content: center;
 }
 
+.cards {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+  margin-top: 20px;
+}
+
 .card {
   background-color: white;
   padding: 20px;
   flex: 1 1 250px;
+  max-width: 300px;
   border: 1px solid #ddd;
   border-radius: 8px;
   text-align: center;
