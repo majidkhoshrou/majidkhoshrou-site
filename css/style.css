@@ -29,7 +29,17 @@ header .profile-photo {
   height: 120px;
   border-radius: 50%;
   border: 3px solid #fff;
+  transition: transform 0.3s ease;
+  transform-origin: center center;
+  position: relative;       /* Makes z-index work */
+  z-index: 1;               /* Ensures it’s above other elements */
 }
+
+
+header .profile-photo:hover {
+  transform: scale(3) translateY(30%);
+}
+
 
 header h1 {
   margin: 10px 0 5px;
