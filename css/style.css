@@ -87,7 +87,7 @@ nav a {
 /* Hover and focus styles */
 nav a:hover,
 nav a:focus {
-  background-color: #0d47a1;
+  background-color: #1565c0;
   transform: scale(1.15);
 }
 
@@ -139,7 +139,8 @@ main {
 }
 
 .button:hover {
-  background-color: #0d47a1;
+  background-color: #1565c0;
+  transform: scale(1.13);
 }
 
 /* =============
@@ -168,6 +169,13 @@ main {
   border: 1px solid #ddd;
   border-radius: 8px;
   text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between; /* Distribute space between content and button */
+}
+
+.card .button {
+  margin-top: 10px;
 }
 
 .card h3 {
@@ -187,4 +195,19 @@ footer {
   font-size: 0.9em;
   background-color: #eeeeee;
   margin-top: 40px;
+}
+
+
+/* =============
+   Contact
+=============== */
+.contact-details ul {
+  list-style: none;
+  padding: 0;
+  text-align: center;
+  font-size: 1.1em;
+}
+
+.contact-details li {
+  margin-bottom: 12px;
 }
