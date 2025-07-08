@@ -1,222 +1,157 @@
 <!DOCTYPE html>
-<html>
-    <head>
-        <meta http-equiv="pragma" content="no-cache"/> <!--This prevents the browser from caching the page.-->
-        <title>CV Majid Khoshrou</title>
-        <!-- Use CSS external file -->
-        <link rel="stylesheet" href="./css/style.css"  type="text/css"/>
-        <link rel="stylesheet" href="./css/cv-style.css"  type="text/css"/>
-    </head>
-</html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="description" content="Curriculum Vitae of Majid Khoshrou – Data Scientist specializing in machine learning and forecasting." />
+  <meta http-equiv="pragma" content="no-cache"/>
+  <title>CV – Majid Khoshrou</title>
+  <link rel="stylesheet" href="./css/style.css"/>
+  <link rel="stylesheet" href="./css/cv-style.css"/>
+</head>
 <body>
-    <div id="header"> <!-- beginning of header div -->
-
-        <img src="./images/majid.jpg" alt="image majid" id="header-image" >
-  
-        <div class="navbar">
-          <ul >
-            <li><a href="index.html"> Home </a></li>
-            <li><a href="cv.html"> CV </a> </li>
-            <li><a href="about-us.html"> Portfolio </a> </li>
-            <li><a href="about-us.html"> Hobbies </a> </li>
-            <li><a href="about-us.html"> Blog </a> </li>
-          </ul>
-        </div> 
-  
-      </div> <!--end of header div-->
-
-    <div class="column1of2-container">
-        <div class="column1of2">
-            <section id="info">
-                <div>
-                    <h2>Info</h2>
-                    <div class="personal-info">
-                            <a href="mailto:majid.khoshrou@gmail.com?subject=Interesting portfolio&body=Let's have a call.">
-                                <img src="./Icons/icon-email.png" alt="an email icon">
-                                Email Me
-                            </a>
-                    </div>  <br>
-                    <div class="personal-info">
-                            <a href="https://www.linkedin.com/in/majid-khoshrou-a2728349/" target="_blank">
-                                <img src="./Icons/Linkedin-Icon.png" alt="LinkedIn icon">
-                                My LinkedIn
-                            </a>
-                    </div>  <br>
-                    <div class="personal-info">
-                            <a href="https://scholar.google.com/citations?hl=en&user=RPdtjy0AAAAJ" target="_blank">
-                                <img src="./Icons/icon-ggle-schlr.png" alt="google scholar icon">
-                                My Google Scholar
-                            </a>
-                    </div> 
-                </div>
-            </section>
-
-
-        <br> <br>
-
-        <section id="top-skills">
-            <div>
-                <h2>Top Skills</h2>
-                <ul> <!-- beginning of top skills-->
-                    <li>Data Science and Analysis</li>
-                    <li>Full stack developer</li>
-                </ul> <!-- end of top skills-->
-            </div>
-
-        </section> <!--end of section top skills-->
-
-        <section id="languages">
-            <div>
-                <h2>Languages</h2>
-                <ul>
-                    <li>Persian <span>(Native)</span></li>
-                    <li>English <span>(full working proficiency)</span></li>
-                    <li>Dutch <span>(limited working proficiency)</span></li>
-                </ul>
-            </div>
-
-        </section> <!--end of section languages-->
-
-
-        <section id="certifications"> <!--beginning of certifications section-->
-            <div>
-                <h2>Certifications</h2>
-                <ul>
-                    <li>Data Analysts with Python Track</li>
-                    <li>Python Data Structures</li>
-                    <li>Google IT Support Specialization</li>  
-                    <li>Statistics Fundamentals with Python Track</li>
-                </ul>
-            </div>
-
-        </section>  <!--end of certifications section-->
-        </div>
-        
+  <header>
+    <div class="header-container">
+      <img src="./images/majid_tudelft_02.png" alt="Majid Khoshrou" class="profile-photo">
+      <h1>Majid Khoshrou</h1>
+      <p>Data Scientist | Machine Learning | Forecasting | Real-Time Analytics</p>
     </div>
+    <nav>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="about.html">About Me</a></li>
+        <li><a href="research.html">Research & Publications</a></li>
+        <li><a href="projects.html">Projects</a></li>
+        <li><a href="talks.html">Talks</a></li>
+        <li><a href="cv.html" class="active">CV</a></li>
+        <li><a href="contact.html">Contact</a></li>
+        <li><a href="chat.html">Chat</a></li>
+      </ul>
+    </nav>
+  </header>
 
+  <main>
+    <div class="cv-container">
+      <button onclick="window.print()" class="download-button">Print or Save as PDF</button>
 
-    <div class="column2of2-container"> <!-- beginning of the right column -->
-        <div class="column2of2">
-            <section id="name-and-summary"> <!-- begging of the name and summary section -->
-                <div>
-                    <h1>Abdolrahman Khoshrou</h1>
-                    <span>Data Science and Analytics</span> <br>
-                    <span>'s-Hertogenbosch, Noord Brabant, The Netherlands</span>
-                </div> <!-- end of name div -->
-                <div id="summary">
-                    <h3>Summary</h3>
-                    <p>
-                        A life long learner. Skilled in Python, PySpark, MATLAB, Machine Learning algorithms and tools. 
-                        Passionate about using innovative methodologies and technologies to tackle real-world problems 
-                        and toadd values to the communities and businesses.
-                    </p>
-    
-                </div> <!-- end of summary div -->
-            </section> <!-- end of the name and summary section -->
-    
-            <div id="horizontal_line">
-                <hr>
+      <section class="cv-section">
+        <h2>Profile</h2>
+        <p>Experienced Data Scientist with 10+ years in industry and academia, specializing in machine learning, forecasting, and real-time analytics across domains such as energy, mobility, and infrastructure. Passionate about applying AI to real-world challenges and delivering impact across diverse sectors.</p>
+      </section>
+
+      <section class="cv-section">
+        <h2>Skills & Technologies</h2>
+        <ul>
+          <li><strong>Programming:</strong> Python, SQL, MATLAB, PySpark</li>
+          <li><strong>ML Libraries:</strong> scikit-learn, TensorFlow, PyTorch, XGBoost, LightGBM</li>
+          <li><strong>Cloud:</strong> AWS, GCP, Azure, Databricks, Docker</li>
+          <li><strong>Visualization:</strong> Power BI, Tableau, Matplotlib, Seaborn, Plotly</li>
+          <li><strong>Collaboration:</strong> Agile/Scrum, JIRA, Confluence</li>
+        </ul>
+      </section>
+
+      <section class="cv-section">
+        <h2>Work Experience</h2>
+        <ul>
+            <li>
+            <div class="job-header">
+                <strong>Senior Data Scientist</strong>
+                <span class="job-dates">Jan 2023 – Present</span>
             </div>
-    
-            <section id="experience">  <!-- beginning of the experience section -->
-                <h2>Experience</h2>
-                <div class="work-item"> <!-- beginning of the work item div -->
-                    <div class="work-item-employer">
-                        <a href="https://www.cwi.nl/research/groups/intelligent-and-autonomous-systems" target="_blank">Centrum Wiskunde & Informatica</a>
-                    </div>
-                    <div class="work-item-role">
-                        Researcher
-                    </div>
-                    <div class="work-item-timeperiod">
-                        July 2020 - Present
-                    </div>
-                    <div class="work-item-location">
-                        Amsterdam, North Holland, Netherlands
-                    </div>
-                </div> <!-- end of the work item div -->
-    
-                <div class="work-item"> <!-- beginning of the work item div -->
-                    <div class="work-item-employer">
-                        <a href="https://sympower.net/" target="_blank">Sympower</a>
-                    </div>
-                    <div class="work-item-role">
-                        Data Science Researcher
-                    </div>
-                    <div class="work-item-timeperiod">
-                        August 2020 - April 2021
-                    </div>
-                    <div class="work-item-location">
-                        Amsterdam, North Holland, Netherlands
-                    </div>
-                </div> <!-- end of the work item div -->
-    
-                <div class="work-item"> <!-- beginning of the work item div -->
-                    <div class="work-item-employer">
-                        <a href="https://maistering.com/" target="_blank">Maistering B.V.</a>
-                    </div>
-                    <div class="work-item-role">
-                        Data Scientist
-                    </div>
-                    <div class="work-item-timeperiod">
-                        November 2019 - July 2020
-                    </div>
-                    <div class="work-item-location">
-                        Amsterdam, North Holland, Netherlands
-                    </div>
-                </div> <!-- end of the work item div -->
-    
-                <div class="work-item"> <!-- beginning of the work item div -->
-                    <div class="work-item-employer">
-                        <a href="https://www.cwi.nl/research/groups/intelligent-and-autonomous-systems" target="_blank">Centrum Wiskunde & Informatica</a>
-    
-                    </div>
-                    <div class="work-item-role">
-                        Researcher PhD Candidate 
-                    </div>
-                    <div class="work-item-timeperiod">
-                        December 2015 - November 2019
-                    </div>
-                    <div class="work-item-location">
-                        Amsterdam, North Holland, Netherlands
-                    </div>
-                </div> <!-- end of the work item div -->
-            </section>   <!-- end of the experience section -->
-    
-            <div id="horizontal_line">
-                <hr>
+            <a href="https://www.alliander.com" target="_blank">Alliander – Arnhem, Netherlands</a>
+            <ul class="responsibilities">
+                <li>Boosted day-ahead allocation forecast accuracy by 30%, enabling over €1.3M annual cost savings.</li>
+                <li>Identified cost-saving opportunities through in-depth analysis of energy settlement pricing.</li>
+                <li>Contributed to the open-source library <a href="https://github.com/alliander/openstef" target="_blank">OpenSTEF</a>, improving usability and model robustness.</li>
+                <li>Built statistical models to assess and mitigate grid reliability risks.</li>
+                <li>Standardized model validation practices across teams to ensure consistent performance tracking.</li>
+            </ul>
+            </li>
+            <li>
+            <div class="job-header">
+                <strong>Postdoctoral Researcher</strong>
+                <span class="job-dates">Jul 2020 – Dec 2022</span>
             </div>
-    
-            <section id="education"> <!-- beginning of education section-->
-                <h2>Education</h2>
-    
-                <div class="education-item"> <!-- beginning of the education item div -->
-                    <div class="education-item-institute">
-                        <a href="https://sigarra.up.pt/feup/en/web_page.inicial" target="_blank">Faculdade de Engenharia da Universidade do Porto</a>
-                    </div>
-                    <div class="education-item-degree">
-                        Master's degree, Information Engineering
-                    </div>
-                    <div class="work-item-timeperiod">
-                        2012 - 2015
-                    </div>
-                </div> <!-- end of the education item div -->
-    
-                <div class="education-item"> <!-- beginning of the education item div -->
-                    <div class="education-item-institute">
-                        <a href="https://nit.ac.ir/en" target="_blank">University of Mazandaran</a>
-                    </div>
-                    <div class="education-item-degree">
-                        Bachelor's degree, Electrical and Power Engineering
-                    </div>
-                    <div class="work-item-timeperiod">
-                        2002 - 2007
-                    </div>
-                </div> <!-- end of the education item div -->
-    
-            </section> <!-- end of education section-->
-        </div>
+            <a href="https://www.cwi.nl" target="_blank">Centrum Wiskunde & Informatica – Amsterdam</a>
+            <ul class="responsibilities">
+                <li>Delivered accurate EV charging demand forecasts supporting infrastructure planning.</li>
+                <li>Introduced carbon impact metrics for server clusters influencing sustainability reporting.</li>
+                <li>Co-taught graduate courses enhancing student engagement in AI and game theory.</li>
+            </ul>
+            </li>
+            <li>
+            <div class="job-header">
+                <strong>Data Scientist</strong>
+                <span class="job-dates">Nov 2019 – Jul 2020</span>
+            </div>
+            <a href="https://www.maistering.com" target="_blank">Maistering B.V. – Amsterdam/Rotterdam</a>
+            <ul class="responsibilities">
+                <li>Developed customer segmentation models improving marketing campaign ROI.</li>
+                <li>Delivered ML-powered features enhancing product value for enterprise clients.</li>
+                <li>Collaborated across teams to accelerate deployment of analytics pipelines.</li>
+            </ul>
+            </li>
+            <li>
+            <div class="job-header">
+                <strong>PhD Researcher</strong>
+                <span class="job-dates">Dec 2015 – Nov 2019</span>
+            </div>
+            <a href="https://www.tudelft.nl" target="_blank">CWI & Delft University of Technology – Netherlands</a>
+            <ul class="responsibilities">
+                <li>Pioneered probabilistic modeling techniques improving smart grid forecasting reliability.</li>
+                <li>Developed anomaly detection methods enhancing grid health monitoring capabilities.</li>
+                <li>Published peer-reviewed research advancing time series analysis.</li>
+            </ul>
+            </li>
+        </ul>
+        </section>
 
 
-    </div> <!-- end of the right column -->
+      <section class="cv-section">
+        <h2>Education</h2>
+        <ul>
+          <li>
+            <strong>PhD in Artificial Intelligence</strong><br>
+            <a href="https://www.tudelft.nl" target="_blank">CWI & Delft University of Technology</a>
+          </li>
+          <li>
+            <strong>MSc in Information Engineering</strong><br>
+            <a href="https://www.up.pt" target="_blank">University of Porto, Portugal</a>
+          </li>
+          <li>
+            <strong>BSc in Electrical Power Engineering</strong><br>
+            <a href="https://www.nit.ac.ir" target="_blank">Babol Noshirvani University of Technology, Iran</a>
+          </li>
+        </ul>
+      </section>
+
+      <section class="cv-section">
+        <h2>Certifications</h2>
+        <ul>
+          <li>Advanced Data Analytics Professional Certificate – Google (2024)</li>
+          <li>Google IT Support Professional Certificate – Google (2021)</li>
+        </ul>
+      </section>
+
+      <section class="cv-section">
+        <h2>Languages</h2>
+        <ul>
+          <li>English (Fluent)</li>
+          <li>Dutch (Intermediate)</li>
+          <li>Persian (Native)</li>
+        </ul>
+      </section>
+    </div>
+  </main>
+
+  <footer>
+    <p>&copy; 2025 Majid Khoshrou</p>
+    <div class="social-links">
+      <a href="https://www.linkedin.com/in/majid-khoshrou-a2728349/" target="_blank">LinkedIn</a> |
+      <a href="https://scholar.google.com/citations?user=RPdtjy0AAAAJ" target="_blank">Google Scholar</a> |
+      <a href="https://github.com/majidkhoshrou" target="_blank">GitHub</a>
+    </div>
+  </footer>
 
 </body>
+</html>

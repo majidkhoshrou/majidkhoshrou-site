@@ -81,13 +81,14 @@ nav a {
   color: white;
   text-decoration: none;
   font-weight: bold;
-  transition: background-color 0.3s;
+  transition: background-color 0.3s, transform 0.2s ease;
 }
 
 /* Hover and focus styles */
 nav a:hover,
 nav a:focus {
   background-color: #0d47a1;
+  transform: scale(1.15);
 }
 
 /* Active page highlight */
