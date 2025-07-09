@@ -3,10 +3,20 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <meta name="description" content="Publications by Majid Khoshrou - Research in Machine Learning, Forecasting, and Smart Energy Systems." />
+  <meta name="description" content="Publications by Majid Khoshrou – Research in machine learning and forecasting." />
   <meta http-equiv="pragma" content="no-cache"/>
-  <title>Research & Publications - Majid Khoshrou</title>
+  <title>Research & Publications – Majid Khoshrou</title>
   <link rel="stylesheet" href="./css/style.css"/>
+  <link rel="stylesheet" href="./css/publications-style.css"/>
+  <style>
+    .publication-item {
+      background: white;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      padding: 15px;
+      margin-bottom: 15px;
+    }
+  </style>
 </head>
 <body>
   <header>
@@ -32,26 +42,9 @@
   <main>
     <section class="intro">
       <h2>Research & Publications</h2>
-      <p>Below are selected publications and research contributions.</p>
+      <p>Below are selected publications, loaded dynamically from structured data.</p>
     </section>
-
-    <section>
-      <ul>
-        <li>
-          <strong>Singular Value Decomposition for Time Series Analysis in Smart Energy Systems</strong><br>
-          PhD Thesis, Delft University of Technology and CWI, 2020.
-        </li>
-        <li>
-          <strong>Probabilistic Modeling Techniques for Smart Grid Forecasting</strong><br>
-          Published in [Journal Name], 2019.
-        </li>
-        <li>
-          <strong>Real-Time Unsupervised Motion Learning for Autonomous Underwater Vehicles</strong><br>
-          MSc Thesis, University of Porto, 2015.
-        </li>
-        <!-- Add more publications here -->
-      </ul>
-    </section>
+    <section id="publications"></section>
   </main>
 
   <footer>
@@ -62,5 +55,6 @@
       <a href="https://github.com/majidkhoshrou" target="_blank">GitHub</a>
     </div>
   </footer>
+  <script src="./js/publications.js"></script>
 </body>
 </html>

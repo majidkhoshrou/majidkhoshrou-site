@@ -1,0 +1,62 @@
+.publication-item {
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 15px;
+  margin-bottom: 15px;
+}
+
+.abstract-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+
+.abstract-actions button,
+.abstract-actions a {
+  display: inline-block;
+  text-align: center;
+  padding: 6px 12px;
+  background-color: #1565c0;
+  color: white;
+  text-decoration: none;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.9em;
+  transition: background-color 0.3s;
+}
+
+.abstract-actions a {
+  background-color: #444;
+}
+
+.abstract-actions button:hover,
+.abstract-actions a:hover {
+  background-color: #0d47a1;
+  transform: scale(1.1);
+}
+
+.abstract-text {
+  margin-top: 10px;
+  background: #f9f9f9;
+  border-radius: 4px;
+  padding: 10px;
+}
+
+.chat-link {
+  display: inline-block;
+  margin-right: 10px;
+  padding: 6px 12px;
+  background-color: #444;
+  color: white;
+  text-decoration: none;
+  border-radius: 4px;
+  font-size: 0.9em;
+  transition: background-color 0.3s;
+}
+
+.chat-link:hover {
+  background-color: #0d47a1;
+}
