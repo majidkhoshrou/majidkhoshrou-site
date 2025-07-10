@@ -1,107 +1,130 @@
-# Majid Khoshrou – Personal Website
+# Majid Khoshrou Personal Website and AI Assistant
 
-This repository contains the source code for my professional homepage.
-
-🌐 **Website:** [majidkhoshrou.github.io](https://majidkhoshrou.github.io/)
+This repository contains my personal homepage, portfolio, and an AI-powered assistant chatbot.
 
 ---
 
-## 🚀 About Me
-
-I am a Data Scientist with over 10 years of combined experience in academia and industry. My work spans machine learning, forecasting, and real-time analytics applied to domains such as:
-
-- Energy systems and smart grids
-- Urban mobility infrastructure
-- Sustainability metrics
-- Anomaly detection and time series analysis
-
-I am passionate about applying AI to solve real-world challenges and contributing to open-source tools like [OpenSTEF](https://github.com/OpenSTEF/openstef).
-
----
-
-## 🧭 Website Sections
-
-This site includes the following sections:
-
-- **Home:** Introduction and highlights
-- **About Me:** Professional background and expertise
-- **Research & Publications:** Selected publications and research contributions
-- **Projects:** Summaries of selected projects and code
-- **Talks & Presentations:** Recordings and materials from invited talks
-- **CV:** Online version of my curriculum vitae
-- **Contact:** Ways to connect
-- **Chat:** An interactive chatbot to answer questions about my work and experience
-
----
-
-## 📁 Folder Structure
+## 📂 Repository Structure
 
 ```
 /
-├── index.html
-├── about.html
-├── research.html
-├── projects.html
-├── talks.html
-├── contact.html
-├── cv.html
-├── chat.html
+├── frontend/
+│   ├── index.html
+│   ├── about.html
+│   ├── research.html
+│   ├── projects.html
+│   ├── talks.html
+│   ├── contact.html
+│   ├── chat.html
+│   ├── css/
+│   │   ├── style.css
+│   │   ├── chat-style.css
+│   │   └── publications-style.css
+│   ├── js/
+│   │   ├── chat.js
+│   │   └── publications.js
+│   └── data/
+│       └── publications.json
 │
-├── /css
-│   └── style.css
-│   └── responsive.css
-│
-├── /js
-│   └── main.js
-│   └── chatbot.js
-│
-├── /images
-│   └── profile.jpg
-│   └── project1.png
-│
-├── /icons
-│   └── favicon.ico
-│   └── linkedin.svg
-│
-├── /data
-│   └── publications.yaml
-│   └── projects.yaml
-│   └── site-config.yaml
-│
-└── README.md
+└── backend/
+    ├── app.py
+    ├── requirements.txt
+    └── (future) retrieval scripts, embeddings, PDF parsers
 ```
 
 ---
 
-## 🛠️ Built With
+## 🌐 Frontend
 
-- HTML5
-- CSS3
-- JavaScript
-- GitHub Pages for hosting
+The frontend is a static website containing:
+
+- **Home** — overview and highlights
+- **About Me** — professional background and skills
+- **Projects** — selected work and open-source contributions
+- **Research** — publications loaded dynamically from `publications.json`
+- **Talks** — embedded PhD defense video
+- **CV** — printable HTML CV
+- **Contact** — email and social links
+- **Chat** — AI assistant interface
+
+Deployed via GitHub Pages or Netlify.
 
 ---
 
-## ✨ Future Enhancements
+## 🧠 Backend
 
-- Integration with a chatbot using OpenAI API
-- Dynamic publication feed
-- Enhanced project showcases
-- Search across publications and talks
+The backend is a Python Flask API providing chat functionality:
+
+- Accepts POST requests to `/api/chat`
+- Forwards user questions to OpenAI GPT-4
+- Returns answers to the frontend chat UI
+
+Planned future capabilities:
+
+- Retrieval-Augmented Generation (RAG) using:
+  - `publications.json`
+  - PDF parsing
+  - Site-wide content indexing
+- Embedding pipelines for semantic search
 
 ---
 
-## 📬 Contact
+## 🚀 Deployment
 
-Feel free to connect:
+### Frontend
+Deploy to GitHub Pages:
 
-- [LinkedIn](https://www.linkedin.com/in/majid-khoshrou-a2728349/)
-- [Google Scholar](https://scholar.google.com/citations?user=RPdtjy0AAAAJ)
-- [GitHub](https://github.com/majidkhoshrou)
-- Email: majid.khoshrou@gmail.com
+1. Commit the `frontend/` folder.
+2. Configure Pages to serve from `/frontend`.
+
+or deploy via Netlify or Vercel.
+
+### Backend
+Deploy Flask API:
+
+1. Create a Python environment.
+2. Install dependencies:
+
+   ```
+   pip install -r requirements.txt
+   ```
+
+3. Set your OpenAI API key:
+
+   ```
+   export OPENAI_API_KEY="sk-..."
+   ```
+
+4. Run locally:
+
+   ```
+   python app.py
+   ```
+
+5. Deploy to Render, fly.io, Heroku, or your preferred host.
+
+---
+
+## 🛣️ Roadmap
+
+- [x] Frontend static site complete
+- [x] Dynamic publications loading
+- [x] Initial chat interface connected to OpenAI
+- [ ] Retrieval over `publications.json`
+- [ ] PDF parsing and chunking
+- [ ] Embedding content for vector search
+- [ ] Full retrieval-augmented chatbot
 
 ---
 
 ## 📄 License
 
 This project is licensed under the MIT License.
+
+---
+
+## ✨ Acknowledgments
+
+- [OpenAI API](https://platform.openai.com)
+- [Flask](https://flask.palletsprojects.com/)
+- [GitHub Pages](https://pages.github.com)
