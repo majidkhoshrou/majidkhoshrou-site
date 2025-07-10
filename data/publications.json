@@ -2,7 +2,8 @@
   {
     "title": "Singular value decomposition for time series analysis with applications to smart energy systems",
     "authors": "Abdolrahman Khoshrou",
-    "journal": "",
+    "type": "journal",
+    "venue": "",
     "volume": "",
     "pages": "",
     "year": "2022",
@@ -13,7 +14,8 @@
   {
     "title": "Regularisation for PCA-and SVD-type matrix factorisations",
     "authors": "Abdolrahman Khoshrou, Eric J Pauwels",
-    "journal": "arXiv preprint arXiv:2106.12955",
+    "type": "journal",
+    "venue": "arXiv preprint arXiv:2106.12955",
     "volume": "",
     "pages": "",
     "year": "2021",
@@ -24,7 +26,8 @@
   {
     "title": "The evolution of electricity price on the German day-ahead market before and after the energy switch",
     "authors": "Abdolrahman Khoshrou, Andre B Dorsman, Eric J Pauwels",
-    "journal": "Renewable Energy",
+    "type": "journal",
+    "venue": "Renewable Energy",
     "volume": "134",
     "pages": "1--13",
     "year": "2019",
@@ -35,18 +38,20 @@
   {
     "title": "Short-term scenario-based probabilistic load forecasting: A data-driven approach",
     "authors": "Abdolrahman Khoshrou, Eric J Pauwels",
-    "journal": "Applied Energy",
+    "type": "journal",
+    "venue": "Applied Energy",
     "volume": "238",
     "pages": "1258--1268",
     "year": "2019",
     "publisher": "Elsevier",
-    "doi": "",
-    "abstract": ""
+    "doi": "https://doi.org/10.1016/j.apenergy.2019.01.155",
+    "abstract": "Scenario-based probabilistic forecasting models have been explored extensively in the literature in recent years. The performance of such models evidently depends..."
   },
   {
     "title": "Data-driven pattern identification and outlier detection in time series",
     "authors": "Abdolrahman Khoshrou, Eric J Pauwels",
-    "journal": "",
+    "type": "conference",
+    "venue": "",
     "volume": "",
     "pages": "471--484",
     "year": "2019",
@@ -57,7 +62,8 @@
   {
     "title": "Quantifying volatility reduction in German day-ahead spot market in the period 2006 through 2016",
     "authors": "Abdolrahman Khoshrou, Eric J Pauwels",
-    "journal": "",
+    "type": "conference",
+    "venue": "",
     "volume": "",
     "pages": "1--5",
     "year": "2018",
@@ -68,7 +74,8 @@
   {
     "title": "SVD-based Visualisation and Approximation for Time Series Data in Smart Energy Systems",
     "authors": "Abdolrahman Khoshrou, Andre B Dorsman, Eric J Pauwels",
-    "journal": "",
+    "type": "conference",
+    "venue": "",
     "volume": "",
     "pages": "",
     "year": "2017",
@@ -79,7 +86,8 @@
   {
     "title": "Propagating uncertainty in tree-based load forecasts",
     "authors": "Abdolrahman Khoshrou, Eric J Pauwels",
-    "journal": "",
+    "type": "conference",
+    "venue": "",
     "volume": "",
     "pages": "120--124",
     "year": "2017",
@@ -90,7 +98,8 @@
   {
     "title": "Wide area monitoring, analysis, protection and control in smart grid using synchronized phasor measurements: a review",
     "authors": "Kaveri Bhuyan, Abdolrahman Khoshrou, Eric Pauwels",
-    "journal": "",
+    "type": "journal",
+    "venue": "",
     "volume": "",
     "pages": "",
     "year": "2016",
@@ -101,7 +110,8 @@
   {
     "title": "Adaptive sampling using an unsupervised learning of GMMs applied to a fleet of AUVs with CTD measurements",
     "authors": "Abdolrahman Khoshrou, A Pedro Aguiar, Fernando Lobo Pereira",
-    "journal": "",
+    "type": "conference",
+    "venue": "",
     "volume": "",
     "pages": "321--332",
     "year": "2016",
@@ -112,7 +122,8 @@
   {
     "title": "The influence of the switch from fossil fuels to solar and wind energy on the electricity prices in Germany",
     "authors": "Andre Dorsman, Abdolrahman Khoshrou, Eric J Pauwels",
-    "journal": "",
+    "type": "journal",
+    "venue": "",
     "volume": "",
     "pages": "",
     "year": "2016",
@@ -123,7 +134,8 @@
   {
     "title": "Unsupervised Learning of Gaussian Mixture Models in the Presence of Dynamic Environments: A Multiple-Model Adaptive Algorithm",
     "authors": "Abdolrahman Khoshrou, António Pedro Aguiar",
-    "journal": "",
+    "type": "pre-print",
+    "venue": "",
     "volume": "",
     "pages": "387--396",
     "year": "2015",
@@ -134,18 +146,20 @@
   {
     "title": "Traffic classification and verification using unsupervised learning of Gaussian Mixture Models",
     "authors": "Hassan Alizadeh, Abdolrahman Khoshrou, Andre Zuquete",
-    "journal": "",
+    "type": "workshop",
+    "venue": "",
     "volume": "",
     "pages": "1--6",
     "year": "2015",
     "publisher": "IEEE",
     "doi": "",
-    "abstract": ""
+    "abstract": "This paper presents the use of unsupervised Gaussian Mixture Models (GMMs)..."
   },
   {
     "title": "Real-time unsupervised motion learning for autonomous underwater vehicles using gaussian mixture models",
     "authors": "Abdolrahman Khoshrou",
-    "journal": "",
+    "type": "journal",
+    "venue": "",
     "volume": "",
     "pages": "",
     "year": "2015",
@@ -156,7 +170,8 @@
   {
     "title": "Unsupervised learning of gaussian mixture models in the presence of dynamic environments",
     "authors": "Abdolrahman Khoshrou, A Pedro Aguiar",
-    "journal": "Proc. CONTROLO’14",
+    "type": "conference",
+    "venue": "Proc. CONTROLO’14",
     "volume": "",
     "pages": "387",
     "year": "2014",

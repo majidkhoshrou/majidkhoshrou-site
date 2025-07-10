@@ -13,7 +13,7 @@ fetch('./data/publications.json')
       div.innerHTML = `
         <h3>${pub.title}</h3>
         <p><strong>Authors:</strong> ${pub.authors}</p>
-        <p><strong>Journal:</strong> ${pub.journal || ''}${pub.volume ? `, Vol. ${pub.volume}` : ''}${pub.pages ? `, pp. ${pub.pages}` : ''} (${pub.year})</p>
+        <p><strong>${pub.type.charAt(0).toUpperCase() + pub.type.slice(1)}:</strong> ${pub.venue}${pub.volume ? `, Vol. ${pub.volume}` : ''}${pub.pages ? `, pp. ${pub.pages}` : ''} (${pub.year})</p>
         <p><strong>Publisher:</strong> ${pub.publisher || ''}</p>
         ${pub.doi ? `<p><a href="https://doi.org/${pub.doi}" target="_blank">View DOI</a></p>` : ''}
         <div class="abstract-actions">
