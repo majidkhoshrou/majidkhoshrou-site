@@ -14,14 +14,14 @@
   {
     "title": "Regularisation for PCA-and SVD-type matrix factorisations",
     "authors": "Abdolrahman Khoshrou, Eric J Pauwels",
-    "type": "journal",
+    "type": "arXiv",
     "venue": "arXiv preprint arXiv:2106.12955",
     "volume": "",
     "pages": "",
     "year": "2021",
     "publisher": "",
-    "doi": "",
-    "abstract": ""
+    "doi": "arXiv:2106.12955",
+    "abstract": "Singular Value Decomposition (SVD) and its close relative, Principal Component Analysis (PCA), are well-known linear matrix decomposition techniques that are widely used in applications such as dimension reduction and clustering. However, an important limitation of SVD/PCA is its sensitivity to noise in the input data. In this paper, we take another look at the problem of regularisation and show that different formulations of the minimisation problem lead to qualitatively different solutions."
   },
   {
     "title": "The evolution of electricity price on the German day-ahead market before and after the energy switch",
@@ -32,8 +32,8 @@
     "pages": "1--13",
     "year": "2019",
     "publisher": "Pergamon",
-    "doi": "",
-    "abstract": ""
+    "doi": "https://doi.org/10.1016/j.renene.2018.10.101",
+    "abstract": "Germany is a forerunner in developing renewable energies. It is therefore of considerable interest to investigate the impact of switch to renewables on the market during transition era. The aim of this study is in two parts: 1) Investigating the volatility; and 2) Conducting a descriptive study on the evolution of daily profiles and emergence of non-positive prices. In terms of volatility quantification, the following characteristics of EPEX prices should be recognized: 1) Covering the whole year (24/7); 2) Taking non-positive values; 3) Depending on calendar information; and 4) Changing according to demand and supply availability. We, therefore, propose a robust and generic approach to account for diurnal or seasonal patterns of human activities in volatility analysis. An important distinction of our work is in introducing an alternative representation (as matrices) for quasi-periodic price data. We, herein, propose a new notion of volatility using a matrix decomposition technique, namely the singular value decomposition (SVD). Our observations indicate price volatility reduction, in the recent years. The second part of this article provides evidences of effect of renewables on daily price profiles – emergence of non-positive prices and also shifts of peak price values to hours where solar is less available."
   },
   {
     "title": "Short-term scenario-based probabilistic load forecasting: A data-driven approach",
@@ -45,7 +45,7 @@
     "year": "2019",
     "publisher": "Elsevier",
     "doi": "https://doi.org/10.1016/j.apenergy.2019.01.155",
-    "abstract": "Scenario-based probabilistic forecasting models have been explored extensively in the literature in recent years. The performance of such models evidently depends..."
+    "abstract": "Scenario-based probabilistic forecasting models have been explored extensively in the literature in recent years. The performance of such models evidently depends to a large extent on how different input (temperature) scenarios are being generated. This paper proposes a generic framework for probabilistic load forecasting using an ensemble of regression trees. A major distinction of the current work is in using matrices as an alternative representation for quasi-periodic time series data. The singular value decomposition (SVD) technique is then used herein to generate temperature scenarios in a robust and timely manner. The strength of our proposed method lies in its simplicity and robustness, in terms of the training window size, with no need for subsetting or thresholding to generate temperature scenarios. Furthermore, to systematically account for the non-linear interactions between different variables, a new set of features is defined: the first and second derivatives of the predictors. The empirical case studies performed on the data from the load forecasting track of the Global Energy Forecasting Competition 2014 (GEFCom2014-L) show that the proposed method outperforms the top two scenario-based models with a similar set-up."
   },
   {
     "title": "Data-driven pattern identification and outlier detection in time series",
@@ -56,49 +56,49 @@
     "pages": "471--484",
     "year": "2019",
     "publisher": "Springer International Publishing",
-    "doi": "",
-    "abstract": ""
+    "doi": "https://doi.org/10.1007/978-3-030-01174-1_35",
+    "abstract": "We address the problem of data-driven pattern identification and outlier detection in time series. To this end, we use singular value decomposition (SVD) which is a well-known technique to compute a low-rank approximation for an arbitrary matrix. By recasting the time series as a matrix it becomes possible to use SVD to highlight the underlying patterns and periodicities. This is done without the need for specifying user-defined parameters. From a data mining perspective, this opens up new ways of analyzing time series in a data-driven, bottom-up fashion. However, in order to get correct results, it is important to understand how the SVD-spectrum of a time series is influenced by various characteristics of the underlying signal and noise. In this paper, we have extended the work in earlier papers by initiating a more systematic analysis of these effects. We then illustrate our findings on some real-life data."
   },
   {
     "title": "Quantifying volatility reduction in German day-ahead spot market in the period 2006 through 2016",
     "authors": "Abdolrahman Khoshrou, Eric J Pauwels",
     "type": "conference",
-    "venue": "",
+    "venue": "IEEE General Meeting Power& Energy Society",
     "volume": "",
     "pages": "1--5",
     "year": "2018",
     "publisher": "IEEE",
-    "doi": "",
-    "abstract": ""
+    "doi": "0.1109/PESGM.2018.8586020",
+    "abstract": "In Europe, Germany is taking the lead in the switch from the conventional to renewable energy. This poses new challenges as wind and solar energy are fundamentally intermittent, weather-dependent and less predictable. It is therefore of considerable interest to investigate the evolution of price volatility in this post-transition era. There are a number of reasons, however, that makes the practical studies difficult. For instance, EPEX prices can be zero or negative. Consequently, the standard approach in financial time series analysis to switch to logarithmic measures is inapplicable. Furthermore, in contrast to the stock market prices which are only available for trading days, EPEX prices cover the whole year, including weekends and holidays. Accordingly, there is a lot of underlying variability in the data which has nothing to do with volatility, but simply reflects diurnal activity patterns. An important distinction of the present work is the application of matrix decomposition techniques, namely the singular value decomposition (SVD), for defining an alternative notion of volatility. This approach is systematically more robust toward outliers and also the diurnal patterns. Our observations show that the day-ahead market is becoming less volatile in recent years."
   },
   {
     "title": "SVD-based Visualisation and Approximation for Time Series Data in Smart Energy Systems",
     "authors": "Abdolrahman Khoshrou, Andre B Dorsman, Eric J Pauwels",
     "type": "conference",
-    "venue": "",
+    "venue": "IEEE PES Innovative Smart Grid Technologies Conference Europe (ISGT Europe)",
     "volume": "",
     "pages": "",
     "year": "2017",
     "publisher": "IEEE",
-    "doi": "",
-    "abstract": ""
+    "doi": "10.1109/ISGTEurope.2017.8260303",
+    "abstract": "Many time series in smart energy systems exhibit two different timescales. On the one hand there are patterns linked to daily human activities. On the other hand, there are relatively slow trends linked to seasonal variations. In this paper we interpret these time series as matrices, to be visualized as images. This approach has two advantages: First of all, interpreting such time series as images enables one to visually integrate across the image and makes it therefore easier to spot subtle or faint features. Second, the matrix interpretation also grants elucidation of the underlying structure using well-established matrix decomposition methods. We will illustrate both these aspects for data obtained from the German day-ahead market."
   },
   {
     "title": "Propagating uncertainty in tree-based load forecasts",
     "authors": "Abdolrahman Khoshrou, Eric J Pauwels",
     "type": "conference",
-    "venue": "",
+    "venue": "International Conference on Electrical and Electronics Engineering, ELECO",
     "volume": "",
     "pages": "120--124",
     "year": "2017",
     "publisher": "IEEE",
     "doi": "",
-    "abstract": ""
+    "abstract": "This paper discusses the use of ensembles of regression trees as a straightforward but versatile methodology to generate short term (day-ahead) load forecasts for real data from the Global Energy Forecasting Competition 2014. Since temperature is a strong predictor of load, we investigate how forecast uncertainty in temperature can affect the performance of the prediction model. To this end, a singular value decomposition (SVD) based approach is harnessed to simulate noisy but realistic temperature profiles. Our results show that as long as uncertainty is not exceedingly large, it is worthwhile to include temperature forecasts as predictors"
   },
   {
     "title": "Wide area monitoring, analysis, protection and control in smart grid using synchronized phasor measurements: a review",
     "authors": "Kaveri Bhuyan, Abdolrahman Khoshrou, Eric Pauwels",
-    "type": "journal",
+    "type": "poster",
     "venue": "",
     "volume": "",
     "pages": "",
@@ -111,13 +111,13 @@
     "title": "Adaptive sampling using an unsupervised learning of GMMs applied to a fleet of AUVs with CTD measurements",
     "authors": "Abdolrahman Khoshrou, A Pedro Aguiar, Fernando Lobo Pereira",
     "type": "conference",
-    "venue": "",
+    "venue": "Advances in Intelligent Systems and Computing ",
     "volume": "",
     "pages": "321--332",
     "year": "2016",
     "publisher": "Springer International Publishing",
-    "doi": "",
-    "abstract": ""
+    "doi": "https://doi.org/10.1007/978-3-319-27146-0_25",
+    "abstract": "This paper addresses the problem of real-time adaptive sampling using a coordinated fleet of Autonomous Underwater Vehicles (AUVs). The system setup consists of one leader AUV and one or more follower AUVs, all equipped with conductivity, temperature and depth (CTD) sensor devices and capable of running in real-time an on-line unsupervised learning computer algorithm that uses and updates Gaussian Mixture Models (GMMs) to model the CTD data that is being acquired in real-time. The path to be traced by the leader is predefined. The followers path will depend on the CTD data. More precisely, during each resurfacing of the AUVs (and this has to be done in a coordinated fashion), every follower AUV receives the GMM hypothesis of the leader and computes the variational distance error between its own GMM and the received one. This error, that provides a notion of how different is the CTD data of each follower from the leader, is used to reconfigure the formation by scaling the distance between the AUVs in the formation (making a zoom-in and zoom-out), in order to improve the efficiency of the CTD data acquisition in a given region. The simulation results show the feasibility of the proposed strategy in uniform and more complex environments."
   },
   {
     "title": "The influence of the switch from fossil fuels to solar and wind energy on the electricity prices in Germany",
@@ -129,7 +129,7 @@
     "year": "2016",
     "publisher": "",
     "doi": "",
-    "abstract": ""
+    "abstract": "Germany is actively pursuing a switch from fossil fuel to renewables, the so-called Energiewende (energy transition). Due to the fact that the supply of wind and solar energy is less predictable than the supply of fossil fuel, stabilizing the grid has become more challenging. On sunny and windy days the supply in Germany substantially exceeds demand, and the surplus needs to be exported to the neighboring countries. In this study we analyze data from the German day-ahead market in the period 2009 through 2015 and show that the realized day-ahead price experiences significant downward pressure from high predictions for the day-ahead solar and wind supply. This conclusion is based on a regression analysis using the singular value decomposition (SVD) method. SVD decomposes the time series as a sum of data-determined profiles. During the observed period the market share of solar and wind energy in the total energy supply increased in Germany. The larger the market share, the more impact solar and wind energy have."
   },
   {
     "title": "Unsupervised Learning of Gaussian Mixture Models in the Presence of Dynamic Environments: A Multiple-Model Adaptive Algorithm",
@@ -147,13 +147,13 @@
     "title": "Traffic classification and verification using unsupervised learning of Gaussian Mixture Models",
     "authors": "Hassan Alizadeh, Abdolrahman Khoshrou, Andre Zuquete",
     "type": "workshop",
-    "venue": "",
+    "venue": "2015 IEEE International Workshop on Measurements & Networking (M&N)",
     "volume": "",
     "pages": "1--6",
     "year": "2015",
     "publisher": "IEEE",
-    "doi": "",
-    "abstract": "This paper presents the use of unsupervised Gaussian Mixture Models (GMMs)..."
+    "doi": "10.1109/IWMN.2015.7322980",
+    "abstract": "This paper presents the use of unsupervised Gaussian Mixture Models (GMMs) for the production of per-application models using their flows' statistics in order to be exploited in two different scenarios: (i) traffic classification, where the goal is to classify traffic flows by application (ii) traffic verification or traffic anomaly detection, where the aim is to confirm whether or not traffic flow generated by the claimed application conforms to its expected model. Unlike the first scenario, the second one is a new research path that has received less attention in the scope of Intrusion Detection System (IDS) research. The term “unsupervised” refers to the method ability to select the optimal number of components automatically without the need of careful initialization. Experiments are carried out using a public dataset collected from a real network. Favorable results indicate the effectiveness of unsupervised GMMs"
   },
   {
     "title": "Real-time unsupervised motion learning for autonomous underwater vehicles using gaussian mixture models",
@@ -165,18 +165,18 @@
     "year": "2015",
     "publisher": "Universidade do Porto (Portugal)",
     "doi": "",
-    "abstract": ""
+    "abstract": "Over the last decade, there has been a flurry of activity in the development of autonomous marine robotic vehicles to improve the means available for ocean exploration and exploitation. A particular scenario where Autonomous Underwater Vehicles (AUVs) can play an important role is in the automatic acquisition of marine environmental data. In this case, one or more AUVs acting in cooperation are programmed to survey a given region. To this end, an important problem that has to be addressed is the sampling motion control strategy, that is, the high-level software algorithm that is implemented on a computer system at the AUV, that decides based on the onboard sensors where (and in some cases when) to acquire environmental data. Motivated by the above, this thesis proposes a solution to solve the problem of real-time adaptive sampling using a coordinated fleet of AUVs. In the first part of the thesis, we address the online unsupervised learning problem of Gaussian mixture models (GMMs) in the presence of uncertain dynamic environments. In particular, we assume that the number of Gaussian components (clusters) is unknown and can change over time. We propose a multi-hypothesis adaptive algorithm that continuously updates the number of components and estimates the model parameters as the measurements (sample data) are being acquired. This is done by incrementally maximizing the likelihood probability associated to the estimated parameters and keeping/creating/removing in parallel a number of hypothesis models that are ranked according to the minimum description length (MDL), a well-known concept in information theory. The proposed algorithm has the additional feature that it relaxes “the sufficiently large data set” restriction by not requiring an initial batch of data. Simulation results illustrate the performance of the proposed algorithm. In the second part of the thesis, we use the proposed unsupervised algorithm to develop an adaptive sampling strategy to obtain relevant conductivity, temperature and depth (CTD) information of a given area using a coordinated fleet of AUVs. In the proposed setup, a leader AUV is tasked to acquire CTD data by running a set of user-defined mission instructions like for example following a desired path profile. The rest of the fleet (the follower AUVs) will follow the leader closely with a desired formation that will adaptively change according to the CTD data that they are acquiring. More precisely, each AUV is in charge of running in real-time the proposed unsupervised learning algorithm for GMMs that is fed by the CTD data. At each time that the vehicles resurface (and this is done in a coordinated fashion), the leader AUV broadcasts its currently estimated parameters of the GMM, and the followers based on this and their estimated GMM compute the variational distance error between these GMMs. This error, which provides a notion of how different is, from the leader, the CTD measurements that each follower is acquiring, is then used to update the next formation configuration, which typically scales the distance between the AUVs in the formation (making a zoom-in and zoom-out), in order to improve the efficiency of data acquisition in a given region. The simulation results show the feasibility and accuracy of the motion learning strategies in many uniform and complex environments."
   },
   {
     "title": "Unsupervised learning of gaussian mixture models in the presence of dynamic environments",
     "authors": "Abdolrahman Khoshrou, A Pedro Aguiar",
     "type": "conference",
-    "venue": "Proc. CONTROLO’14",
+    "venue": "Proceedings of the 11th Portuguese Conference on Automatic Control",
     "volume": "",
     "pages": "387",
     "year": "2014",
     "publisher": "",
     "doi": "",
-    "abstract": ""
+    "abstract": "This paper tackles the online unsupervised learning problem of Gaussian mixture models in the presence of uncertain dynamic environments. In particular, we assume that the number of Gaussian components (clusters) is unknown and can change over time. We propose a multi-hypothesis adaptive algorithm that continuously updates the number of components and estimates the model parameters as the measurements (sample data) are being acquired. This is done by incrementally maximizing the likelihood probability associated with the estimated parameters and keeping/creating/removing in parallel a number of hypothesis models that are ranked according to the minimum description length (MDL), a well-known concept in information theory. The proposed algorithm has the additional feature that it relaxes “the sufficiently large data set” restriction by not requiring in fact any initial batch of data. Simulation results illustrate the performance of the proposed algorithm."
   }
 ]

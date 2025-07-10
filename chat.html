@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <meta name="description" content="Chat with Majid Khoshrou's personal assistant – learn about his work, publications, and expertise." />
+  <meta name="description" content="Chat with Majid Khoshrou's personal assistant – learn about his work and publications." />
   <meta http-equiv="pragma" content="no-cache"/>
   <title>Chat – Majid Khoshrou</title>
   <link rel="stylesheet" href="./css/style.css"/>
@@ -32,15 +32,14 @@
 
   <main>
     <div class="chat-container">
-      <h2>Ask Me Anything</h2>
-      <div class="chat-window">
-        <p><em>Chat functionality coming soon. You will be able to ask questions about my work, publications, and expertise here.</em></p>
+      <h2>Ask My AI Assistant</h2>
+      <div id="chat-window" class="chat-window">
+        <div class="message assistant">Hi! I’m Majid’s assistant. Ask me anything about his work, publications, and expertise.</div>
       </div>
       <div class="chat-input">
-        <input type="text" placeholder="Type your question..." disabled>
-        <button disabled>Send</button>
+        <input type="text" id="user-input" placeholder="Type your question..." />
+        <button id="send-button">Send</button>
       </div>
-      <div class="coming-soon">AI Assistant coming soon</div>
     </div>
   </main>
 
@@ -52,5 +51,7 @@
       <a href="https://github.com/majidkhoshrou" target="_blank">GitHub</a>
     </div>
   </footer>
+
+  <script src="./js/chat.js"></script>
 </body>
 </html>
