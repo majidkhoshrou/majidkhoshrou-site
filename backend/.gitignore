@@ -1,0 +1,16 @@
+
+# Ignore Python virtual environment created by uv
+.venv/
+
+# Ignore Python cache files
+__pycache__/
+*.pyc
+
+# Ignore environment variables file
+.env
+
+# Ignore VS Code settings in this folder
+.vscode/
+
+# Ignore temporary files or logs (optional)
+*.log
