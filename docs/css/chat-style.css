@@ -24,10 +24,12 @@
 }
 
 .message {
-  padding: 10px;
+  padding: 10px 14px;
   margin: 5px;
-  border-radius: 6px;
-  max-width: 80%;
+  border-radius: 16px;
+  max-width: 75%;
+  word-wrap: break-word;
+  font-size: 0.95em;
 }
 
 .message.user {
@@ -37,7 +39,7 @@
 }
 
 .message.assistant {
-  background-color: #eee;
+  background-color: #e0e0e0;
   color: #333;
   align-self: flex-start;
 }
