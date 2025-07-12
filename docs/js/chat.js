@@ -13,10 +13,19 @@ function sendMessage() {
   appendMessage('user', text);
   input.value = '';
 
-  // Simulate a response
-  setTimeout(() => {
-    appendMessage('assistant', 'This is a placeholder response. Later, I will be powered by an AI model.');
-  }, 500);
+  fetch('http://127.0.0.1:5000/api/chat', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ message: text })
+  })
+  .then(response => response.json())
+  .then(data => {
+    appendMessage('assistant', data.reply);
+  })
+  .catch(error => {
+    console.error('Error:', error);
+    appendMessage('assistant', 'Sorry, there was an error processing your request.');
+  });
 }
 
 function appendMessage(sender, text) {
