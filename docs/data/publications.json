@@ -1,4 +1,16 @@
 [
+    {
+    "title": "A novel VOC mixtures classification methods based on GBLinear and TabNet and Informative Feature Selection",
+    "authors": "Hamed Karami, Abdolrahman Khoshrou",
+    "type": "journal",
+    "venue": "Talanta",
+    "volume": "297",
+    "pages": "",
+    "year": "2025",
+    "publisher": "Elsevier",
+    "doi": "https://doi.org/10.1016/j.talanta.2025.128554",
+    "abstract": "The GBLinear and TabNet algorithms have been incorporated with essential feature selection techniques to create a new method of classifying essential oils using e-nose systems. Essential oils, known for their complex chemical compositions and a wide variety of applications in industries such as food, cosmetics, and pharmaceuticals, pose some challenges for e-nose systems due to the high variability and subtle differences in volatile compounds (VOCs). This novel approach, used for the first time for the analysis of electronic nose data, integrates efficient machine-learning models with advanced feature selection techniques and aims to increase the accuracy and interpretability of essential oil classification. This study highlights the potential of integrating interpretable machine learning models with deep learning-based architectures to address challenges in the analysis of complex gas mixtures. Not only was the classification accuracy increased by these methods, but these methods could be used in the future as promising models for analyzing complex mixtures."
+  },
   {
     "title": "Singular value decomposition for time series analysis with applications to smart energy systems",
     "authors": "Abdolrahman Khoshrou",
@@ -51,10 +63,10 @@
     "title": "Data-driven pattern identification and outlier detection in time series",
     "authors": "Abdolrahman Khoshrou, Eric J Pauwels",
     "type": "conference",
-    "venue": "",
-    "volume": "",
+    "venue": "Advances in Intelligent Systems and Computing",
+    "volume": "858",
     "pages": "471--484",
-    "year": "2019",
+    "year": "2018",
     "publisher": "Springer International Publishing",
     "doi": "https://doi.org/10.1007/978-3-030-01174-1_35",
     "abstract": "We address the problem of data-driven pattern identification and outlier detection in time series. To this end, we use singular value decomposition (SVD) which is a well-known technique to compute a low-rank approximation for an arbitrary matrix. By recasting the time series as a matrix it becomes possible to use SVD to highlight the underlying patterns and periodicities. This is done without the need for specifying user-defined parameters. From a data mining perspective, this opens up new ways of analyzing time series in a data-driven, bottom-up fashion. However, in order to get correct results, it is important to understand how the SVD-spectrum of a time series is influenced by various characteristics of the underlying signal and noise. In this paper, we have extended the work in earlier papers by initiating a more systematic analysis of these effects. We then illustrate our findings on some real-life data."
@@ -68,7 +80,7 @@
     "pages": "1--5",
     "year": "2018",
     "publisher": "IEEE",
-    "doi": "0.1109/PESGM.2018.8586020",
+    "doi": "10.1109/PESGM.2018.8586020",
     "abstract": "In Europe, Germany is taking the lead in the switch from the conventional to renewable energy. This poses new challenges as wind and solar energy are fundamentally intermittent, weather-dependent and less predictable. It is therefore of considerable interest to investigate the evolution of price volatility in this post-transition era. There are a number of reasons, however, that makes the practical studies difficult. For instance, EPEX prices can be zero or negative. Consequently, the standard approach in financial time series analysis to switch to logarithmic measures is inapplicable. Furthermore, in contrast to the stock market prices which are only available for trading days, EPEX prices cover the whole year, including weekends and holidays. Accordingly, there is a lot of underlying variability in the data which has nothing to do with volatility, but simply reflects diurnal activity patterns. An important distinction of the present work is the application of matrix decomposition techniques, namely the singular value decomposition (SVD), for defining an alternative notion of volatility. This approach is systematically more robust toward outliers and also the diurnal patterns. Our observations show that the day-ahead market is becoming less volatile in recent years."
   },
   {
@@ -114,7 +126,7 @@
     "venue": "Advances in Intelligent Systems and Computing ",
     "volume": "",
     "pages": "321--332",
-    "year": "2016",
+    "year": "2015",
     "publisher": "Springer International Publishing",
     "doi": "https://doi.org/10.1007/978-3-319-27146-0_25",
     "abstract": "This paper addresses the problem of real-time adaptive sampling using a coordinated fleet of Autonomous Underwater Vehicles (AUVs). The system setup consists of one leader AUV and one or more follower AUVs, all equipped with conductivity, temperature and depth (CTD) sensor devices and capable of running in real-time an on-line unsupervised learning computer algorithm that uses and updates Gaussian Mixture Models (GMMs) to model the CTD data that is being acquired in real-time. The path to be traced by the leader is predefined. The followers path will depend on the CTD data. More precisely, during each resurfacing of the AUVs (and this has to be done in a coordinated fashion), every follower AUV receives the GMM hypothesis of the leader and computes the variational distance error between its own GMM and the received one. This error, that provides a notion of how different is the CTD data of each follower from the leader, is used to reconfigure the formation by scaling the distance between the AUVs in the formation (making a zoom-in and zoom-out), in order to improve the efficiency of the CTD data acquisition in a given region. The simulation results show the feasibility of the proposed strategy in uniform and more complex environments."
@@ -122,7 +134,7 @@
   {
     "title": "The influence of the switch from fossil fuels to solar and wind energy on the electricity prices in Germany",
     "authors": "Andre Dorsman, Abdolrahman Khoshrou, Eric J Pauwels",
-    "type": "journal",
+    "type": "conference",
     "venue": "",
     "volume": "",
     "pages": "",
@@ -158,13 +170,13 @@
   {
     "title": "Real-time unsupervised motion learning for autonomous underwater vehicles using gaussian mixture models",
     "authors": "Abdolrahman Khoshrou",
-    "type": "journal",
+    "type": "Dissertations & Theses",
     "venue": "",
     "volume": "",
     "pages": "",
     "year": "2015",
     "publisher": "Universidade do Porto (Portugal)",
-    "doi": "",
+    "doi": "https://core.ac.uk/download/pdf/143403205.pdf",
     "abstract": "Over the last decade, there has been a flurry of activity in the development of autonomous marine robotic vehicles to improve the means available for ocean exploration and exploitation. A particular scenario where Autonomous Underwater Vehicles (AUVs) can play an important role is in the automatic acquisition of marine environmental data. In this case, one or more AUVs acting in cooperation are programmed to survey a given region. To this end, an important problem that has to be addressed is the sampling motion control strategy, that is, the high-level software algorithm that is implemented on a computer system at the AUV, that decides based on the onboard sensors where (and in some cases when) to acquire environmental data. Motivated by the above, this thesis proposes a solution to solve the problem of real-time adaptive sampling using a coordinated fleet of AUVs. In the first part of the thesis, we address the online unsupervised learning problem of Gaussian mixture models (GMMs) in the presence of uncertain dynamic environments. In particular, we assume that the number of Gaussian components (clusters) is unknown and can change over time. We propose a multi-hypothesis adaptive algorithm that continuously updates the number of components and estimates the model parameters as the measurements (sample data) are being acquired. This is done by incrementally maximizing the likelihood probability associated to the estimated parameters and keeping/creating/removing in parallel a number of hypothesis models that are ranked according to the minimum description length (MDL), a well-known concept in information theory. The proposed algorithm has the additional feature that it relaxes “the sufficiently large data set” restriction by not requiring an initial batch of data. Simulation results illustrate the performance of the proposed algorithm. In the second part of the thesis, we use the proposed unsupervised algorithm to develop an adaptive sampling strategy to obtain relevant conductivity, temperature and depth (CTD) information of a given area using a coordinated fleet of AUVs. In the proposed setup, a leader AUV is tasked to acquire CTD data by running a set of user-defined mission instructions like for example following a desired path profile. The rest of the fleet (the follower AUVs) will follow the leader closely with a desired formation that will adaptively change according to the CTD data that they are acquiring. More precisely, each AUV is in charge of running in real-time the proposed unsupervised learning algorithm for GMMs that is fed by the CTD data. At each time that the vehicles resurface (and this is done in a coordinated fashion), the leader AUV broadcasts its currently estimated parameters of the GMM, and the followers based on this and their estimated GMM compute the variational distance error between these GMMs. This error, which provides a notion of how different is, from the leader, the CTD measurements that each follower is acquiring, is then used to update the next formation configuration, which typically scales the distance between the AUVs in the formation (making a zoom-in and zoom-out), in order to improve the efficiency of data acquisition in a given region. The simulation results show the feasibility and accuracy of the motion learning strategies in many uniform and complex environments."
   },
   {
@@ -173,10 +185,10 @@
     "type": "conference",
     "venue": "Proceedings of the 11th Portuguese Conference on Automatic Control",
     "volume": "",
-    "pages": "387",
+    "pages": "387--396",
     "year": "2014",
     "publisher": "",
-    "doi": "",
+    "doi": "https://doi.org/10.1007/978-3-319-10380-8_37",
     "abstract": "This paper tackles the online unsupervised learning problem of Gaussian mixture models in the presence of uncertain dynamic environments. In particular, we assume that the number of Gaussian components (clusters) is unknown and can change over time. We propose a multi-hypothesis adaptive algorithm that continuously updates the number of components and estimates the model parameters as the measurements (sample data) are being acquired. This is done by incrementally maximizing the likelihood probability associated with the estimated parameters and keeping/creating/removing in parallel a number of hypothesis models that are ranked according to the minimum description length (MDL), a well-known concept in information theory. The proposed algorithm has the additional feature that it relaxes “the sufficiently large data set” restriction by not requiring in fact any initial batch of data. Simulation results illustrate the performance of the proposed algorithm."
   }
 ]
