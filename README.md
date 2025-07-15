@@ -114,6 +114,45 @@ Deploy Flask API:
 - [ ] PDF parsing and chunking
 - [ ] Embedding content for vector search
 - [ ] Full retrieval-augmented chatbot
++------------------+
+|  All your assets |
+|  HTML, PDFs, MP4 |
+|  JPG, MP3, etc.  |
++--------+---------+
+         |
+         v
++------------------+
+|  Extraction Layer|
+| - HTML text      |
+| - PDF text       |
+| - Audio transcript (ASR)|
+| - Video transcript (ASR)|
+| - Image captions |
++--------+---------+
+         |
+         v
++------------------+
+|  Chunking Layer  |
+| (Split into ~500 token chunks)
++--------+---------+
+         |
+         v
++------------------+
+| Embedding Layer  |
+| (e.g., text-embedding-3-large)
++--------+---------+
+         |
+         v
++------------------+
+| Vector Store     |
+| (FAISS, Chroma, etc.)
++--------+---------+
+         |
+         v
++------------------+
+| Retrieval + GPT  |
+| (RAG pipeline)   |
++------------------+
 
 ---
 
