@@ -106,7 +106,7 @@ Deploy Flask API:
 ---
 
 ## 🛣️ Roadmap
-
+"""
 - [x] Frontend static site complete
 - [x] Dynamic publications loading
 - [x] Initial chat interface connected to OpenAI
@@ -153,7 +153,7 @@ Deploy Flask API:
 | Retrieval + GPT  |
 | (RAG pipeline)   |
 +------------------+
-
+"""
 ---
 
 ## 📄 License
