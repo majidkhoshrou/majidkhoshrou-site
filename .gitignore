@@ -1,0 +1,17 @@
+# Ignore test artifacts
+tests/__pycache__/
+tests/*.pdf
+tests/*.html
+tests/*.zip
+
+# Ignore generated output data
+backend/data/
+
+# Optional: global Python artifacts (for all dirs)
+__pycache__/
+*.py[cod]
+.env
+*.log
+
+# Ignore VS Code globally if needed
+.vscode/
