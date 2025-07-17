@@ -157,27 +157,7 @@ def process_pdf_file(path: Path, chunk_size: int = 500) -> List[Dict[str, str]]:
         print(f"❌ Error processing PDF file '{path.name}': {e}")
         traceback.print_exc()
         return []
-    """Processes a PDF file, including internal .pdf links, and returns chunked text."""
-    try:
-        doc = fitz.open(str(path))
-        main_text = "".join(page.get_text() for page in doc)
-        linked_text = extract_first_level_pdf_links(doc, path)
-        full_text = clean_text(main_text + " " + linked_text)
-
-        return [
-            {
-                "id": f"pdf_{path.name}_{idx}",
-                "source": path.name,
-                "text": chunk
-            }
-            for idx, chunk in enumerate(split_text(full_text))
-        ]
-
-    except Exception as e:
-        print(f"❌ Error processing PDF file '{path.name}': {e}")
-        traceback.print_exc()
-        return []
-
+  
 
 def save_chunks(chunks: List[Dict[str, str]], output_path: Path) -> None:
     """Saves chunk data as JSON to the given output path."""
