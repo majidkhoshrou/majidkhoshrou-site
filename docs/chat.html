@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <meta name="description" content="Chat with Majid Khoshrou's personal assistant – learn about his work and publications." />
+  <meta name="description" content="Chat with Mr. M – Majid Khoshrou's personal AI assistant." />
   <meta http-equiv="pragma" content="no-cache"/>
   <title>Chat – Majid Khoshrou</title>
   <link rel="stylesheet" href="./css/style.css"/>
@@ -32,13 +32,29 @@
 
   <main>
     <div class="chat-container">
-      <h2>Ask My AI Assistant</h2>
-      <div id="chat-window" class="chat-window">
-        <div class="message assistant">Hi! I’m Majid’s assistant. Ask me anything about his work, publications, and expertise.</div>
+      <h2>Talk to Mr. M — Your AI Assistant</h2>
+
+      <!-- Mr. M intro block -->
+      <div class="assistant-intro">
+        <img src="./images/ai-assistant.png" alt="Mr. M Avatar" class="assistant-avatar">
+        <p><strong>Mr. M</strong> is here to help you learn more about Majid Khoshrou’s background, projects, and research.</p>
       </div>
+
+      <!-- Chat messages go here -->
+      <div id="chat-window" class="chat-window">
+        <div class="message-row assistant">
+          <img src="./images/ai-assistant.png" alt="Assistant Avatar" class="avatar">
+          <div class="message assistant">
+            Hello! I’m <strong>Mr. M</strong>, Majid’s professional AI assistant.<br>
+            Ask me anything about his background, work, research, or publications.
+          </div>
+        </div>
+      </div>
+
+      <!-- Chat input -->
       <div class="chat-input">
-        <input type="text" id="user-input" placeholder="Type your question..." />
-        <button id="send-button">Send</button>
+        <input type="text" id="user-input" placeholder="Type your question..." aria-label="Chat input field" />
+        <button id="send-button" aria-label="Send message">Send</button>
       </div>
     </div>
   </main>

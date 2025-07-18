@@ -1,32 +1,44 @@
-import os
 import json
 import faiss
 import numpy as np
+from pathlib import Path
+
+# Paths
+project_root = Path(__file__).resolve().parent
+data_dir = project_root / "data"
+embedding_path = data_dir / "knowledge_embeddings.json"
+index_path = data_dir / "faiss.index"
+metadata_path = data_dir / "faiss_metadata.json"
 
 # Load embeddings
-data_path = os.path.join(os.path.dirname(__file__), "data/embeddings.json")
-with open(data_path, "r") as f:
-    data = json.load(f)
+with embedding_path.open("r", encoding="utf-8") as f:
+    records = json.load(f)
 
-# Extract embedding vectors and metadata
-vectors = [d["embedding"] for d in data]
-metadata = [d["metadata"] for d in data]
+# Prepare vectors and metadata
+vectors = []
+metadata = []
 
-# Convert to numpy array
+for r in records:
+    vectors.append(r["embedding"])
+    metadata.append({
+        "id": r["id"],
+        "source": r["source"],
+        "text": r["text"]
+    })
+
+# Convert to float32 NumPy array
 vectors_np = np.array(vectors).astype("float32")
 
-# Build FAISS index
+# Create FAISS index
 dimension = vectors_np.shape[1]
 index = faiss.IndexFlatL2(dimension)
 index.add(vectors_np)
 
-print("✅ FAISS index built. Total vectors:", index.ntotal)
+# Save
+faiss.write_index(index, str(index_path))
+with metadata_path.open("w", encoding="utf-8") as f:
+    json.dump(metadata, f, ensure_ascii=False, indent=2)
 
-# Save index
-faiss.write_index(index, "data/faiss.index")
-
-# Save metadata separately
-with open("data/faiss_metadata.json", "w") as f:
-    json.dump(metadata, f)
-
-print("✅ Index and metadata saved.")
+print(f"✅ FAISS index saved to: {index_path.name}")
+print(f"🧠 Metadata saved to: {metadata_path.name}")
+print(f"📦 Total vectors: {index.ntotal}")

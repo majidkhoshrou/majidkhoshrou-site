@@ -1,65 +1,55 @@
-
 import os
 import json
-import logging
+import faiss
+import numpy as np
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 from openai import OpenAI
 from dotenv import load_dotenv
-from fuzzywuzzy import fuzz
+from pathlib import Path
+from typing import List, Dict
 
+# ------------------------------
+# 🔐 Load environment and OpenAI
+# ------------------------------
+load_dotenv()
+client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
-# Force dotenv to load from the directory containing this script
-dotenv_path = os.path.join(os.path.dirname(__file__), ".env")
-load_dotenv(dotenv_path)
-
+# ------------------------------
+# ⚙️ Flask + CORS setup
+# ------------------------------
 app = Flask(__name__)
 CORS(app)
 
+# ------------------------------
+# 📂 Load FAISS index & metadata
+# ------------------------------
+data_dir = Path(__file__).resolve().parent / "data"
+faiss_index_path = data_dir / "faiss.index"
+faiss_metadata_path = data_dir / "faiss_metadata.json"
 
-# Initialize OpenAI client
-client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
+index = faiss.read_index(str(faiss_index_path))
+with faiss_metadata_path.open("r", encoding="utf-8") as f:
+    metadata = json.load(f)
 
-backend_data_path = os.path.join(os.path.dirname(__file__), "data/publications.json")
-# Load publications.json when the app starts
-with open(backend_data_path, "r") as f:
-    publications = json.load(f)
+print(f"✅ FAISS index loaded with {index.ntotal} vectors")
 
-# def find_relevant_publications(query, max_results=3):
-#     results = []
-#     query_words = set(query.lower().split())
+# ------------------------------
+# 🔍 Semantic search
+# ------------------------------
+def find_similar_chunks(query: str, top_k: int = 5) -> List[Dict]:
+    """Embed a query and return top_k most relevant chunks."""
+    response = client.embeddings.create(
+        model="text-embedding-3-small",
+        input=query
+    )
+    query_vector = np.array(response.data[0].embedding, dtype="float32").reshape(1, -1)
+    distances, indices = index.search(query_vector, top_k)
+    return [metadata[i] for i in indices[0] if i < len(metadata)]
 
-#     for pub in publications:
-#         title_words = set(pub["title"].lower().split())
-#         abstract_words = set(pub["abstract"].lower().split())
-
-#         # Count how many words overlap
-#         title_matches = len(query_words & title_words)
-#         abstract_matches = len(query_words & abstract_words)
-
-#         if title_matches + abstract_matches > 0:
-#             results.append((title_matches + abstract_matches, pub))
-
-#     # Sort by most matches
-#     results.sort(reverse=True, key=lambda x: x[0])
-
-#     # Return only the publications (not the match counts)
-#     return [r[1] for r in results[:max_results]]
-
-def find_relevant_publications(query, max_results=3):
-    """
-    Finds publications whose titles or abstracts are most similar to the query,
-    using fuzzy string matching.
-    """
-    results = []
-    for pub in publications:
-        title_score = fuzz.partial_ratio(query.lower(), pub["title"].lower())
-        abstract_score = fuzz.partial_ratio(query.lower(), pub["abstract"].lower())
-        combined_score = (title_score + abstract_score) / 2
-        results.append((combined_score, pub))
-    results.sort(reverse=True, key=lambda x: x[0])
-    return [r[1] for r in results[:max_results]]
-
+# ------------------------------
+# 🤖 Chat endpoint (Mr. M)
+# ------------------------------
 @app.route("/api/chat", methods=["POST"])
 def chat():
     data = request.get_json()
@@ -69,47 +59,46 @@ def chat():
         return jsonify({"error": "Message is required."}), 400
 
     try:
-        # Retrieve relevant publications
-        relevant_pubs = find_relevant_publications(message)
-
-        # Build context string
+        relevant_chunks = find_similar_chunks(message)
         context = ""
-        for pub in relevant_pubs:
-            context += f"Title: {pub['title']}\n"
-            context += f"Abstract: {pub['abstract']}\n\n"
+        for chunk in relevant_chunks:
+            context += f"Source: {chunk['source']}\n{chunk['text']}\n\n"
 
-        # Construct messages
+        # Mr. M prompt
         messages = [
             {
                 "role": "system",
-                "content": "You are Majid's professional assistant. Use the provided CONTEXT to answer questions factually. If the context is insufficient, say so."
+                "content": (
+                    "Hello! I am Mr. M — Majid's professional AI assistant. "
+                    "I specialize in answering questions about Majid's background, research, work experience, and publications. "
+                    "You may only answer using the provided CONTEXT. "
+                    "If the context does not include the answer, politely say you don't know. Never make assumptions."
+                )
             },
-        ]
-
-        if context:
-            messages.append({
+            {
                 "role": "system",
                 "content": f"CONTEXT:\n{context}"
-            })
+            },
+            {
+                "role": "user",
+                "content": message
+            }
+        ]
 
-        messages.append({
-            "role": "user",
-            "content": message
-        })
-
-        # Call OpenAI
         response = client.chat.completions.create(
             model="gpt-3.5-turbo",
             messages=messages
         )
 
-        answer = response.choices[0].message.content
-
-        return jsonify({"reply": answer})
+        reply = response.choices[0].message.content.strip()
+        return jsonify({"reply": reply})
 
     except Exception as e:
-        print(e)
+        print("❌ Error:", e)
         return jsonify({"error": "An error occurred while generating a response."}), 500
 
+# ------------------------------
+# 🚀 Launch
+# ------------------------------
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000)

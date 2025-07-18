@@ -62,7 +62,7 @@ def main():
         for path in tqdm(html_files, desc="Processing HTML files"):
             if path not in seen_html_links:
                 seen_html_links.add(path)
-                html_chunks = process_html_file(path, chunk_size=args.chunk_size)
+                html_chunks = process_html_file(path, chunk_size=args.chunk_size, overlap=50)
                 chunks.extend(c for c in html_chunks if len(c["text"].strip().split()) > 10)
 
     if not args.skip_pdf and args.pdf_dir.exists():

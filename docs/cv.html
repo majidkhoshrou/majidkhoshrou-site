@@ -8,6 +8,24 @@
   <title>CV – Majid Khoshrou</title>
   <link rel="stylesheet" href="./css/style.css"/>
   <link rel="stylesheet" href="./css/cv-style.css"/>
+  <style>
+    .job-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+    .job-header h3 {
+      margin: 0;
+      font-size: 1.1em;
+    }
+    .job-header time {
+      font-style: italic;
+      color: #666;
+      white-space: nowrap;
+    }
+  </style>
 </head>
 <body>
   <header>
@@ -34,12 +52,12 @@
     <div class="cv-container">
       <button onclick="window.print()" class="download-button">Print or Save as PDF</button>
 
-      <section class="cv-section">
+      <section class="cv-section" id="profile">
         <h2>Profile</h2>
         <p>Experienced Data Scientist with 10+ years in industry and academia, specializing in machine learning, forecasting, and real-time analytics across domains such as energy, mobility, and infrastructure. Passionate about applying AI to real-world challenges and delivering impact across diverse sectors.</p>
       </section>
 
-      <section class="cv-section">
+      <section class="cv-section" id="skills">
         <h2>Skills & Technologies</h2>
         <ul>
           <li><strong>Programming:</strong> Python, SQL, MATLAB, PySpark</li>
@@ -50,95 +68,100 @@
         </ul>
       </section>
 
-      <section class="cv-section">
+      <section class="cv-section" id="work-experience">
         <h2>Work Experience</h2>
-        <ul>
-            <li>
-            <div class="job-header">
-                <strong>Senior Data Scientist</strong>
-                <span class="job-dates">Jan 2023 – Present</span>
-            </div>
-            <a href="https://www.alliander.com" target="_blank">Alliander – Arnhem, Netherlands</a>
-            <ul class="responsibilities">
-                <li>Boosted day-ahead allocation forecast accuracy by 30%, enabling over €1.3M annual cost savings.</li>
-                <li>Identified cost-saving opportunities through in-depth analysis of energy settlement pricing.</li>
-                <li>Contributed to the open-source library <a href="https://github.com/OpenSTEF/openstef" target="_blank">OpenSTEF</a>, improving usability and model robustness.</li>
-                <li>Built statistical models to assess and mitigate grid reliability risks.</li>
-                <li>Standardized model validation practices across teams to ensure consistent performance tracking.</li>
-            </ul>
-            </li>
-            <li>
-            <div class="job-header">
-                <strong>Postdoctoral Researcher</strong>
-                <span class="job-dates">Jul 2020 – Dec 2022</span>
-            </div>
-            <a href="https://www.cwi.nl" target="_blank">Centrum Wiskunde & Informatica – Amsterdam</a>
-            <ul class="responsibilities">
-                <li>Delivered accurate EV charging demand forecasts supporting infrastructure planning.</li>
-                <li>Introduced carbon impact metrics for server clusters influencing sustainability reporting.</li>
-                <li>Co-taught graduate courses enhancing student engagement in AI and game theory.</li>
-            </ul>
-            </li>
-            <li>
-            <div class="job-header">
-                <strong>Data Scientist</strong>
-                <span class="job-dates">Nov 2019 – Jul 2020</span>
-            </div>
-            <a href="https://www.maistering.com" target="_blank">Maistering B.V. – Amsterdam/Rotterdam</a>
-            <ul class="responsibilities">
-                <li>Developed customer segmentation models improving marketing campaign ROI.</li>
-                <li>Delivered ML-powered features enhancing product value for enterprise clients.</li>
-                <li>Collaborated across teams to accelerate deployment of analytics pipelines.</li>
-            </ul>
-            </li>
-            <li>
-            <div class="job-header">
-                <strong>PhD Researcher</strong>
-                <span class="job-dates">Dec 2015 – Nov 2019</span>
-            </div>
-            <a href="https://www.tudelft.nl" target="_blank">CWI & Delft University of Technology – Netherlands</a>
-            <ul class="responsibilities">
-                <li>Pioneered probabilistic modeling techniques improving smart grid forecasting reliability.</li>
-                <li>Developed anomaly detection methods enhancing grid health monitoring capabilities.</li>
-                <li>Published peer-reviewed research advancing time series analysis.</li>
-            </ul>
-            </li>
-        </ul>
-        </section>
 
+        <article>
+          <div class="job-header">
+            <h3>Senior Data Scientist</h3>
+            <time datetime="2023-01">Jan 2023 – Present</time>
+          </div>
+          <p><a href="https://www.alliander.com" target="_blank">Alliander</a> – Arnhem, Netherlands</p>
+          <ul>
+            <li>Boosted day-ahead allocation forecast accuracy by 30%, enabling over €1.3M annual cost savings.</li>
+            <li>Identified cost-saving opportunities through in-depth analysis of energy settlement pricing.</li>
+            <li>Contributed to <a href="https://github.com/OpenSTEF/openstef" target="_blank">OpenSTEF</a> to improve usability and model robustness.</li>
+            <li>Built statistical models to assess and mitigate grid reliability risks.</li>
+            <li>Standardized model validation practices across teams.</li>
+          </ul>
+        </article>
 
-      <section class="cv-section">
-        <h2>Education</h2>
-        <ul>
-          <li>
-            <strong>PhD in Artificial Intelligence</strong><br>
-            <a href="https://www.tudelft.nl" target="_blank">CWI & Delft University of Technology</a>
-          </li>
-          <li>
-            <strong>MSc in Information Engineering</strong><br>
-            <a href="https://www.up.pt" target="_blank">University of Porto, Portugal</a>
-          </li>
-          <li>
-            <strong>BSc in Electrical Power Engineering</strong><br>
-            <a href="https://www.nit.ac.ir" target="_blank">Babol Noshirvani University of Technology, Iran</a>
-          </li>
-        </ul>
+        <article>
+          <div class="job-header">
+            <h3>Postdoctoral Researcher</h3>
+            <time datetime="2020-07">Jul 2020 – Dec 2022</time>
+          </div>
+          <p><a href="https://www.cwi.nl" target="_blank">Centrum Wiskunde & Informatica (CWI)</a> – Amsterdam, Netherlands</p>
+          <ul>
+            <li>Delivered accurate EV charging demand forecasts for infrastructure planning.</li>
+            <li>Introduced carbon impact metrics for server clusters used in sustainability reporting.</li>
+            <li>Co-taught graduate courses in AI and game theory.</li>
+          </ul>
+        </article>
+
+        <article>
+          <div class="job-header">
+            <h3>Data Scientist</h3>
+            <time datetime="2019-11">Nov 2019 – Jul 2020</time>
+          </div>
+          <p><a href="https://www.maistering.com" target="_blank">Maistering B.V.</a> – Amsterdam/Rotterdam, Netherlands</p>
+          <ul>
+            <li>Developed customer segmentation models improving marketing ROI.</li>
+            <li>Delivered ML-powered features enhancing product value for enterprise clients.</li>
+            <li>Collaborated across teams to accelerate analytics pipeline deployment.</li>
+          </ul>
+        </article>
+
+        <article>
+          <div class="job-header">
+            <h3>PhD Researcher</h3>
+            <time datetime="2015-12">Dec 2015 – Nov 2019</time>
+          </div>
+          <p><a href="https://www.tudelft.nl" target="_blank">Delft University of Technology & CWI</a> – Netherlands</p>
+          <ul>
+            <li>Pioneered probabilistic modeling techniques for smart grid forecasting.</li>
+            <li>Developed anomaly detection methods for grid health monitoring.</li>
+            <li>Published peer-reviewed research in time series analysis.</li>
+          </ul>
+        </article>
       </section>
 
-      <section class="cv-section">
+      <section class="cv-section" id="education">
+        <h2>Education</h2>
+
+        <article>
+          <h3>PhD in Artificial Intelligence</h3>
+          <p><a href="https://www.tudelft.nl" target="_blank">Delft University of Technology & CWI</a>, Netherlands</p>
+          <p><time datetime="2015-12">Dec 2015</time> – <time datetime="2022-12">Dec 2022</time></p>
+        </article>
+
+        <article>
+          <h3>MSc in Information Engineering</h3>
+          <p><a href="https://www.up.pt" target="_blank">University of Porto</a>, Portugal</p>
+          <p><time datetime="2012-09">Sep 2012</time> – <time datetime="2015-07">Jul 2015</time></p>
+        </article>
+
+        <article>
+          <h3>BSc in Electrical Power Engineering</h3>
+          <p><a href="https://www.nit.ac.ir" target="_blank">Babol Noshirvani University of Technology</a>, Iran</p>
+          <p><time datetime="2007-09">Sep 2007</time> – <time datetime="2011-07">Jul 2011</time></p>
+        </article>
+      </section>
+
+      <section class="cv-section" id="certifications">
         <h2>Certifications</h2>
         <ul>
-          <li>Advanced Data Analytics Professional Certificate – Google (2024)</li>
-          <li>Google IT Support Professional Certificate – Google (2021)</li>
+          <li>Advanced Data Analytics Professional Certificate – Google (<time datetime="2024">2024</time>)</li>
+          <li>Google IT Support Professional Certificate – Google (<time datetime="2021">2021</time>)</li>
         </ul>
       </section>
 
-      <section class="cv-section">
+      <section class="cv-section" id="languages">
         <h2>Languages</h2>
         <ul>
-          <li>English (Fluent)</li>
-          <li>Dutch (Intermediate)</li>
-          <li>Persian (Native)</li>
+          <li>English – Fluent</li>
+          <li>Dutch – Intermediate</li>
+          <li>Persian – Native</li>
         </ul>
       </section>
     </div>
@@ -152,6 +175,5 @@
       <a href="https://github.com/majidkhoshrou" target="_blank">GitHub</a>
     </div>
   </footer>
-
 </body>
 </html>
