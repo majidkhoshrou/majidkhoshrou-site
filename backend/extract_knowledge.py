@@ -1,10 +1,13 @@
 import argparse
 from pathlib import Path
 from libs.processing import process_html_file, process_pdf_file, save_chunks
+import logging
+from tqdm import tqdm
+
 
 def main():
     parser = argparse.ArgumentParser(description="Extract knowledge chunks from HTML and PDF files.")
-    
+
     parser.add_argument(
         "--html-dir",
         type=Path,
@@ -42,20 +45,33 @@ def main():
 
     args = parser.parse_args()
 
-    print(f"📂 HTML directory: {args.html_dir}")
-    print(f"📂 PDF directory: {args.pdf_dir}")
-    print(f"📄 Output file: {args.output}")
-    print(f"🔧 Chunk size: {args.chunk_size}")
+    logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+    logger = logging.getLogger(__name__)
+
+    logger.info(f"📂 HTML directory: {args.html_dir}")
+    logger.info(f"📂 PDF directory: {args.pdf_dir}")
+    logger.info(f"📄 Output file: {args.output}")
+    logger.info(f"🔧 Chunk size: {args.chunk_size}")
 
     chunks = []
+    seen_html_links = set()
+    seen_pdf_links = set()
 
     if not args.skip_html:
-        for path in args.html_dir.glob("*.html"):
-            chunks.extend(process_html_file(path, chunk_size=args.chunk_size))
+        html_files = list(args.html_dir.glob("*.html"))
+        for path in tqdm(html_files, desc="Processing HTML files"):
+            if path not in seen_html_links:
+                seen_html_links.add(path)
+                html_chunks = process_html_file(path, chunk_size=args.chunk_size)
+                chunks.extend(c for c in html_chunks if len(c["text"].strip().split()) > 10)
 
     if not args.skip_pdf and args.pdf_dir.exists():
-        for path in args.pdf_dir.glob("*.pdf"):
-            chunks.extend(process_pdf_file(path, chunk_size=args.chunk_size))
+        pdf_files = list(args.pdf_dir.glob("*.pdf"))
+        for path in tqdm(pdf_files, desc="Processing PDF files"):
+            if path not in seen_pdf_links:
+                seen_pdf_links.add(path)
+                pdf_chunks = process_pdf_file(path, chunk_size=args.chunk_size)
+                chunks.extend(c for c in pdf_chunks if len(c["text"].strip().split()) > 10)
 
     save_chunks(chunks, args.output)
 
