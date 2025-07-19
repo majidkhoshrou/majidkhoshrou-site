@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <meta name="description" content="Chat with Mr. M – Majid Khoshrou's personal AI assistant." />
   <meta http-equiv="pragma" content="no-cache"/>
-  <title>Chat – Majid Khoshrou</title>
+  <title>Ask Mr. M – Majid Khoshrou</title>
   <link rel="stylesheet" href="./css/style.css"/>
   <link rel="stylesheet" href="./css/chat-style.css"/>
 </head>
@@ -20,24 +20,29 @@
       <ul>
         <li><a href="index.html">Home</a></li>
         <li><a href="about.html">About Me</a></li>
-        <li><a href="research.html">Research & Publications</a></li>
-        <li><a href="projects.html">Projects</a></li>
-        <li><a href="talks.html">Talks</a></li>
         <li><a href="cv.html">CV</a></li>
+        <li><a href="projects.html">Projects</a></li>
+        <li><a href="research.html">Research & Publications</a></li>
+        <li><a href="talks.html">Talks</a></li>
+        <li><a href="ask-mr-m.html">Ask Mr. <i>M</i></a></li>
+        <li><a href="analytics.html">Analytics</a></li>
         <li><a href="contact.html">Contact</a></li>
-        <li><a href="chat.html" class="active">Chat</a></li>
       </ul>
     </nav>
   </header>
 
   <main>
     <div class="chat-container">
-      <h2>Talk to Mr. M — Your AI Assistant</h2>
+      <h2>Talk to Mr. <i>M</i> — Your AI Assistant</h2>
 
       <!-- Mr. M intro block -->
       <div class="assistant-intro">
         <img src="./images/ai-assistant.png" alt="Mr. M Avatar" class="assistant-avatar">
-        <p><strong>Mr. M</strong> is here to help you learn more about Majid Khoshrou’s background, projects, and research.</p>
+        <p><strong>Mr. <i>M</i></strong> is Majid's custom-trained AI assistant. Curious about my research, background, or projects? Just ask!</p>
+        <p class="examples"><em>Example questions:  
+          “What are Majid’s latest publications?”,  
+          “Tell me about his work at Alliander”,  
+          “What projects has he done in energy forecasting?”</em></p>
       </div>
 
       <!-- Chat messages go here -->
@@ -45,7 +50,7 @@
         <div class="message-row assistant">
           <img src="./images/ai-assistant.png" alt="Assistant Avatar" class="avatar">
           <div class="message assistant">
-            Hello! I’m <strong>Mr. M</strong>, Majid’s professional AI assistant.<br>
+            Hello! I'm <strong>Mr. <i>M</i></strong>, Majid’s professional AI assistant.<br>
             Ask me anything about his background, work, research, or publications.
           </div>
         </div>
@@ -69,5 +74,7 @@
   </footer>
 
   <script src="./js/chat.js"></script>
+  <script> fetch("/api/log-visit", { method: "POST" }); </script>
+
 </body>
 </html>

@@ -1,13 +1,15 @@
 import os
 import json
-import faiss
-import numpy as np
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 from openai import OpenAI
 from dotenv import load_dotenv
 from pathlib import Path
 from typing import List, Dict
+
+from libs.search import get_faiss_index, load_chunks, query_index
+from libs.analytics import log_visit, load_analytics_data
+from libs.analytics import log_visit, load_analytics_data, summarize_analytics
 
 # ------------------------------
 # 🔐 Load environment and OpenAI
@@ -26,26 +28,12 @@ CORS(app)
 # ------------------------------
 data_dir = Path(__file__).resolve().parent / "data"
 faiss_index_path = data_dir / "faiss.index"
-faiss_metadata_path = data_dir / "faiss_metadata.json"
+chunks_path = data_dir / "faiss_metadata.json"
 
-index = faiss.read_index(str(faiss_index_path))
-with faiss_metadata_path.open("r", encoding="utf-8") as f:
-    metadata = json.load(f)
+index = get_faiss_index(faiss_index_path)
+metadata = load_chunks(chunks_path)
 
 print(f"✅ FAISS index loaded with {index.ntotal} vectors")
-
-# ------------------------------
-# 🔍 Semantic search
-# ------------------------------
-def find_similar_chunks(query: str, top_k: int = 5) -> List[Dict]:
-    """Embed a query and return top_k most relevant chunks."""
-    response = client.embeddings.create(
-        model="text-embedding-3-small",
-        input=query
-    )
-    query_vector = np.array(response.data[0].embedding, dtype="float32").reshape(1, -1)
-    distances, indices = index.search(query_vector, top_k)
-    return [metadata[i] for i in indices[0] if i < len(metadata)]
 
 # ------------------------------
 # 🤖 Chat endpoint (Mr. M)
@@ -59,12 +47,11 @@ def chat():
         return jsonify({"error": "Message is required."}), 400
 
     try:
-        relevant_chunks = find_similar_chunks(message)
+        relevant_chunks = query_index(message, index, metadata, top_k=5)
         context = ""
         for chunk in relevant_chunks:
             context += f"Source: {chunk['source']}\n{chunk['text']}\n\n"
 
-        # Mr. M prompt
         messages = [
             {
                 "role": "system",
@@ -96,6 +83,22 @@ def chat():
     except Exception as e:
         print("❌ Error:", e)
         return jsonify({"error": "An error occurred while generating a response."}), 500
+
+# ------------------------------
+# 📊 Visitor analytics
+# ------------------------------
+@app.route("/api/log-visit", methods=["POST"])
+def api_log_visit():
+    log_visit()
+    return {"status": "logged"}
+
+@app.route("/api/analytics-data", methods=["GET"])
+def api_analytics_data():
+    return load_analytics_data()
+
+@app.route("/api/analytics-summary", methods=["GET"])
+def api_analytics_summary():
+    return jsonify(summarize_analytics())
 
 # ------------------------------
 # 🚀 Launch

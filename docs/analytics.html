@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="description" content="Visitor analytics for Majid Khoshrou's personal site." />
+  <meta http-equiv="pragma" content="no-cache"/>
+  <title>Analytics - Majid Khoshrou</title>
+  <link rel="stylesheet" href="./css/style.css"/>
+  <link rel="stylesheet" href="./css/analytics-style.css"/>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+</head>
+<body>
+
+  <header>
+    <div class="header-container">
+      <img src="./images/majid_tudelft_02.png" alt="Majid Khoshrou" class="profile-photo">
+      <h1>Majid Khoshrou</h1>
+      <p>Data Scientist | Machine Learning | Forecasting | Real-Time Analytics</p>
+    </div>
+    <nav>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="about.html">About Me</a></li>
+        <li><a href="cv.html">CV</a></li>
+        <li><a href="projects.html">Projects</a></li>
+        <li><a href="research.html">Research & Publications</a></li>
+        <li><a href="talks.html">Talks</a></li>
+        <li><a href="ask-mr-m.html">Ask Mr. <i>M</i></a></li>
+        <li><a href="analytics.html" class="active">Analytics</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main class="main-content">
+    <section>
+      <h2>Visitor Summary</h2>
+      <div id="summary" class="analytics-stats">
+        <p>Loading visitor data...</p>
+      </div>
+    </section>
+
+    <section>
+      <h2>Visitor Map</h2>
+      <div id="map"></div>
+    </section>
+
+    <section>
+      <h2>Visitors by IP</h2>
+      <canvas id="ip-chart"></canvas>
+    </section>
+  </main>
+
+  <footer>
+    <p>&copy; 2025 Majid Khoshrou</p>
+    <div class="social-links">
+      <a href="https://www.linkedin.com/in/majid-khoshrou-a2728349/" target="_blank">LinkedIn</a> |
+      <a href="https://scholar.google.com/citations?user=RPdtjy0AAAAJ" target="_blank">Google Scholar</a> |
+      <a href="https://github.com/majidkhoshrou" target="_blank">GitHub</a>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+
+  <script>
+    fetch("/api/analytics-summary")
+      .then(res => res.json())
+      .then(summary => {
+        const summaryEl = document.getElementById("summary");
+
+        if (!summary.total_visits) {
+          summaryEl.innerHTML = "<p>No visitor data yet.</p>";
+          return;
+        }
+
+        summaryEl.innerHTML = `
+          <p><strong>Total Visits:</strong> ${summary.total_visits}</p>
+          <p><strong>Countries:</strong> ${Object.keys(summary.by_country).join(", ")}</p>
+          <p><strong>Devices:</strong> ${Object.keys(summary.by_device).join(", ")}</p>
+        `;
+
+        // Pie chart for IPs
+        new Chart(document.getElementById("ip-chart"), {
+          type: "pie",
+          data: {
+            labels: Object.keys(summary.by_ip),
+            datasets: [{
+              label: "Visitors by IP",
+              data: Object.values(summary.by_ip)
+            }]
+          },
+          options: {
+            responsive: true,
+            plugins: {
+              legend: { position: "right" }
+            }
+          }
+        });
+
+        // Map
+        const countryCoords = {
+          "Netherlands": [52.1, 5.1],
+          "Iran": [32.4, 53.6],
+          "Germany": [51.2, 10.4],
+        };
+
+        const map = L.map("map").setView([30, 10], 2);
+        L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+          attribution: "&copy; OpenStreetMap contributors"
+        }).addTo(map);
+
+        Object.entries(summary.by_country).forEach(([country, count]) => {
+          const coord = countryCoords[country];
+          if (coord) {
+            L.circleMarker(coord, {
+              radius: 6 + count,
+              fillColor: "#f03",
+              fillOpacity: 0.5,
+              color: "#000",
+              weight: 1
+            }).addTo(map).bindPopup(`${country}: ${count} visits`);
+          }
+        });
+      })
+      .catch(err => {
+        document.getElementById("summary").innerHTML = "<p>Error loading data.</p>";
+        console.error(err);
+      });
+  </script>
+
+  <script> fetch("/api/log-visit", { method: "POST" }); </script>
+
+</body>
+</html>

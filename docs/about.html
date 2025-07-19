@@ -18,13 +18,14 @@
     <nav>
       <ul>
         <li><a href="index.html">Home</a></li>
-        <li><a href="about.html" class="active">About Me</a></li>
-        <li><a href="research.html">Research & Publications</a></li>
-        <li><a href="projects.html">Projects</a></li>
-        <li><a href="talks.html">Talks</a></li>
+        <li><a href="about.html">About Me</a></li>
         <li><a href="cv.html">CV</a></li>
+        <li><a href="projects.html">Projects</a></li>
+        <li><a href="research.html">Research & Publications</a></li>
+        <li><a href="talks.html">Talks</a></li>
+        <li><a href="ask-mr-m.html">Ask Mr. <i>M</i></a></li>
+        <li><a href="analytics.html">Analytics</a></li>
         <li><a href="contact.html">Contact</a></li>
-        <li><a href="chat.html">Chat</a></li>
       </ul>
     </nav>
   </header>
@@ -35,6 +36,12 @@
       <p>
         I am a Data Scientist with over a decade of combined experience in industry and academia.
         My work focuses on applying machine learning, forecasting, and real-time analytics to domains including energy systems, urban mobility, and sustainability.
+      </p>
+      <p>
+        I am originally from <a href="https://en.wikipedia.org/wiki/Ghaemshahr" target="_blank">Ghaemshahr, Mazandaran</a> in northern Iran — a lush region by the Caspian Sea, known for its rice fields, citrus orchards, and proximity to the Alborz mountains. 
+        It’s a place where nature meets tradition, and it continues to inspire my values and curiosity. 
+        I currently live in <a href="https://en.wikipedia.org/wiki/%27s-Hertogenbosch" target="_blank">’s-Hertogenbosch</a>, Netherlands, and work as a Senior Data Scientist at 
+        <a href="https://www.alliander.com/en/" target="_blank">Alliander</a> in <a href="https://en.wikipedia.org/wiki/Arnhem" target="_blank">Arnhem</a>.
       </p>
     </article>
 
@@ -69,6 +76,43 @@
           <time datetime="2007-09">(2007–2011)</time></li>
       </ul>
     </article>
+
+    <!-- Optional visual section -->
+    
+  <section class="location-maps">
+    <h2>Where I'm From & Where I Live</h2>
+    <div id="map" style="height: 480px; width: 100%; margin-top: 1em; border-radius: 8px;"></div>
+    <p style="text-align: center;">
+      A global view connecting <strong>Ghaemshahr, Iran</strong> and <strong>’s-Hertogenbosch, Netherlands</strong>.
+    </p>
+  </section>
+
+  <!-- Leaflet CSS + JS -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+
+  <script>
+    const map = L.map('map').setView([39.5, 35.0], 3); // Center between Iran & Netherlands
+
+    // Add OpenStreetMap base
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '© OpenStreetMap contributors',
+      maxZoom: 18,
+    }).addTo(map);
+
+    // Add markers
+    const ghaemshahr = L.marker([36.4667, 52.8667]).addTo(map);
+    ghaemshahr.bindPopup("<b>Ghaemshahr</b><br>Mazandaran, Iran");
+
+    const hertogenbosch = L.marker([51.6978, 5.3037]).addTo(map);
+    hertogenbosch.bindPopup("<b>’s-Hertogenbosch</b><br>Netherlands");
+
+    // Auto-open one popup for context
+    hertogenbosch.openPopup();
+  </script>
+
+
+    
   </main>
 
   <footer>
@@ -79,5 +123,7 @@
       <a href="https://github.com/majidkhoshrou" target="_blank">GitHub</a>
     </div>
   </footer>
+  <script> fetch("/api/log-visit", { method: "POST" }); </script>
+
 </body>
 </html>
