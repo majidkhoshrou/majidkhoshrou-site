@@ -1,14 +1,14 @@
 import os
 import json
-from flask import Flask, request, jsonify
-from flask_cors import CORS
-from openai import OpenAI
-from dotenv import load_dotenv
 from pathlib import Path
 from typing import List, Dict
 
+from flask import Flask, request, jsonify, render_template
+from flask_cors import CORS
+from dotenv import load_dotenv
+from openai import OpenAI
+
 from libs.search import get_faiss_index, load_chunks, query_index
-from libs.analytics import log_visit, load_analytics_data
 from libs.analytics import log_visit, load_analytics_data, summarize_analytics
 
 # ------------------------------
@@ -20,7 +20,7 @@ client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 # ------------------------------
 # ⚙️ Flask + CORS setup
 # ------------------------------
-app = Flask(__name__)
+app = Flask(__name__, static_folder="static", template_folder="templates")
 CORS(app)
 
 # ------------------------------
@@ -36,7 +36,46 @@ metadata = load_chunks(chunks_path)
 print(f"✅ FAISS index loaded with {index.ntotal} vectors")
 
 # ------------------------------
-# 🤖 Chat endpoint (Mr. M)
+# 🌐 Frontend Page Routes
+# ------------------------------
+@app.route("/")
+def home():
+    return render_template("index.html")
+
+@app.route("/about")
+def about():
+    return render_template("about.html")
+
+@app.route("/cv")
+def cv():
+    return render_template("cv.html")
+
+@app.route("/projects")
+def projects():
+    return render_template("projects.html")
+
+@app.route("/research")
+def research():
+    return render_template("research.html")
+
+@app.route("/talks")
+def talks():
+    return render_template("talks.html")
+
+@app.route("/contact")
+def contact():
+    return render_template("contact.html")
+
+@app.route("/ask-mr-m")
+def ask_mr_m():
+    return render_template("ask-mr-m.html")
+
+@app.route("/analytics")
+def analytics():
+    return render_template("analytics.html")
+
+# ------------------------------
+# 🤖 Mr. M Chat Endpoint
 # ------------------------------
 @app.route("/api/chat", methods=["POST"])
 def chat():
@@ -48,9 +87,7 @@ def chat():
 
     try:
         relevant_chunks = query_index(message, index, metadata, top_k=5)
-        context = ""
-        for chunk in relevant_chunks:
-            context += f"Source: {chunk['source']}\n{chunk['text']}\n\n"
+        context = "\n\n".join([f"Source: {c['source']}\n{c['text']}" for c in relevant_chunks])
 
         messages = [
             {
@@ -62,21 +99,14 @@ def chat():
                     "If the context does not include the answer, politely say you don't know. Never make assumptions."
                 )
             },
-            {
-                "role": "system",
-                "content": f"CONTEXT:\n{context}"
-            },
-            {
-                "role": "user",
-                "content": message
-            }
+            { "role": "system", "content": f"CONTEXT:\n{context}" },
+            { "role": "user", "content": message }
         ]
 
         response = client.chat.completions.create(
             model="gpt-3.5-turbo",
             messages=messages
         )
-
         reply = response.choices[0].message.content.strip()
         return jsonify({"reply": reply})
 
@@ -85,7 +115,7 @@ def chat():
         return jsonify({"error": "An error occurred while generating a response."}), 500
 
 # ------------------------------
-# 📊 Visitor analytics
+# 📊 Analytics API Endpoints
 # ------------------------------
 @app.route("/api/log-visit", methods=["POST"])
 def api_log_visit():
@@ -104,4 +134,4 @@ def api_analytics_summary():
 # 🚀 Launch
 # ------------------------------
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=5000)
+    app.run(host="0.0.0.0", port=5000, debug=True)

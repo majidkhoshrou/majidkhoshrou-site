@@ -16,7 +16,7 @@ function sendMessage() {
   const typingEl = appendMessage('assistant', 'Mr. <i>M</i> is typing...', true);
   typingEl.classList.add('typing');
 
-  fetch('http://127.0.0.1:5000/api/chat', {
+  fetch('/api/chat', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ message: text })

@@ -6,26 +6,26 @@
   <meta name="description" content="Talks and presentations by Majid Khoshrou – PhD defense and professional engagements." />
   <meta http-equiv="pragma" content="no-cache"/>
   <title>Talks & Presentations – Majid Khoshrou</title>
-  <link rel="stylesheet" href="./css/style.css"/>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 <body>
   <header>
     <div class="header-container">
-      <img src="./images/majid_tudelft_02.png" alt="Majid Khoshrou" class="profile-photo">
+      <img src="{{ url_for('static', filename='images/majid_tudelft_02.png') }}" alt="Majid Khoshrou" class="profile-photo">
       <h1>Majid Khoshrou</h1>
       <p>Data Scientist | Machine Learning | Forecasting | Real-Time Analytics</p>
     </div>
     <nav>
       <ul>
-        <li><a href="index.html">Home</a></li>
-        <li><a href="about.html">About Me</a></li>
-        <li><a href="cv.html">CV</a></li>
-        <li><a href="projects.html">Projects</a></li>
-        <li><a href="research.html">Research & Publications</a></li>
-        <li><a href="talks.html">Talks</a></li>
-        <li><a href="ask-mr-m.html">Ask Mr. <i>M</i></a></li>
-        <li><a href="analytics.html">Analytics</a></li>
-        <li><a href="contact.html">Contact</a></li>
+        <li><a href="{{ url_for('home') }}">Home</a></li>
+        <li><a href="{{ url_for('about') }}">About Me</a></li>
+        <li><a href="{{ url_for('cv') }}">CV</a></li>
+        <li><a href="{{ url_for('projects') }}">Projects</a></li>
+        <li><a href="{{ url_for('research') }}">Research & Publications</a></li>
+        <li><a href="{{ url_for('talks') }}">Talks</a></li>
+        <li><a href="{{ url_for('ask_mr_m') }}">Ask Mr. <i>M</i></a></li>
+        <li><a href="{{ url_for('analytics') }}">Analytics</a></li>
+        <li><a href="{{ url_for('contact') }}">Contact</a></li>
       </ul>
     </nav>
   </header>
@@ -71,8 +71,6 @@
     </div>
   </footer>
 
-  <script>
-    fetch("/api/log-visit", { method: "POST" });
-  </script>
+  <script> fetch("/api/log-visit", { method: "POST" }); </script>
 </body>
 </html>

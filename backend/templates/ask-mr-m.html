@@ -6,27 +6,27 @@
   <meta name="description" content="Chat with Mr. M – Majid Khoshrou's personal AI assistant." />
   <meta http-equiv="pragma" content="no-cache"/>
   <title>Ask Mr. M – Majid Khoshrou</title>
-  <link rel="stylesheet" href="./css/style.css"/>
-  <link rel="stylesheet" href="./css/chat-style.css"/>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/chat-style.css') }}">
 </head>
 <body>
   <header>
     <div class="header-container">
-      <img src="./images/majid_tudelft_02.png" alt="Majid Khoshrou" class="profile-photo">
+      <img src="{{ url_for('static', filename='images/majid_tudelft_02.png') }}" alt="Majid Khoshrou" class="profile-photo">
       <h1>Majid Khoshrou</h1>
       <p>Data Scientist | Machine Learning | Forecasting | Real-Time Analytics</p>
     </div>
     <nav>
       <ul>
-        <li><a href="index.html">Home</a></li>
-        <li><a href="about.html">About Me</a></li>
-        <li><a href="cv.html">CV</a></li>
-        <li><a href="projects.html">Projects</a></li>
-        <li><a href="research.html">Research & Publications</a></li>
-        <li><a href="talks.html">Talks</a></li>
-        <li><a href="ask-mr-m.html">Ask Mr. <i>M</i></a></li>
-        <li><a href="analytics.html">Analytics</a></li>
-        <li><a href="contact.html">Contact</a></li>
+        <li><a href="{{ url_for('home') }}">Home</a></li>
+        <li><a href="{{ url_for('about') }}">About Me</a></li>
+        <li><a href="{{ url_for('cv') }}">CV</a></li>
+        <li><a href="{{ url_for('projects') }}">Projects</a></li>
+        <li><a href="{{ url_for('research') }}">Research & Publications</a></li>
+        <li><a href="{{ url_for('talks') }}">Talks</a></li>
+        <li><a href="{{ url_for('ask_mr_m') }}">Ask Mr. <i>M</i></a></li>
+        <li><a href="{{ url_for('analytics') }}">Analytics</a></li>
+        <li><a href="{{ url_for('contact') }}">Contact</a></li>
       </ul>
     </nav>
   </header>
@@ -37,7 +37,7 @@
 
       <!-- Mr. M intro block -->
       <div class="assistant-intro">
-        <img src="./images/ai-assistant.png" alt="Mr. M Avatar" class="assistant-avatar">
+        <img src="{{ url_for('static', filename='images/ai-assistant.png') }}"  alt="Mr. M Avatar" class="assistant-avatar">
         <p><strong>Mr. <i>M</i></strong> is Majid's custom-trained AI assistant. Curious about my research, background, or projects? Just ask!</p>
         <p class="examples"><em>Example questions:  
           “What are Majid’s latest publications?”,  
@@ -48,7 +48,7 @@
       <!-- Chat messages go here -->
       <div id="chat-window" class="chat-window">
         <div class="message-row assistant">
-          <img src="./images/ai-assistant.png" alt="Assistant Avatar" class="avatar">
+          <img src="{{ url_for('static', filename='images/ai-assistant.png') }}"  alt="Assistant Avatar" class="avatar">
           <div class="message assistant">
             Hello! I'm <strong>Mr. <i>M</i></strong>, Majid’s professional AI assistant.<br>
             Ask me anything about his background, work, research, or publications.
@@ -73,7 +73,8 @@
     </div>
   </footer>
 
-  <script src="./js/chat.js"></script>
+  <script src="{{ url_for('static', filename='js/chat.js') }}"></script>
+
   <script> fetch("/api/log-visit", { method: "POST" }); </script>
 
 </body>
