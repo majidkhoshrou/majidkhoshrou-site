@@ -134,14 +134,15 @@
     }
 
     function getColor(d) {
-      return d > 50 ? '#800026' :
-             d > 20 ? '#BD0026' :
-             d > 10 ? '#E31A1C' :
-             d > 5  ? '#FC4E2A' :
-             d > 1  ? '#FD8D3C' :
-             d > 0  ? '#FEB24C' :
-                      '#F0F0F0';
+      return d > 50 ? '#7F0000' :   // dark red
+            d > 20 ? '#B30000' :   // strong red
+            d > 10 ? '#E34A33' :   // reddish-orange
+            d > 5  ? '#FC8D59' :   // light orange
+            d > 1  ? '#FDBB84' :   // peach
+            d > 0  ? '#FDD49E' :   // warm beige
+                      '#FFFFCC';    // pale yellow
     }
+
 
     fetch("/api/analytics-summary")
       .then(res => res.json())
