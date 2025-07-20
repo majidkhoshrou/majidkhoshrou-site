@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="description" content="Talks and presentations by Majid Khoshrou – PhD defense and professional engagements." />
+  <meta http-equiv="pragma" content="no-cache"/>
+  <title>Talks & Presentations – Majid Khoshrou</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+  <header>
+    <div class="header-container">
+      <img src="{{ url_for('static', filename='images/majid_tudelft_02.png') }}" alt="Majid Khoshrou" class="profile-photo">
+      <h1>Majid Khoshrou</h1>
+      <p>Data Scientist | Machine Learning | Forecasting | Real-Time Analytics</p>
+    </div>
+    <nav>
+      <ul>
+        <li><a href="{{ url_for('home') }}">Home</a></li>
+        <li><a href="{{ url_for('about') }}">About Me</a></li>
+        <li><a href="{{ url_for('cv') }}">CV</a></li>
+        <li><a href="{{ url_for('projects') }}">Projects</a></li>
+        <li><a href="{{ url_for('research') }}">Research & Publications</a></li>
+        <li><a href="{{ url_for('talks') }}">Talks</a></li>
+        <li><a href="{{ url_for('ask_mr_m') }}">Ask Mr. <i>M</i></a></li>
+        <li><a href="{{ url_for('analytics') }}">Analytics</a></li>
+        <li><a href="{{ url_for('contact') }}">Contact</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <section class="intro">
+      <h2>Talks & Presentations</h2>
+      <p>Here you can find selected talks and presentations I have delivered.</p>
+    </section>
+
+    <section>
+      <h3>PhD Defense – Singular Value Decomposition for Time Series Analysis in Smart Energy Systems</h3>
+      <video controls width="640">
+        <source src="https://collegerama.tudelft.nl/Mediasite/FileServer/Presentation/ff2fa6da2b1e422dae3507733a0227101d/videopodcast.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+      </video>
+      <p>
+        Defense date: December 19, 2022<br>
+        Institution: Delft University of Technology & Centrum Wiskunde & Informatica
+      </p>
+    </section>
+
+    <section>
+      <h3>Upcoming / Recent Talks</h3>
+      <p>Below is a placeholder for future talks and presentations. As more events occur, I will update this section with recordings, slides, and summaries.</p>
+      <ul>
+        <li>
+          Biweekly stakeholder meetings (internal, not recorded).
+        </li>
+        <li>
+          Future invited seminars and webinars.
+        </li>
+      </ul>
+    </section>
+  </main>
+
+  <footer>
+    <p>&copy; 2025 Majid Khoshrou</p>
+    <div class="social-links">
+      <a href="https://www.linkedin.com/in/majid-khoshrou-a2728349/" target="_blank">LinkedIn</a> |
+      <a href="https://scholar.google.com/citations?user=RPdtjy0AAAAJ&hl=nl&oi=ao" target="_blank">Google Scholar</a> |
+      <a href="https://github.com/majidkhoshrou" target="_blank">GitHub</a>
+    </div>
+  </footer>
+
+  <script> fetch("/api/log-visit", { method: "POST" }); </script>
+</body>
+</html>

@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="description" content="Homepage of Majid Khoshrou - Data Scientist specializing in machine learning, forecasting, and real-time analytics." />
+  <meta http-equiv="pragma" content="no-cache"/>
+  <title>Majid Khoshrou - Data Scientist</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+  <header>
+    <div class="header-container">
+      <img src="{{ url_for('static', filename='images/majid_tudelft_02.png') }}" alt="Majid Khoshrou" class="profile-photo">
+      <h1>Majid Khoshrou</h1>
+      <p>Data Scientist | Machine Learning | Forecasting | Real-Time Analytics</p>
+    </div>
+    <nav>
+      <ul>
+        <li><a href="{{ url_for('home') }}">Home</a></li>
+        <li><a href="{{ url_for('about') }}">About Me</a></li>
+        <li><a href="{{ url_for('cv') }}">CV</a></li>
+        <li><a href="{{ url_for('projects') }}">Projects</a></li>
+        <li><a href="{{ url_for('research') }}">Research & Publications</a></li>
+        <li><a href="{{ url_for('talks') }}">Talks</a></li>
+        <li><a href="{{ url_for('ask_mr_m') }}">Ask Mr. <i>M</i></a></li>
+        <li><a href="{{ url_for('analytics') }}">Analytics</a></li>
+        <li><a href="{{ url_for('contact') }}">Contact</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <section class="intro">
+      <h2>Welcome</h2>
+      <p>
+        I am a Data Scientist with over a decade of experience applying machine learning, forecasting, and real-time analytics to solve complex challenges in energy systems, urban mobility, and sustainability.
+      </p>
+      <p>
+        Feel free to explore my research, projects, and publications, or get in touch for collaboration opportunities.
+      </p>
+      <a href="cv.html" class="button">View My CV</a>
+    </section>
+
+    <section class="highlights">
+      <h2>Highlights</h2>
+      <div class="cards">
+        <div class="card">
+          <h3>Research & Publications</h3>
+          <p>Discover my peer-reviewed research in time series forecasting and smart energy systems.</p>
+          <a href="research.html" class="button">Learn More</a>
+        </div>
+        <div class="card">
+          <h3>Projects</h3>
+          <p>Explore selected projects, open-source contributions, and real-world applications.</p>
+          <a href="projects.html" class="button">View Projects</a>
+        </div>
+        <div class="card">
+          <h3>Talks & Presentations</h3>
+          <p>See my invited talks, lectures, and recorded presentations.</p>
+          <a href="talks.html" class="button">Watch Talks</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p>&copy; 2025 Majid Khoshrou</p>
+    <div class="social-links">
+      <a href="https://www.linkedin.com/in/majid-khoshrou-a2728349/" target="_blank">LinkedIn</a> |
+      <a href="https://scholar.google.com/citations?user=RPdtjy0AAAAJ&hl=nl&oi=ao" target="_blank">Google Scholar</a> |
+      <a href="https://github.com/majidkhoshrou" target="_blank">GitHub</a>
+    </div>
+  </footer>
+  <script> fetch("/api/log-visit", { method: "POST" }); </script>
+
+</body>
+</html>
