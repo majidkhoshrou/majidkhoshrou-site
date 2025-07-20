@@ -21,7 +21,9 @@ client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 # ⚙️ Flask + CORS setup
 # ------------------------------
 app = Flask(__name__, static_folder="static", template_folder="templates")
-CORS(app)
+app.jinja_env.globals.update(request=request)
+
+# CORS(app)
 
 # ------------------------------
 # 📂 Load FAISS index & metadata
