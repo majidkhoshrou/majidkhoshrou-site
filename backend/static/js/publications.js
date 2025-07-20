@@ -32,8 +32,8 @@ fetch('/static/data/publications.json')
         ${doiLink ? `<p><a href="${doiLink}" target="_blank">View DOI</a></p>` : ''}
         <div class="abstract-actions">
           <button onclick="toggleAbstract(${index})">Read Abstract</button>
-          <a href="chat.html?query=${encodeURIComponent('Show me the abstract of ' + pub.title)}" class="chat-link">
-            💬 Ask AI Assistant
+          <a href="/ask-mr-m?query=${encodeURIComponent('Tell me more about the publication titled: ' + pub.title)}" class="chat-link">
+            💬 Ask Mr. <i>M</i>
           </a>
         </div>
         <div id="abstract-${index}" class="abstract-text" style="display:none;">
@@ -47,13 +47,11 @@ fetch('/static/data/publications.json')
     console.error('Error loading publications:', error);
   });
 
-// Toggle function
 function toggleAbstract(index) {
   const el = document.getElementById(`abstract-${index}`);
   el.style.display = el.style.display === 'none' ? 'block' : 'none';
 }
 
-// Capitalize helper
 function capitalize(str) {
   return str ? str.charAt(0).toUpperCase() + str.slice(1) : '';
 }

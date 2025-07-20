@@ -4,7 +4,7 @@ import requests
 from datetime import datetime
 from flask import request
 from collections import defaultdict
-from typing import Dict, Any
+from typing import Dict, Any, List
 
 
 def parse_device(user_agent: str) -> str:
@@ -19,7 +19,6 @@ def parse_device(user_agent: str) -> str:
     else:
         return "Desktop"
 
-
 def log_visit(log_dir: Path = Path("data")):
     log_file = log_dir / "visits.json"
     log_dir.mkdir(parents=True, exist_ok=True)
@@ -33,17 +32,29 @@ def log_visit(log_dir: Path = Path("data")):
         if response.status_code == 200:
             geo = response.json()
             country = geo.get("country_name", "Unknown")
+            latitude = geo.get("latitude")
+            longitude = geo.get("longitude")
+            proxy = geo.get("proxy", False)
         else:
             country = "Unknown"
+            latitude = None
+            longitude = None
+            proxy = False
     except Exception:
         country = "Unknown"
+        latitude = None
+        longitude = None
+        proxy = False
 
     log_entry = {
         "ip": ip,
         "country": country,
         "device": device,
         "user_agent": user_agent,
-        "timestamp": datetime.utcnow().isoformat()
+        "timestamp": datetime.utcnow().isoformat(),
+        "proxy": proxy,
+        "latitude": latitude,
+        "longitude": longitude
     }
 
     logs = []
@@ -57,7 +68,7 @@ def log_visit(log_dir: Path = Path("data")):
         json.dump(logs, f, indent=2)
 
 
-def load_analytics_data(log_dir: Path = Path("data")) -> list:
+def load_analytics_data(log_dir: Path = Path("data")) -> List[Dict[str, Any]]:
     log_file = log_dir / "visits.json"
     if not log_file.exists():
         return []
@@ -65,30 +76,44 @@ def load_analytics_data(log_dir: Path = Path("data")) -> list:
         return json.load(f)
 
 
-def summarize_analytics() -> Dict[str, Any]:
-    data_path = Path(__file__).resolve().parent.parent / "data" / "visits.json"
+def summarize_analytics(log_dir: Path = Path("data")) -> Dict[str, Any]:
+    log_file = log_dir / "visits.json"
 
-    if not data_path.exists():
+    if not log_file.exists():
         return {
             "total_visits": 0,
             "by_country": {},
             "by_device": {},
             "by_ip": {},
-            "by_day": {}
+            "by_day": {},
+            "unknown_country_count": 0,
+            "vpn_count": 0
         }
 
-    with data_path.open("r", encoding="utf-8") as f:
+    with log_file.open("r", encoding="utf-8") as f:
         visits = json.load(f)
 
     by_country = defaultdict(int)
     by_device = defaultdict(int)
     by_ip = defaultdict(int)
     by_day = defaultdict(int)
+    vpn_count = 0
+    unknown_country_count = 0
 
     for visit in visits:
-        by_country[visit.get("country", "Unknown")] += 1
-        by_device[visit.get("device", "Unknown")] += 1
-        by_ip[visit.get("ip", "Unknown")] += 1
+        country = visit.get("country", "Unknown")
+        device = visit.get("device", "Unknown")
+        ip = visit.get("ip", "Unknown")
+
+        by_country[country] += 1
+        by_device[device] += 1
+        by_ip[ip] += 1
+
+        if country == "Unknown":
+            unknown_country_count += 1
+
+        if visit.get("proxy") is True:
+            vpn_count += 1
 
         timestamp = visit.get("timestamp", "")
         try:
@@ -102,5 +127,7 @@ def summarize_analytics() -> Dict[str, Any]:
         "by_country": dict(by_country),
         "by_device": dict(by_device),
         "by_ip": dict(by_ip),
-        "by_day": dict(by_day)
+        "by_day": dict(by_day),
+        "unknown_country_count": unknown_country_count,
+        "vpn_count": vpn_count
     }

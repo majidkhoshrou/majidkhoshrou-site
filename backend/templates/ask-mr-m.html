@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <meta name="description" content="Chat with Mr. M – Majid Khoshrou's personal AI assistant." />
   <meta http-equiv="pragma" content="no-cache"/>
-  <title>Ask Mr. M – Majid Khoshrou</title>
+  <title>Ask Mr. M – AI Assistant | Majid Khoshrou</title>
   <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
   <link rel="stylesheet" href="{{ url_for('static', filename='css/chat-style.css') }}">
 </head>
@@ -68,10 +68,24 @@
     <p>&copy; 2025 Majid Khoshrou</p>
     <div class="social-links">
       <a href="https://www.linkedin.com/in/majid-khoshrou-a2728349/" target="_blank">LinkedIn</a> |
-      <a href="https://scholar.google.com/citations?user=RPdtjy0AAAAJ" target="_blank">Google Scholar</a> |
+      <a href="https://scholar.google.com/citations?user=RPdtjy0AAAAJ&hl=nl&oi=ao" target="_blank">Google Scholar</a> |
       <a href="https://github.com/majidkhoshrou" target="_blank">GitHub</a>
     </div>
   </footer>
+
+    <script>
+    const params = new URLSearchParams(window.location.search);
+    const prefill = params.get("query");
+    if (prefill) {
+      const inputEl = document.getElementById("user-input");
+      inputEl.value = prefill;
+      inputEl.focus();
+
+      // Optional: Auto-send message to Mr. M
+      // setTimeout(() => document.getElementById("send-button").click(), 600);
+    }
+    </script>
+
 
   <script src="{{ url_for('static', filename='js/chat.js') }}"></script>
 
