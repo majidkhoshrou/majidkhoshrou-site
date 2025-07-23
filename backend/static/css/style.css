@@ -16,30 +16,28 @@ html, body {
 header {
   background-color: #0d47a1;
   color: white;
-  padding: 0; /* Remove centering here */
+  padding: 0;
 }
 
 .header-container {
   padding: 20px;
-  text-align: center; /* Center just header text and photo */
+  text-align: center;
 }
 
-header .profile-photo {
+.profile-photo {
   width: 120px;
   height: 120px;
   border-radius: 50%;
   border: 3px solid #fff;
   transition: transform 0.3s ease;
   transform-origin: center center;
-  position: relative;       /* Makes z-index work */
-  z-index: 1;               /* Ensures it’s above other elements */
+  position: relative;
+  z-index: 1;
 }
 
-
-header .profile-photo:hover {
+.profile-photo:hover {
   transform: scale(3) translateY(30%);
 }
-
 
 header h1 {
   margin: 10px 0 5px;
@@ -56,10 +54,8 @@ header p {
 ============================= */
 nav {
   display: block;
-  background-color: #1565c0; /* Bar background color */
-  width: 100%;               /* Full width */
-  margin: 0;
-  padding: 0;
+  background-color: #1565c0;
+  width: 100%;
 }
 
 nav ul {
@@ -67,8 +63,8 @@ nav ul {
   margin: 0;
   padding: 0;
   display: flex;
-  justify-content: center;   /* Center links horizontally */
-  flex-wrap: wrap;           /* Wrap if needed */
+  justify-content: center;
+  flex-wrap: wrap;
 }
 
 nav li {
@@ -84,23 +80,21 @@ nav a {
   transition: background-color 0.3s, transform 0.2s ease;
 }
 
-/* Hover and focus styles */
 nav a:hover,
 nav a:focus {
   background-color: #1565c0;
   transform: scale(1.15);
 }
 
-/* Active page highlight */
 nav a.active {
   background-color: #0d47a1;
 }
 
-/* Responsive: Stack vertically on small screens */
 @media (max-width: 600px) {
   nav ul {
     flex-direction: column;
   }
+
   nav a {
     text-align: center;
   }
@@ -110,9 +104,10 @@ nav a.active {
    Main content
 =============== */
 main {
-  max-width: 1000px;
+  width: 95%;
+  max-width: 1400px;
   margin: 20px auto;
-  padding: 0 15px;
+  padding: 0 10px;
 }
 
 .intro {
@@ -128,31 +123,81 @@ main {
   font-size: 1.1em;
 }
 
+/* =============
+   Reusable Button
+=============== */
 .button {
   display: inline-block;
+  margin-top: 0.5rem;
   padding: 10px 20px;
   background-color: #1565c0;
   color: white;
   text-decoration: none;
   border-radius: 4px;
-  margin-top: 10px;
+  transition: transform 0.2s ease, background-color 0.3s ease;
 }
 
 .button:hover {
-  background-color: #1565c0;
-  transform: scale(1.13);
+  background-color: #0d47a1;
+  transform: scale(1.1);
 }
 
 /* =============
-   Highlight cards
+   Highlight Projects (New Layout)
 =============== */
 .highlights {
   display: flex;
-  flex-wrap: wrap;
-  gap: 20px;
-  justify-content: center;
+  flex-direction: column;
+  gap: 2rem;
+  padding: 1rem;
 }
 
+.project {
+  display: flex;
+  align-items: flex-start;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid #ddd;
+}
+
+.project-media {
+  width: 300px;
+  max-width: 100%;
+  border-radius: 8px;
+  object-fit: contain;
+}
+
+.project-info {
+  flex: 1;
+  min-width: 250px;
+}
+
+.project-info h3 {
+  margin-top: 0;
+}
+
+/* Responsive stacking for small screens */
+@media (max-width: 700px) {
+  .project {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .project-media {
+    width: 100%;
+    max-width: 400px;
+  }
+
+  .project-info {
+    min-width: unset;
+  }
+}
+
+/* =============
+   Card Grid (Deprecated if using new layout)
+=============== */
 .cards {
   display: flex;
   flex-wrap: wrap;
@@ -171,11 +216,7 @@ main {
   text-align: center;
   display: flex;
   flex-direction: column;
-  justify-content: space-between; /* Distribute space between content and button */
-}
-
-.card .button {
-  margin-top: 10px;
+  justify-content: space-between;
 }
 
 .card h3 {
@@ -196,7 +237,6 @@ footer {
   background-color: #eeeeee;
   margin-top: 40px;
 }
-
 
 /* =============
    Contact

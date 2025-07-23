@@ -3,11 +3,17 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Analytics - Majid Khoshrou</title>
-  <meta name="description" content="Visitor analytics for Majid Khoshrou's portfolio site." />
+  <meta name="description" content="Majid Khoshrou – Data Scientist specialized in machine learning, forecasting, and real-time analytics." />
+  <meta http-equiv="pragma" content="no-cache"/>
+  <meta property="og:title" content="Majid Khoshrou - Data Scientist">
+  <meta property="og:description" content="Forecasting, machine learning, and real-time analytics in energy & mobility.">
+  <meta property="og:image" content="{{ url_for('static', filename='images/majid_tudelft_02.png', _external=True) }}">
+  <meta property="og:type" content="website">
   <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
   <link rel="stylesheet" href="{{ url_for('static', filename='css/analytics-style.css') }}">
   <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+  <title>Majid Khoshrou - Data Scientist</title>
+  <link rel="icon" href="{{ url_for('static', filename='images/MK.jpeg') }}">
 </head>
 <body>
 
@@ -21,7 +27,6 @@
       <ul>
         <li><a href="{{ url_for('home') }}" class="{% if request.endpoint == 'home' %}active{% endif %}">Home</a></li>
         <li><a href="{{ url_for('about') }}" class="{% if request.endpoint == 'about' %}active{% endif %}">About Me</a></li>
-        <li><a href="{{ url_for('cv') }}" class="{% if request.endpoint == 'cv' %}active{% endif %}">CV</a></li>
         <li><a href="{{ url_for('projects') }}" class="{% if request.endpoint == 'projects' %}active{% endif %}">Projects</a></li>
         <li><a href="{{ url_for('research') }}" class="{% if request.endpoint == 'research' %}active{% endif %}">Research & Publications</a></li>
         <li><a href="{{ url_for('talks') }}" class="{% if request.endpoint == 'talks' %}active{% endif %}">Talks</a></li>

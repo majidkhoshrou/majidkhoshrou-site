@@ -36,33 +36,35 @@
 
   <main>
     <section class="intro">
-      <h2>Talks & Presentations</h2>
-      <p>Here you can find selected talks and presentations I have delivered.</p>
-    </section>
-
-    <section>
-      <h3>PhD Defense – Singular Value Decomposition for Time Series Analysis in Smart Energy Systems</h3>
-      <video controls width="640">
-        <source src="https://collegerama.tudelft.nl/Mediasite/FileServer/Presentation/ff2fa6da2b1e422dae3507733a0227101d/videopodcast.mp4" type="video/mp4">
-        Your browser does not support the video tag.
-      </video>
+      <h2>Welcome</h2>
       <p>
-        Defense date: December 19, 2022<br>
-        Institution: Delft University of Technology & Centrum Wiskunde & Informatica
+        I am a Data Scientist with over a decade of experience applying machine learning, forecasting, and real-time analytics to solve complex challenges in energy systems, urban mobility, and sustainability.
       </p>
+      <p>
+        Feel free to explore my research, projects, and publications, or get in touch for collaboration opportunities.
+      </p>
+      <a href="{{ url_for('static', filename='pdfs/CV_Majid_Khoshrou.pdf') }}" class="button" download>Download My CV</a>
     </section>
 
-    <section>
-      <h3>Upcoming / Recent Talks</h3>
-      <p>Below is a placeholder for future talks and presentations. As more events occur, I will update this section with recordings, slides, and summaries.</p>
-      <ul>
-        <li>
-          Biweekly stakeholder meetings (internal, not recorded).
-        </li>
-        <li>
-          Future invited seminars and webinars.
-        </li>
-      </ul>
+    <section class="highlights">
+      <h2>Highlights</h2>
+      <div class="cards">
+        <div class="card">
+          <h3>Research & Publications</h3>
+          <p>Discover my peer-reviewed research in time series forecasting and smart energy systems.</p>
+          <a href="research.html" class="button">Learn More</a>
+        </div>
+        <div class="card">
+          <h3>Projects</h3>
+          <p>Explore selected projects, open-source contributions, and real-world applications.</p>
+          <a href="projects.html" class="button">View Projects</a>
+        </div>
+        <div class="card">
+          <h3>Talks & Presentations</h3>
+          <p>See my invited talks, lectures, and recorded presentations.</p>
+          <a href="talks.html" class="button">Watch Talks</a>
+        </div>
+      </div>
     </section>
   </main>
 
@@ -74,7 +76,7 @@
       <a href="https://github.com/majidkhoshrou" target="_blank">GitHub</a>
     </div>
   </footer>
-
   <script> fetch("/api/log-visit", { method: "POST" }); </script>
+
 </body>
 </html>
