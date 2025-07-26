@@ -8,7 +8,7 @@ from flask_cors import CORS
 from dotenv import load_dotenv
 from openai import OpenAI
 
-from libs.search import get_faiss_index, load_chunks, query_index
+from libs.search import get_faiss_index, load_metadata_pickle, query_index
 from libs.analytics import log_visit, load_analytics_data, summarize_analytics
 
 # ------------------------------
@@ -33,11 +33,10 @@ app.jinja_env.globals.update(request=request)
 # ------------------------------
 data_dir = Path(__file__).resolve().parent / "data"
 faiss_index_path = data_dir / "faiss.index"
-chunks_path = data_dir / "faiss_metadata.json"
+chunks_path = data_dir / "metadata.pkl"
 
 index = get_faiss_index(faiss_index_path)
-metadata = load_chunks(chunks_path)
-
+metadata = load_metadata_pickle(chunks_path)
 print(f"✅ FAISS index loaded with {index.ntotal} vectors")
 
 # ------------------------------
@@ -92,7 +91,8 @@ def chat():
 
     try:
         relevant_chunks = query_index(message, index, metadata, top_k=5)
-        context = "\n\n".join([f"Source: {c['source']}\n{c['text']}" for c in relevant_chunks])
+        context = "\n\n".join([f"Source: {c['source_path']}\n{c['text']}" for c in relevant_chunks])
+
 
         messages = [
             {

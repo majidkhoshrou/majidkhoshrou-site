@@ -4,6 +4,8 @@ import json
 import numpy as np
 import faiss
 from openai import OpenAI
+from dotenv import load_dotenv
+import os
 
 def get_faiss_index(index_path: Path) -> faiss.Index:
     """
@@ -17,42 +19,36 @@ def get_faiss_index(index_path: Path) -> faiss.Index:
     """
     return faiss.read_index(str(index_path))
 
-def load_chunks(chunks_path: Path) -> List[Dict[str, Any]]:
-    """
-    Load document chunks and their metadata from a JSON file.
+def load_metadata_pickle(path: Path) -> List[Dict]:
+    import pickle
+    with open(path, "rb") as f:
+        return pickle.load(f)
 
-    Args:
-        chunks_path (Path): Path to the JSON file containing chunks.
 
-    Returns:
-        List[Dict[str, Any]]: A list of chunk dictionaries.
-    """
-    with chunks_path.open("r", encoding="utf-8") as f:
-        return json.load(f)
 
-def query_index(
-    query: str,
-    index: faiss.Index,
-    chunks: List[Dict[str, Any]],
-    top_k: int = 5
-) -> List[Dict[str, Any]]:
-    """
-    Embed the query and return the top-k most relevant chunks.
+load_dotenv()
+client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
-    Args:
-        query (str): The user's question.
-        index (faiss.Index): The FAISS index to search.
-        chunks (List[Dict[str, Any]]): List of all document chunks with metadata.
-        top_k (int, optional): Number of top matches to return. Defaults to 5.
-
-    Returns:
-        List[Dict[str, Any]]: Top-matching chunks with source and text info.
-    """
-    client = OpenAI()
+def query_index(question: str, index, metadata: List[Dict], top_k: int = 5) -> List[Dict]:
     response = client.embeddings.create(
-        input=query,
+        input=question,
         model="text-embedding-3-small"
     )
-    embedding = np.array(response.data[0].embedding).astype("float32").reshape(1, -1)
-    distances, indices = index.search(embedding, top_k)
-    return [chunks[i] for i in indices[0] if i < len(chunks)]
+    query_vector = np.array(response.data[0].embedding).astype("float32").reshape(1, -1)
+
+    distances, indices = index.search(query_vector, top_k)
+
+    results = []
+    for i, idx in enumerate(indices[0]):
+        if idx < len(metadata):
+            results.append(metadata[idx])
+    return results
+
+
+# Add distance
+# something to do!
+# for i, idx in enumerate(indices[0]):
+#     if idx < len(metadata):
+#         match = metadata[idx].copy()
+#         match["distance"] = float(distances[0][i])
+#         results.append(match)
