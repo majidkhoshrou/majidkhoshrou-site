@@ -4,27 +4,16 @@ import spacy
 import json
 import requests
 from bs4 import BeautifulSoup
-from urllib.parse import urlparse
+from urllib.parse import urlparse, urljoin
 from pathlib import Path
 import datetime
 from tqdm import tqdm
 
 nlp = spacy.load("en_core_web_sm")
 MAX_TOKENS = 1000
-CACHE_DIR = Path(".cache_linked")
-
-import shutil
-from pathlib import Path
 
 CACHE_DIR = Path(".cache_linked")
-
-def reset_cache_dir():
-    if CACHE_DIR.exists():
-        shutil.rmtree(CACHE_DIR)
-    CACHE_DIR.mkdir(parents=True, exist_ok=True)
-    print("🧹 Cache directory reset: .cache_linked/")
-
-reset_cache_dir()
+CACHE_DIR.mkdir(exist_ok=True)
 
 def make_chunk(path, title, text, chunk_index, block=None, source_url=None, parent_source=None, source_type="html"):
     return {
@@ -35,42 +24,39 @@ def make_chunk(path, title, text, chunk_index, block=None, source_url=None, pare
         "text": text,
         "metadata": {
             "chunk_index": chunk_index,
-            "created_at": datetime.datetime.now(datetime.timezone.utc).isoformat(),
+            "created_at": datetime.datetime.now(datetime.UTC),
             "source_url": source_url,
             "parent_source": str(parent_source) if parent_source else None,
+            "source_domain": urlparse(source_url).netloc if source_url else "local",
             "links": extract_links_from_block(block) if block else []
         }
     }
 
 def extract_links_from_block(block):
-    if not block:
-        return []
     links = []
     for a in block.find_all("a"):
         href = a.get("href", "").strip()
         if href:
-            links.append({
-                "text": a.get_text(strip=True),
-                "href": href
-            })
+            links.append({"text": a.get_text(strip=True), "href": href})
     return links
 
 def extract_first_level_links(soup):
-    html_or_pdf_links = []
+    links = []
     for a in soup.find_all("a"):
         href = a.get("href", "").strip()
         if not href or href.startswith("#") or href.lower().startswith("mailto:"):
             continue
-        html_or_pdf_links.append({
+        links.append({
             "href": href,
             "text": a.get_text(strip=True)
         })
-    return html_or_pdf_links
+    return links
 
 def chunk_text(text, chunk_index_start, path, title, block, source_url, parent_source, source_type):
     doc = nlp(text)
     chunks = []
     current_chunk, token_count, chunk_index = "", 0, chunk_index_start
+
     for sent in doc.sents:
         sentence_text = sent.text.strip()
         if not sentence_text:
@@ -83,6 +69,7 @@ def chunk_text(text, chunk_index_start, path, title, block, source_url, parent_s
                 current_chunk, token_count = "", 0
         current_chunk += " " + sentence_text
         token_count += sent_len
+
     if current_chunk.strip():
         chunks.append(make_chunk(path, title, current_chunk.strip(), chunk_index, block, source_url, parent_source, source_type))
     return chunks
@@ -90,8 +77,15 @@ def chunk_text(text, chunk_index_start, path, title, block, source_url, parent_s
 def process_html_file(path, source_url=None, parent_source=None, is_remote=False, visited=None):
     html = path.read_text(encoding="utf-8")
     soup = BeautifulSoup(html, "html.parser")
+
+    # ✅ STEP 1: Extract links before cleaning
+    link_refs = extract_first_level_links(soup)
+
+    # ✅ STEP 2: Remove noisy tags *after* extracting links
     for tag in soup(["header", "nav", "footer", "script", "style"]):
         tag.decompose()
+
+    # ✅ STEP 3: Prepare chunkable content
     title = soup.title.string.strip() if soup.title else "Untitled"
     candidates = soup.find_all(["p", "section", "article", "li"])
 
@@ -101,11 +95,14 @@ def process_html_file(path, source_url=None, parent_source=None, is_remote=False
         text = block.get_text(separator=" ", strip=True)
         if not text:
             continue
-        block_chunks = chunk_text(text, chunk_index, path, title, block, source_url, parent_source, source_type="html")
+        block_chunks = chunk_text(
+            text, chunk_index, path, title, block,
+            source_url, parent_source, source_type="html"
+        )
         chunks.extend(block_chunks)
         chunk_index += len(block_chunks)
 
-    link_refs = extract_first_level_links(soup)
+    # ✅ STEP 4: Follow 1-level links
     if visited is None:
         visited = set()
 
@@ -119,20 +116,21 @@ def process_html_file(path, source_url=None, parent_source=None, is_remote=False
             if href.lower().endswith(".pdf"):
                 pdf_chunks = process_pdf_file(href, parent_source=path)
                 chunks.extend(pdf_chunks)
-            else:
+            else:  # HTML or web page
                 response = requests.get(href, timeout=10)
                 response.raise_for_status()
                 filename = Path(urlparse(href).path).name or f"temp_{uuid.uuid4().hex}.html"
-                cache_path = CACHE_DIR / filename
-                cache_path.write_text(response.text, encoding="utf-8")
+                temp_path = Path("/tmp") / filename
+                temp_path.write_text(response.text, encoding="utf-8")
                 linked_chunks, _ = process_html_file(
-                    cache_path,
+                    temp_path,
                     source_url=href,
                     parent_source=path,
                     is_remote=True,
                     visited=visited,
                 )
                 chunks.extend(linked_chunks)
+
         except Exception as e:
             print(f"⚠️ Failed to fetch linked content from {href}: {e}")
 
@@ -153,6 +151,7 @@ def process_pdf_file(url_or_path, parent_source=None):
     chunks = []
     title = "PDF Document"
     chunk_index = 0
+
     for page in doc:
         text = page.get_text().strip()
         if not text:
@@ -160,6 +159,7 @@ def process_pdf_file(url_or_path, parent_source=None):
         page_chunks = chunk_text(text, chunk_index, source_path, title, block=None, source_url=source_url, parent_source=parent_source, source_type="pdf")
         chunks.extend(page_chunks)
         chunk_index += len(page_chunks)
+
     return chunks
 
 def extract_all_chunks(html_dir: Path, pdf_dir: Path, output_path: Path) -> list:

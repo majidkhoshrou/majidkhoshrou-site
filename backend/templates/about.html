@@ -5,12 +5,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <meta name="description" content="Majid Khoshrou – Data Scientist specialized in machine learning, forecasting, and real-time analytics." />
   <meta http-equiv="pragma" content="no-cache"/>
-  <meta property="og:title" content="Majid Khoshrou - Data Scientist">
+  <meta property="og:title" content="Majid Khoshrou - About Me">
   <meta property="og:description" content="Forecasting, machine learning, and real-time analytics in energy & mobility.">
   <meta property="og:image" content="{{ url_for('static', filename='images/majid_tudelft_02.png', _external=True) }}">
   <meta property="og:type" content="website">
   <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
-  <title>Majid Khoshrou - Data Scientist</title>
+  <title>Majid Khoshrou - About Me</title>
   <link rel="icon" href="{{ url_for('static', filename='images/MK.jpeg') }}">
 </head>
 <body>
@@ -78,8 +78,31 @@
           <time datetime="2012-09">(2012–2015)</time></li>
         <li>BSc in Electrical Power Engineering – Babol Noshirvani University of Technology 
           <time datetime="2007-09">(2007–2011)</time></li>
+          <li>link to a paper external source: <a href="https://pure.tudelft.nl/ws/files/56847223/Applied_Energy_LSBoosting_LoadForecast_002_.pdf" target="_blank">energy forecasting paper</a></li>
       </ul>
     </article>
+
+    
+    <section class="highlights">
+      <h2>Explore</h2>
+      <div class="cards">
+        <div class="card">
+          <h3>Research & Publications</h3>
+          <p>Peer-reviewed work in time series, forecasting, and smart energy systems.</p>
+          <a href="{{ url_for('research') }}" class="button">Learn More</a>
+        </div>
+        <div class="card">
+          <h3>Projects</h3>
+          <p>Real-world applications and open-source contributions.</p>
+          <a href="{{ url_for('projects') }}" class="button">View Projects</a>
+        </div>
+        <div class="card">
+          <h3>Talks</h3>
+          <p>Invited talks, lectures, and recorded presentations.</p>
+          <a href="{{ url_for('talks') }}" class="button">Watch Talks</a>
+        </div>
+      </div>
+    </section>
 
     <!-- Optional visual section -->
     

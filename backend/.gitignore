@@ -18,3 +18,5 @@ __pycache__/
 test.py
 
 data/
+
+.dump

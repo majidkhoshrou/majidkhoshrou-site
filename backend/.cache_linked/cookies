@@ -1,0 +1,1141 @@
+
+<!doctype html>
+<html lang="nl">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Cookies - Alliander</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <meta name="format-detection" content="telephone=no">
+    <meta name="format-detection" content="date=no">
+    <meta name="format-detection" content="address=no">
+    <meta name="format-detection" content="email=no">
+
+    <link rel="apple-touch-icon" sizes="180x180" href="https://www.alliander.com/kaliberjs/images/favicons/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="https://www.alliander.com/kaliberjs/images/favicons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="https://www.alliander.com/kaliberjs/images/favicons/favicon-16x16.png">
+    <link rel="manifest" href="https://www.alliander.com/kaliberjs/images/favicons/site.webmanifest">
+    <link rel="shortcut icon" href="https://www.alliander.com/kaliberjs/images/favicons/favicon.ico">
+    <meta name="msapplication-TileColor" content="#ffffff">
+    <meta name="msapplication-config" content="https://www.alliander.com/kaliberjs/images/favicons/browserconfig.xml">
+    <meta name="theme-color" content="#ffffff">
+
+    <meta name="facebook-domain-verification" content="9mjrwj2f1smspzf2chmee0eb2pk6m1" />
+    <script src='https://use.typekit.net/uau7gpt.js'></script>
+
+    <noscript>
+      <link rel='stylesheet' href='https://use.typekit.net/uau7gpt.css' />
+    </noscript>
+
+    <script async>
+      try {
+        Typekit.load({
+          kitId: 'uau7gpt',
+          scriptTimeout: 3000,
+          async: true
+        });
+      } catch (e) {
+        console.error(e)
+      }
+    </script>
+
+    <!-- Rollbar -->
+    <script>
+      var _rollbarConfig = {
+        accessToken: "cfd1b74b1e2546f191aa171a86f0f187",
+        captureUncaught: true,
+        captureUnhandledRejections: true,
+        payload: {
+          environment: "prd-dotcom",
+          client: {
+            javascript: {
+              source_map_enabled: true,
+              code_version: "a27cba3ef205fd7ab69b7cfd2b5319b313a41dad"
+            }
+          }
+        },
+        scrubTelemetryInputs: true,
+        captureIp: false,
+        enabled: // Only add polyfilled functions
+(
+  typeof WeakSet === 'function' &&
+  typeof Map === 'function' &&
+  typeof IntersectionObserver === 'function' &&
+  typeof Object.entries === 'function'
+)
+,
+        checkIgnore: function checkIgnore(isUncaught, args, payload) { // eslint-disable-line no-unused-vars
+  // only use simple old browser javascript
+  var ignoredUserAgents = [
+    'PhantomJS',
+    'AdsBot-Google',
+    'Jooblebot',
+    'Acunetix-Deepscan',
+    'DuckDuckBot',
+    'CVZillaBot',
+    'Bytespider',
+    'AhrefsBot',
+    'SemrushBot',
+    'Googlebot',
+    'bingbot'
+  ]
+
+  var ignoredMessages = [
+    /^$/,
+    /^\{\}$/,
+    /^Error$/,
+    /^Script error\.?$/,
+    /^\(unknown\) Script error\./,
+    /^(TypeError: )?Load failed$/,
+    /^(TypeError: )?Failed to fetch$/,
+    /^(AbortError: )?Fetch is aborted$/,
+    /^(TypeError: )?De netwerkverbinding is verbroken$/,
+    /^(TypeError: )?The network connection was lost$/,
+    /^ResizeObserver loop limit exceeded$/,
+    /^ResizeObserver loop completed with undelivered notifications\.?$/,
+    /^Failed to execute 'getValue' on 'CookieDeprecationLabel'$/,
+    /^undefined is not an object \(evaluating 'r\.DomainData'\)$/,
+    /^(TypeError: )?Illegal invocation$/,
+    /^(\(unknown\): )?"Timeout"$/,
+    /^(Error )?"Timeout"$/,
+    /Share canceled/,
+    /Abort due to cancellation of share/,
+    /^ChunkLoadError/,
+    /^Uncaught SyntaxError: Unexpected token$/,
+    /^(SyntaxError: )?missing \( before catch/,
+    /^(SyntaxError: )?Unexpected token ';'/,
+    /Array.from\(...\).flatMap is not a function/,
+    /Can\'t find variable: _AutofillCallbackHandler/,
+    /Can\'t find variable: gmo/,
+    /^(SyntaxError: )?Performance.measure:/,
+    /Not implemented on this platform/,
+    /^NetworkError when attempting to fetch resource\./,
+    /Error (auth\/invalid-action-code)/,
+    /Failed to construct 'WebSocket': An insecure WebSocket connection may not be initiated from a page loaded over HTTPS/,
+  ]
+
+  var userAgent = window.navigator.userAgent
+  var info = getDescriptionFrameAndMessages()
+
+  return Boolean(
+    isIgnoredMessage() ||
+    isAutomatedBrowser() ||
+    userAgentIsIgnored() ||
+    isOldBrowser() ||
+    isUnresolvableWebViewError() ||
+    isUnresolvableError() ||
+    isIndeedSyntaxError() ||
+    isChromeExtensionError(info) ||
+    isSafariExtension(info)
+  )
+
+  function getDescriptionFrameAndMessages() {
+    var trace = (payload.body && payload.body.trace) || {}
+    var extra = (payload.body && payload.body.extra) || {}
+
+    return {
+      description: (trace && trace.exception && trace.exception.description ) || '',
+      frame: (trace && trace.frames && trace.frames[0]) || {},
+      stack: (extra && extra.stack) || '',
+      messages: getMessagesFromPayload()
+    }
+  }
+
+  function isAutomatedBrowser() {
+    return window.navigator.webdriver
+  }
+
+  function userAgentIsIgnored() {
+    if (!userAgent) return false
+
+    for (var i = 0; i < ignoredUserAgents.length; i++) {
+      var target = ignoredUserAgents[i]
+      if (userAgent.indexOf(target) > -1) return true
+    }
+
+    return false
+  }
+
+  /** 
+   * Exclude old browsers
+   * @see https://caniuse.com/mdn-javascript_builtins_object_entries // macOS/iOS 10.1
+   * @see https://caniuse.com/array-flat // macOS/iOS 12
+   * @see https://caniuse.com/mdn-javascript_builtins_string_matchall // macOS/iOS 13
+   */
+  function isOldBrowser() {
+    return (
+      typeof Object.entries !== 'function' ||
+      typeof [].flatMap !== 'function' ||
+      typeof ''.matchAll !== 'function'
+    )
+  }
+
+  function isUnresolvableWebViewError() {
+    return (
+      userAgent &&
+      userAgent.indexOf('WKWebView') > -1 &&
+      info.frame.method === '[anonymous]' &&
+      info.frame.colno === 0 &&
+      (
+        info.description === "SyntaxError: Unexpected token '='" ||
+        info.description === "SyntaxError: Unexpected token '.'"
+      )
+    )
+  }
+
+  function isUnresolvableError() {
+    return (
+      info.frame.method === '[anonymous]' &&
+      info.frame.colno === 0 &&
+      info.frame.filename === '(unknown)' &&
+      (
+        info.description.indexOf('Cannot read property of undefined/null expression') > -1 ||
+        info.description.indexOf('[unhandledrejection] error getting `reason` from event') > -1 ||
+        info.description.indexOf('Timeout') > -1 ||
+        info.description.indexOf('timeout') > -1 ||
+        info.description.indexOf('timed out') > -1 ||
+        info.description.indexOf('wallet must has at least one account') > -1 ||
+        info.description.indexOf('Object Not Found Matching Id') > -1 // Caused by Outlook Safe Link Scan
+      )
+    )
+  }
+
+  function isIndeedSyntaxError() {
+    return (
+      userAgent &&
+      userAgent.indexOf('Indeed') > -1 &&
+      info.description.includes('SyntaxError')
+    )
+  }
+
+  function isChromeExtensionError(info) {
+    const hasChromeExtensionFilename = 
+      userAgent &&
+      info.frame &&
+      info.frame.filename &&
+      info.frame.filename.indexOf('chrome-extension://') > -1
+
+    const hasChromeExtensionStack = 
+      userAgent &&
+      info.stack &&
+      info.stack.indexOf('chrome-extension://') > -1
+
+    return hasChromeExtensionFilename || hasChromeExtensionStack
+  }
+
+  function isSafariExtension(info) {
+    return (
+      userAgent &&
+      info.frame &&
+      info.frame.filename &&
+      info.frame.filename.indexOf('webkit-masked-url://') > -1
+    )
+  }
+
+  function isIgnoredMessage() {
+    var messages = info.messages
+
+    for (var i = 0; i < ignoredMessages.length; i++) {
+      for (var j = 0; j < messages.length; j++) {
+        const messageIsIgnored = ignoredMessages[i].test(messages[j])
+        if (messageIsIgnored) return true
+      }
+    }
+
+    return false
+  }
+
+  //This code is taken https://github.dev/rollbar/rollbar.js/blob/02b77f5a99641e0a27ae840fa268800dd5de812c/src/predicates.js
+  function getMessagesFromPayload() {
+    var body = payload.body
+    var messages = []
+    // The payload schema only allows one of trace_chain, message, or trace.
+    // However, existing test cases are based on having both trace and message present.
+    // So here we preserve the ability to collect strings from any combination of these keys.
+    if (body.trace_chain) {
+      var traceChain = body.trace_chain
+      for (var i = 0; i < traceChain.length; i++) {
+        var trace = traceChain[i]
+        messages.push(get(trace, 'exception.message'))
+      }
+    }
+
+    if (body.trace) messages.push(get(body, 'trace.exception.message'))
+    if (body.message) messages.push(get(body, 'message.body'))
+
+    return messages
+  }
+
+  //This code is taken from https://github.dev/rollbar/rollbar.js/blob/02b77f5a99641e0a27ae840fa268800dd5de812c/src/utility.js
+  function get(obj, path) {
+    if (!obj) return undefined
+
+    var keys = path.split('.')
+    var result = obj
+    try {
+      for (var i = 0, len = keys.length; i < len; ++i) {
+        result = result[keys[i]]
+      }
+    } catch (e) {
+      result = undefined
+    }
+    return result
+  }
+}
+,
+      };
+
+      // Rollbar Snippet
+      !function(r){var e={};function o(n){if(e[n])return e[n].exports;var t=e[n]={i:n,l:!1,exports:{}};return r[n].call(t.exports,t,t.exports,o),t.l=!0,t.exports}o.m=r,o.c=e,o.d=function(r,e,n){o.o(r,e)||Object.defineProperty(r,e,{enumerable:!0,get:n})},o.r=function(r){"undefined"!=typeof Symbol&&Symbol.toStringTag&&Object.defineProperty(r,Symbol.toStringTag,{value:"Module"}),Object.defineProperty(r,"__esModule",{value:!0})},o.t=function(r,e){if(1&e&&(r=o(r)),8&e)return r;if(4&e&&"object"==typeof r&&r&&r.__esModule)return r;var n=Object.create(null);if(o.r(n),Object.defineProperty(n,"default",{enumerable:!0,value:r}),2&e&&"string"!=typeof r)for(var t in r)o.d(n,t,function(e){return r[e]}.bind(null,t));return n},o.n=function(r){var e=r&&r.__esModule?function(){return r.default}:function(){return r};return o.d(e,"a",e),e},o.o=function(r,e){return Object.prototype.hasOwnProperty.call(r,e)},o.p="",o(o.s=0)}([function(r,e,o){var n=o(1),t=o(4);_rollbarConfig=_rollbarConfig||{},_rollbarConfig.rollbarJsUrl=_rollbarConfig.rollbarJsUrl||"https://cdnjs.cloudflare.com/ajax/libs/rollbar.js/2.14.4/rollbar.min.js",_rollbarConfig.async=void 0===_rollbarConfig.async||_rollbarConfig.async;var a=n.setupShim(window,_rollbarConfig),l=t(_rollbarConfig);window.rollbar=n.Rollbar,a.loadFull(window,document,!_rollbarConfig.async,_rollbarConfig,l)},function(r,e,o){var n=o(2);function t(r){return function(){try{return r.apply(this,arguments)}catch(r){try{console.error("[Rollbar]: Internal error",r)}catch(r){}}}}var a=0;function l(r,e){this.options=r,this._rollbarOldOnError=null;var o=a++;this.shimId=function(){return o},"undefined"!=typeof window&&window._rollbarShims&&(window._rollbarShims[o]={handler:e,messages:[]})}var i=o(3),s=function(r,e){return new l(r,e)},d=function(r){return new i(s,r)};function c(r){return t(function(){var e=Array.prototype.slice.call(arguments,0),o={shim:this,method:r,args:e,ts:new Date};window._rollbarShims[this.shimId()].messages.push(o)})}l.prototype.loadFull=function(r,e,o,n,a){var l=!1,i=e.createElement("script"),s=e.getElementsByTagName("script")[0],d=s.parentNode;i.crossOrigin="",i.src=n.rollbarJsUrl,o||(i.async=!0),i.onload=i.onreadystatechange=t(function(){if(!(l||this.readyState&&"loaded"!==this.readyState&&"complete"!==this.readyState)){i.onload=i.onreadystatechange=null;try{d.removeChild(i)}catch(r){}l=!0,function(){var e;if(void 0===r._rollbarDidLoad){e=new Error("rollbar.js did not load");for(var o,n,t,l,i=0;o=r._rollbarShims[i++];)for(o=o.messages||[];n=o.shift();)for(t=n.args||[],i=0;i<t.length;++i)if("function"==typeof(l=t[i])){l(e);break}}"function"==typeof a&&a(e)}()}}),d.insertBefore(i,s)},l.prototype.wrap=function(r,e,o){try{var n;if(n="function"==typeof e?e:function(){return e||{}},"function"!=typeof r)return r;if(r._isWrap)return r;if(!r._rollbar_wrapped&&(r._rollbar_wrapped=function(){o&&"function"==typeof o&&o.apply(this,arguments);try{return r.apply(this,arguments)}catch(o){var e=o;throw e&&("string"==typeof e&&(e=new String(e)),e._rollbarContext=n()||{},e._rollbarContext._wrappedSource=r.toString(),window._rollbarWrappedError=e),e}},r._rollbar_wrapped._isWrap=!0,r.hasOwnProperty))for(var t in r)r.hasOwnProperty(t)&&(r._rollbar_wrapped[t]=r[t]);return r._rollbar_wrapped}catch(e){return r}};for(var p="log,debug,info,warn,warning,error,critical,global,configure,handleUncaughtException,handleAnonymousErrors,handleUnhandledRejection,captureEvent,captureDomContentLoaded,captureLoad".split(","),u=0;u<p.length;++u)l.prototype[p[u]]=c(p[u]);r.exports={setupShim:function(r,e){if(r){var o=e.globalAlias||"Rollbar";if("object"==typeof r[o])return r[o];r._rollbarShims={},r._rollbarWrappedError=null;var a=new d(e);return t(function(){e.captureUncaught&&(a._rollbarOldOnError=r.onerror,n.captureUncaughtExceptions(r,a,!0),e.wrapGlobalEventHandlers&&n.wrapGlobals(r,a,!0)),e.captureUnhandledRejections&&n.captureUnhandledRejections(r,a,!0);var t=e.autoInstrument;return!1!==e.enabled&&(void 0===t||!0===t||"object"==typeof t&&t.network)&&r.addEventListener&&(r.addEventListener("load",a.captureLoad.bind(a)),r.addEventListener("DOMContentLoaded",a.captureDomContentLoaded.bind(a))),r[o]=a,a})()}},Rollbar:d}},function(r,e){function o(r,e,o){if(e.hasOwnProperty&&e.hasOwnProperty("addEventListener")){for(var n=e.addEventListener;n._rollbarOldAdd&&n.belongsToShim;)n=n._rollbarOldAdd;var t=function(e,o,t){n.call(this,e,r.wrap(o),t)};t._rollbarOldAdd=n,t.belongsToShim=o,e.addEventListener=t;for(var a=e.removeEventListener;a._rollbarOldRemove&&a.belongsToShim;)a=a._rollbarOldRemove;var l=function(r,e,o){a.call(this,r,e&&e._rollbar_wrapped||e,o)};l._rollbarOldRemove=a,l.belongsToShim=o,e.removeEventListener=l}}r.exports={captureUncaughtExceptions:function(r,e,o){if(r){var n;if("function"==typeof e._rollbarOldOnError)n=e._rollbarOldOnError;else if(r.onerror){for(n=r.onerror;n._rollbarOldOnError;)n=n._rollbarOldOnError;e._rollbarOldOnError=n}e.handleAnonymousErrors();var t=function(){var o=Array.prototype.slice.call(arguments,0);!function(r,e,o,n){r._rollbarWrappedError&&(n[4]||(n[4]=r._rollbarWrappedError),n[5]||(n[5]=r._rollbarWrappedError._rollbarContext),r._rollbarWrappedError=null);var t=e.handleUncaughtException.apply(e,n);o&&o.apply(r,n),"anonymous"===t&&(e.anonymousErrorsPending+=1)}(r,e,n,o)};o&&(t._rollbarOldOnError=n),r.onerror=t}},captureUnhandledRejections:function(r,e,o){if(r){"function"==typeof r._rollbarURH&&r._rollbarURH.belongsToShim&&r.removeEventListener("unhandledrejection",r._rollbarURH);var n=function(r){var o,n,t;try{o=r.reason}catch(r){o=void 0}try{n=r.promise}catch(r){n="[unhandledrejection] error getting `promise` from event"}try{t=r.detail,!o&&t&&(o=t.reason,n=t.promise)}catch(r){}o||(o="[unhandledrejection] error getting `reason` from event"),e&&e.handleUnhandledRejection&&e.handleUnhandledRejection(o,n)};n.belongsToShim=o,r._rollbarURH=n,r.addEventListener("unhandledrejection",n)}},wrapGlobals:function(r,e,n){if(r){var t,a,l="EventTarget,Window,Node,ApplicationCache,AudioTrackList,ChannelMergerNode,CryptoOperation,EventSource,FileReader,HTMLUnknownElement,IDBDatabase,IDBRequest,IDBTransaction,KeyOperation,MediaController,MessagePort,ModalWindow,Notification,SVGElementInstance,Screen,TextTrack,TextTrackCue,TextTrackList,WebSocket,WebSocketWorker,Worker,XMLHttpRequest,XMLHttpRequestEventTarget,XMLHttpRequestUpload".split(",");for(t=0;t<l.length;++t)r[a=l[t]]&&r[a].prototype&&o(e,r[a].prototype,n)}}}},function(r,e){function o(r,e){this.impl=r(e,this),this.options=e,function(r){for(var e=function(r){return function(){var e=Array.prototype.slice.call(arguments,0);if(this.impl[r])return this.impl[r].apply(this.impl,e)}},o="log,debug,info,warn,warning,error,critical,global,configure,handleUncaughtException,handleAnonymousErrors,handleUnhandledRejection,_createItem,wrap,loadFull,shimId,captureEvent,captureDomContentLoaded,captureLoad".split(","),n=0;n<o.length;n++)r[o[n]]=e(o[n])}(o.prototype)}o.prototype._swapAndProcessMessages=function(r,e){var o,n,t;for(this.impl=r(this.options);o=e.shift();)n=o.method,t=o.args,this[n]&&"function"==typeof this[n]&&("captureDomContentLoaded"===n||"captureLoad"===n?this[n].apply(this,[t[0],o.ts]):this[n].apply(this,t));return this},r.exports=o},function(r,e){r.exports=function(r){return function(e){if(!e&&!window._rollbarInitialized){for(var o,n,t=(r=r||{}).globalAlias||"Rollbar",a=window.rollbar,l=function(r){return new a(r)},i=0;o=window._rollbarShims[i++];)n||(n=o.handler),o.handler._swapAndProcessMessages(l,o.messages);window[t]=n,window._rollbarInitialized=!0}}}}]);
+      // End Rollbar Snippet
+    </script>
+    <!-- End Rollbar -->
+
+    <script crossorigin="anonymous" src="https://polyfill-fastly.io/v3/polyfill.min.js?unknown=polyfill&amp;flags=gated&amp;features=default%2Ces2015%2Ces2016%2Ces2017%2Ces2018%2Ces2019%2Cfetch%2CIntersectionObserver%2CResizeObserver%2CAbortController%2Csmoothscroll%2CmatchMedia%2Element.prototype.classList%2CmatchMedia%2CMediaQueryList.prototype.addEventListener%2CMediaQueryList.prototype.removeEventListener"></script>
+
+    <script defer src='/kaliberjs/main.entry-UQWK5K4Z.js' type='module'></script><link rel='stylesheet' href='/kaliberjs/I2TIHLIF-main.entry.css' type='text/css' media='all' /><meta name='robots' content='index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1' />
+	<style>img:is([sizes="auto" i], [sizes^="auto," i]) { contain-intrinsic-size: 3000px 1500px }</style>
+	<link rel="alternate" href="https://www.alliander.com/nl/cookies/" hreflang="nl" />
+<link rel="alternate" href="https://www.alliander.com/en/cookies/" hreflang="en" />
+
+	<!-- This site is optimized with the Yoast SEO Premium plugin v24.9 (Yoast SEO v24.9) - https://yoast.com/wordpress/plugins/seo/ -->
+	<meta name="description" content="Voor al onze Alliander-websites (alliander.com, werkenbij.alliander.com) maken wij gebruik van cookies." />
+	<link rel="canonical" href="https://www.alliander.com/nl/cookies/" />
+	<meta property="og:locale" content="nl_NL" />
+	<meta property="og:locale:alternate" content="en_GB" />
+	<meta property="og:type" content="article" />
+	<meta property="og:title" content="Cookies" />
+	<meta property="og:description" content="Voor al onze Alliander-websites (alliander.com, werkenbij.alliander.com) maken wij gebruik van cookies." />
+	<meta property="og:url" content="https://www.alliander.com/nl/cookies/" />
+	<meta property="og:site_name" content="Alliander" />
+	<meta property="article:publisher" content="https://www.facebook.com/werkenbijalliander" />
+	<meta property="article:modified_time" content="2025-04-03T09:04:22+00:00" />
+	<meta property="og:image" content="https://www.alliander.com/content/uploads/dotcom/zoneiland.jpg" />
+	<meta property="og:image:width" content="1920" />
+	<meta property="og:image:height" content="1280" />
+	<meta property="og:image:type" content="image/jpeg" />
+	<meta name="twitter:card" content="summary_large_image" />
+	<meta name="twitter:site" content="@Alliander" />
+	<meta name="twitter:label1" content="Geschatte leestijd" />
+	<meta name="twitter:data1" content="7 minuten" />
+	<script type="application/ld+json" class="yoast-schema-graph">{"@context":"https://schema.org","@graph":[{"@type":"WebPage","@id":"https://www.alliander.com/nl/cookies/","url":"https://www.alliander.com/nl/cookies/","name":"Cookies - Alliander","isPartOf":{"@id":"https://www.alliander.com/nl/#website"},"datePublished":"2019-09-26T11:59:45+00:00","dateModified":"2025-04-03T09:04:22+00:00","description":"Voor al onze Alliander-websites (alliander.com, werkenbij.alliander.com) maken wij gebruik van cookies.","breadcrumb":{"@id":"https://www.alliander.com/nl/cookies/#breadcrumb"},"inLanguage":"nl-NL","potentialAction":[{"@type":"ReadAction","target":["https://www.alliander.com/nl/cookies/"]}]},{"@type":"BreadcrumbList","@id":"https://www.alliander.com/nl/cookies/#breadcrumb","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://www.alliander.com/nl/"},{"@type":"ListItem","position":2,"name":"Cookies"}]},{"@type":"WebSite","@id":"https://www.alliander.com/nl/#website","url":"https://www.alliander.com/nl/","name":"Alliander","description":"werkt aan de energie van vandaag in morgen","potentialAction":[{"@type":"SearchAction","target":{"@type":"EntryPoint","urlTemplate":"https://www.alliander.com/nl/?s={search_term_string}"},"query-input":{"@type":"PropertyValueSpecification","valueRequired":true,"valueName":"search_term_string"}}],"inLanguage":"nl-NL"}]}</script>
+	<!-- / Yoast SEO Premium plugin. -->
+
+
+<link rel='stylesheet' id='wp-block-library-css' href='https://www.alliander.com/wordpress/wp-includes/css/dist/block-library/style.min.css?ver=6.7.2' type='text/css' media='all' />
+<style id='pdfemb-pdf-embedder-viewer-style-inline-css' type='text/css'>
+.wp-block-pdfemb-pdf-embedder-viewer{max-width:none}
+
+</style>
+<style id='classic-theme-styles-inline-css' type='text/css'>
+/*! This file is auto-generated */
+.wp-block-button__link{color:#fff;background-color:#32373c;border-radius:9999px;box-shadow:none;text-decoration:none;padding:calc(.667em + 2px) calc(1.333em + 2px);font-size:1.125em}.wp-block-file__button{background:#32373c;color:#fff;text-decoration:none}
+</style>
+<style id='global-styles-inline-css' type='text/css'>
+:root{--wp--preset--aspect-ratio--square: 1;--wp--preset--aspect-ratio--4-3: 4/3;--wp--preset--aspect-ratio--3-4: 3/4;--wp--preset--aspect-ratio--3-2: 3/2;--wp--preset--aspect-ratio--2-3: 2/3;--wp--preset--aspect-ratio--16-9: 16/9;--wp--preset--aspect-ratio--9-16: 9/16;--wp--preset--color--black: #000000;--wp--preset--color--cyan-bluish-gray: #abb8c3;--wp--preset--color--white: #ffffff;--wp--preset--color--pale-pink: #f78da7;--wp--preset--color--vivid-red: #cf2e2e;--wp--preset--color--luminous-vivid-orange: #ff6900;--wp--preset--color--luminous-vivid-amber: #fcb900;--wp--preset--color--light-green-cyan: #7bdcb5;--wp--preset--color--vivid-green-cyan: #00d084;--wp--preset--color--pale-cyan-blue: #8ed1fc;--wp--preset--color--vivid-cyan-blue: #0693e3;--wp--preset--color--vivid-purple: #9b51e0;--wp--preset--gradient--vivid-cyan-blue-to-vivid-purple: linear-gradient(135deg,rgba(6,147,227,1) 0%,rgb(155,81,224) 100%);--wp--preset--gradient--light-green-cyan-to-vivid-green-cyan: linear-gradient(135deg,rgb(122,220,180) 0%,rgb(0,208,130) 100%);--wp--preset--gradient--luminous-vivid-amber-to-luminous-vivid-orange: linear-gradient(135deg,rgba(252,185,0,1) 0%,rgba(255,105,0,1) 100%);--wp--preset--gradient--luminous-vivid-orange-to-vivid-red: linear-gradient(135deg,rgba(255,105,0,1) 0%,rgb(207,46,46) 100%);--wp--preset--gradient--very-light-gray-to-cyan-bluish-gray: linear-gradient(135deg,rgb(238,238,238) 0%,rgb(169,184,195) 100%);--wp--preset--gradient--cool-to-warm-spectrum: linear-gradient(135deg,rgb(74,234,220) 0%,rgb(151,120,209) 20%,rgb(207,42,186) 40%,rgb(238,44,130) 60%,rgb(251,105,98) 80%,rgb(254,248,76) 100%);--wp--preset--gradient--blush-light-purple: linear-gradient(135deg,rgb(255,206,236) 0%,rgb(152,150,240) 100%);--wp--preset--gradient--blush-bordeaux: linear-gradient(135deg,rgb(254,205,165) 0%,rgb(254,45,45) 50%,rgb(107,0,62) 100%);--wp--preset--gradient--luminous-dusk: linear-gradient(135deg,rgb(255,203,112) 0%,rgb(199,81,192) 50%,rgb(65,88,208) 100%);--wp--preset--gradient--pale-ocean: linear-gradient(135deg,rgb(255,245,203) 0%,rgb(182,227,212) 50%,rgb(51,167,181) 100%);--wp--preset--gradient--electric-grass: linear-gradient(135deg,rgb(202,248,128) 0%,rgb(113,206,126) 100%);--wp--preset--gradient--midnight: linear-gradient(135deg,rgb(2,3,129) 0%,rgb(40,116,252) 100%);--wp--preset--font-size--small: 13px;--wp--preset--font-size--medium: 20px;--wp--preset--font-size--large: 36px;--wp--preset--font-size--x-large: 42px;--wp--preset--spacing--20: 0.44rem;--wp--preset--spacing--30: 0.67rem;--wp--preset--spacing--40: 1rem;--wp--preset--spacing--50: 1.5rem;--wp--preset--spacing--60: 2.25rem;--wp--preset--spacing--70: 3.38rem;--wp--preset--spacing--80: 5.06rem;--wp--preset--shadow--natural: 6px 6px 9px rgba(0, 0, 0, 0.2);--wp--preset--shadow--deep: 12px 12px 50px rgba(0, 0, 0, 0.4);--wp--preset--shadow--sharp: 6px 6px 0px rgba(0, 0, 0, 0.2);--wp--preset--shadow--outlined: 6px 6px 0px -3px rgba(255, 255, 255, 1), 6px 6px rgba(0, 0, 0, 1);--wp--preset--shadow--crisp: 6px 6px 0px rgba(0, 0, 0, 1);}:where(.is-layout-flex){gap: 0.5em;}:where(.is-layout-grid){gap: 0.5em;}body .is-layout-flex{display: flex;}.is-layout-flex{flex-wrap: wrap;align-items: center;}.is-layout-flex > :is(*, div){margin: 0;}body .is-layout-grid{display: grid;}.is-layout-grid > :is(*, div){margin: 0;}:where(.wp-block-columns.is-layout-flex){gap: 2em;}:where(.wp-block-columns.is-layout-grid){gap: 2em;}:where(.wp-block-post-template.is-layout-flex){gap: 1.25em;}:where(.wp-block-post-template.is-layout-grid){gap: 1.25em;}.has-black-color{color: var(--wp--preset--color--black) !important;}.has-cyan-bluish-gray-color{color: var(--wp--preset--color--cyan-bluish-gray) !important;}.has-white-color{color: var(--wp--preset--color--white) !important;}.has-pale-pink-color{color: var(--wp--preset--color--pale-pink) !important;}.has-vivid-red-color{color: var(--wp--preset--color--vivid-red) !important;}.has-luminous-vivid-orange-color{color: var(--wp--preset--color--luminous-vivid-orange) !important;}.has-luminous-vivid-amber-color{color: var(--wp--preset--color--luminous-vivid-amber) !important;}.has-light-green-cyan-color{color: var(--wp--preset--color--light-green-cyan) !important;}.has-vivid-green-cyan-color{color: var(--wp--preset--color--vivid-green-cyan) !important;}.has-pale-cyan-blue-color{color: var(--wp--preset--color--pale-cyan-blue) !important;}.has-vivid-cyan-blue-color{color: var(--wp--preset--color--vivid-cyan-blue) !important;}.has-vivid-purple-color{color: var(--wp--preset--color--vivid-purple) !important;}.has-black-background-color{background-color: var(--wp--preset--color--black) !important;}.has-cyan-bluish-gray-background-color{background-color: var(--wp--preset--color--cyan-bluish-gray) !important;}.has-white-background-color{background-color: var(--wp--preset--color--white) !important;}.has-pale-pink-background-color{background-color: var(--wp--preset--color--pale-pink) !important;}.has-vivid-red-background-color{background-color: var(--wp--preset--color--vivid-red) !important;}.has-luminous-vivid-orange-background-color{background-color: var(--wp--preset--color--luminous-vivid-orange) !important;}.has-luminous-vivid-amber-background-color{background-color: var(--wp--preset--color--luminous-vivid-amber) !important;}.has-light-green-cyan-background-color{background-color: var(--wp--preset--color--light-green-cyan) !important;}.has-vivid-green-cyan-background-color{background-color: var(--wp--preset--color--vivid-green-cyan) !important;}.has-pale-cyan-blue-background-color{background-color: var(--wp--preset--color--pale-cyan-blue) !important;}.has-vivid-cyan-blue-background-color{background-color: var(--wp--preset--color--vivid-cyan-blue) !important;}.has-vivid-purple-background-color{background-color: var(--wp--preset--color--vivid-purple) !important;}.has-black-border-color{border-color: var(--wp--preset--color--black) !important;}.has-cyan-bluish-gray-border-color{border-color: var(--wp--preset--color--cyan-bluish-gray) !important;}.has-white-border-color{border-color: var(--wp--preset--color--white) !important;}.has-pale-pink-border-color{border-color: var(--wp--preset--color--pale-pink) !important;}.has-vivid-red-border-color{border-color: var(--wp--preset--color--vivid-red) !important;}.has-luminous-vivid-orange-border-color{border-color: var(--wp--preset--color--luminous-vivid-orange) !important;}.has-luminous-vivid-amber-border-color{border-color: var(--wp--preset--color--luminous-vivid-amber) !important;}.has-light-green-cyan-border-color{border-color: var(--wp--preset--color--light-green-cyan) !important;}.has-vivid-green-cyan-border-color{border-color: var(--wp--preset--color--vivid-green-cyan) !important;}.has-pale-cyan-blue-border-color{border-color: var(--wp--preset--color--pale-cyan-blue) !important;}.has-vivid-cyan-blue-border-color{border-color: var(--wp--preset--color--vivid-cyan-blue) !important;}.has-vivid-purple-border-color{border-color: var(--wp--preset--color--vivid-purple) !important;}.has-vivid-cyan-blue-to-vivid-purple-gradient-background{background: var(--wp--preset--gradient--vivid-cyan-blue-to-vivid-purple) !important;}.has-light-green-cyan-to-vivid-green-cyan-gradient-background{background: var(--wp--preset--gradient--light-green-cyan-to-vivid-green-cyan) !important;}.has-luminous-vivid-amber-to-luminous-vivid-orange-gradient-background{background: var(--wp--preset--gradient--luminous-vivid-amber-to-luminous-vivid-orange) !important;}.has-luminous-vivid-orange-to-vivid-red-gradient-background{background: var(--wp--preset--gradient--luminous-vivid-orange-to-vivid-red) !important;}.has-very-light-gray-to-cyan-bluish-gray-gradient-background{background: var(--wp--preset--gradient--very-light-gray-to-cyan-bluish-gray) !important;}.has-cool-to-warm-spectrum-gradient-background{background: var(--wp--preset--gradient--cool-to-warm-spectrum) !important;}.has-blush-light-purple-gradient-background{background: var(--wp--preset--gradient--blush-light-purple) !important;}.has-blush-bordeaux-gradient-background{background: var(--wp--preset--gradient--blush-bordeaux) !important;}.has-luminous-dusk-gradient-background{background: var(--wp--preset--gradient--luminous-dusk) !important;}.has-pale-ocean-gradient-background{background: var(--wp--preset--gradient--pale-ocean) !important;}.has-electric-grass-gradient-background{background: var(--wp--preset--gradient--electric-grass) !important;}.has-midnight-gradient-background{background: var(--wp--preset--gradient--midnight) !important;}.has-small-font-size{font-size: var(--wp--preset--font-size--small) !important;}.has-medium-font-size{font-size: var(--wp--preset--font-size--medium) !important;}.has-large-font-size{font-size: var(--wp--preset--font-size--large) !important;}.has-x-large-font-size{font-size: var(--wp--preset--font-size--x-large) !important;}
+:where(.wp-block-post-template.is-layout-flex){gap: 1.25em;}:where(.wp-block-post-template.is-layout-grid){gap: 1.25em;}
+:where(.wp-block-columns.is-layout-flex){gap: 2em;}:where(.wp-block-columns.is-layout-grid){gap: 2em;}
+:root :where(.wp-block-pullquote){font-size: 1.5em;line-height: 1.6;}
+</style>
+<link rel='shortlink' href='https://www.alliander.com/?p=52' />
+<link rel="icon" href="https://www.alliander.com/content/uploads/dotcom/cropped-android-chrome-512x512-1-32x32.png" sizes="32x32" />
+<link rel="icon" href="https://www.alliander.com/content/uploads/dotcom/cropped-android-chrome-512x512-1-192x192.png" sizes="192x192" />
+<link rel="apple-touch-icon" href="https://www.alliander.com/content/uploads/dotcom/cropped-android-chrome-512x512-1-180x180.png" />
+<meta name="msapplication-TileImage" content="https://www.alliander.com/content/uploads/dotcom/cropped-android-chrome-512x512-1-270x270.png" />
+
+    
+    <script>
+      window.dataLayer = window.dataLayer || []
+      window.klbr = {"functionality_storage":"granted","analytics_storage":"granted","ad_storage":"denied","ad_user_data":"denied","ad_personalization":"denied","personalization_storage":"denied"}
+      window.dataLayer.push({
+        platform: { buildnumber: 474 },
+        ...({"functionality_storage":"granted","analytics_storage":"granted","ad_storage":"denied","ad_user_data":"denied","ad_personalization":"denied","personalization_storage":"denied"}),
+      })
+
+              var data = [].concat({"metadata":{"content":{"id":52,"title":"*Cookies*","language":"nl","datepublished":"2019-09-26","type":"page-cookies"}}})
+        data.forEach(function(x) { window.dataLayer.push(x) })
+          </script>
+
+    <!-- Google Tag Manager -->
+    <script>
+    if(!window.dataLayer) window.dataLayer = [];
+    (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.alliander.com/_sst/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer', 'GTM-NJ6GDL5');
+    </script>
+    <!-- End Google Tag Manager -->
+
+    
+  </head>
+<body>
+  <!-- Google Tag Manager (noscript) -->
+  <noscript><iframe src="https://www.alliander.com/_sst/ns.html?id=GTM-NJ6GDL5"
+  height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+  <!-- End Google Tag Manager (noscript) -->
+
+  <div class="SiteLayout">
+  
+
+<div class="SiteLayout-header js-SiteLayout-header">
+  <div class="Container Container--xl-menu">
+  <div class="Container-layout">
+        <header class="SiteHeader SiteHeader--sm" data-x="site-header-small">
+      
+    <script defer src='/kaliberjs/SiteHeaderMobileApp-ZL3MGZEJ.js' type='module'></script><link rel='stylesheet' href='/kaliberjs/includes/site-header-mobile/H6V77VB3-site-header-mobile.php.css' type='text/css' media='all' />        <div data-componentid="a0cb7ab404c61196d6f979a0c3d73248" data-props="{&quot;phpProps&quot;:{&quot;navItemGroups&quot;:[{&quot;id&quot;:49,&quot;object_id&quot;:&quot;33&quot;,&quot;is_active&quot;:false,&quot;url&quot;:&quot;https:\/\/www.alliander.com\/nl\/over-alliander\/&quot;,&quot;title&quot;:&quot;Over Alliander&quot;,&quot;image&quot;:null,&quot;items&quot;:[{&quot;id&quot;:1271,&quot;object_id&quot;:&quot;1234&quot;,&quot;is_active&quot;:false,&quot;url&quot;:&quot;https:\/\/www.alliander.com\/nl\/over-alliander\/onze-organisatie\/&quot;,&quot;title&quot;:&quot;Onze organisatie&quot;,&quot;image&quot;:null,&quot;items&quot;:[],&quot;articles&quot;:[]},{&quot;id&quot;:6167,&quot;object_id&quot;:&quot;184&quot;,&quot;is_active&quot;:false,&quot;url&quot;:&quot;https:\/\/www.alliander.com\/nl\/over-alliander\/strategie\/&quot;,&quot;title&quot;:&quot;Strategie&quot;,&quot;image&quot;:null,&quot;items&quot;:[],&quot;articles&quot;:[]},{&quot;id&quot;:842,&quot;object_id&quot;:&quot;535&quot;,&quot;is_active&quot;:false,&quot;url&quot;:&quot;https:\/\/www.alliander.com\/nl\/over-alliander\/corporate-governance\/&quot;,&quot;title&quot;:&quot;Corporate Governance&quot;,&quot;image&quot;:null,&quot;items&quot;:[],&quot;articles&quot;:[]},{&quot;id&quot;:259,&quot;object_id&quot;:&quot;256&quot;,&quot;is_active&quot;:false,&quot;url&quot;:&quot;https:\/\/www.alliander.com\/nl\/over-alliander\/maatschappelijke-duurzaamheid\/&quot;,&quot;title&quot;:&quot;Maatschappelijke impact&quot;,&quot;image&quot;:null,&quot;items&quot;:[],&quot;articles&quot;:[]},{&quot;id&quot;:6240,&quot;object_id&quot;:&quot;6214&quot;,&quot;is_active&quot;:false,&quot;url&quot;:&quot;https:\/\/www.alliander.com\/nl\/over-alliander\/samenwerking\/&quot;,&quot;title&quot;:&quot;Samen werken aan de beste oplossingen&quot;,&quot;image&quot;:null,&quot;items&quot;:[],&quot;articles&quot;:[]},{&quot;id&quot;:6639,&quot;object_id&quot;:&quot;6473&quot;,&quot;is_active&quot;:false,&quot;url&quot;:&quot;https:\/\/www.alliander.com\/nl\/over-alliander\/next-grid\/&quot;,&quot;title&quot;:&quot;Alliander Next Grid&quot;,&quot;image&quot;:null,&quot;items&quot;:[],&quot;articles&quot;:[]},{&quot;id&quot;:3792,&quot;object_id&quot;:&quot;3687&quot;,&quot;is_active&quot;:false,&quot;url&quot;:&quot;https:\/\/www.alliander.com\/nl\/open-source\/&quot;,&quot;title&quot;:&quot;Alliander en open source&quot;,&quot;image&quot;:null,&quot;items&quot;:[],&quot;articles&quot;:[]},{&quot;id&quot;:6432,&quot;object_id&quot;:&quot;6294&quot;,&quot;is_active&quot;:false,&quot;url&quot;:&quot;https:\/\/www.alliander.com\/nl\/alliander-en-open-research\/&quot;,&quot;title&quot;:&quot;Alliander en open research&quot;,&quot;image&quot;:null,&quot;items&quot;:[],&quot;articles&quot;:[]},{&quot;id&quot;:512,&quot;object_id&quot;:&quot;474&quot;,&quot;is_active&quot;:false,&quot;url&quot;:&quot;https:\/\/www.alliander.com\/nl\/over-alliander\/leveranciers\/&quot;,&quot;title&quot;:&quot;Leveranciers&quot;,&quot;image&quot;:null,&quot;items&quot;:[],&quot;articles&quot;:[]},{&quot;id&quot;:365,&quot;object_id&quot;:&quot;359&quot;,&quot;is_active&quot;:false,&quot;url&quot;:&quot;https:\/\/www.alliander.com\/nl\/over-alliander\/opleiden\/&quot;,&quot;title&quot;:&quot;Opleiden&quot;,&quot;image&quot;:null,&quot;items&quot;:[],&quot;articles&quot;:[]},{&quot;id&quot;:277,&quot;object_id&quot;:&quot;275&quot;,&quot;is_active&quot;:false,&quot;url&quot;:&quot;https:\/\/www.alliander.com\/nl\/over-alliander\/sponsoring\/&quot;,&quot;title&quot;:&quot;Sponsoring&quot;,&quot;image&quot;:null,&quot;items&quot;:[],&quot;articles&quot;:[]}],&quot;articles&quot;:[]},{&quot;id&quot;:45,&quot;object_id&quot;:&quot;43&quot;,&quot;is_active&quot;:false,&quot;url&quot;:&quot;https:\/\/www.alliander.com\/nl\/energietransitie\/&quot;,&quot;title&quot;:&quot;Energietransitie&quot;,&quot;image&quot;:null,&quot;items&quot;:[{&quot;id&quot;:1104,&quot;object_id&quot;:&quot;1009&quot;,&quot;is_active&quot;:false,&quot;url&quot;:&quot;https:\/\/www.alliander.com\/nl\/energietransitie\/transportcapaciteit\/&quot;,&quot;title&quot;:&quot;Transportcapaciteit&quot;,&quot;image&quot;:null,&quot;items&quot;:[],&quot;articles&quot;:[]},{&quot;id&quot;:1105,&quot;object_id&quot;:&quot;430&quot;,&quot;is_active&quot;:false,&quot;url&quot;:&quot;https:\/\/www.alliander.com\/nl\/energietransitie\/een-aardgasvrije-toekomst-kosten-van-de-energietransitie\/&quot;,&quot;title&quot;:&quot;Een aardgasvrije toekomst&quot;,&quot;image&quot;:null,&quot;items&quot;:[],&quot;articles&quot;:[]},{&quot;id&quot;:8386,&quot;object_id&quot;:&quot;8381&quot;,&quot;is_active&quot;:false,&quot;url&quot;:&quot;https:\/\/www.alliander.com\/nl\/energietransitie\/balanswijk\/&quot;,&quot;title&quot;:&quot;De Balanswijk&quot;,&quot;image&quot;:null,&quot;items&quot;:[],&quot;articles&quot;:[]},{&quot;id&quot;:5010,&quot;object_id&quot;:&quot;4368&quot;,&quot;is_active&quot;:false,&quot;url&quot;:&quot;https:\/\/www.alliander.com\/nl\/energietransitie\/waterstof-pilot\/&quot;,&quot;title&quot;:&quot;Pilots met waterstof&quot;,&quot;image&quot;:null,&quot;items&quot;:[],&quot;articles&quot;:[]},{&quot;id&quot;:1313,&quot;object_id&quot;:&quot;1296&quot;,&quot;is_active&quot;:false,&quot;url&quot;:&quot;https:\/\/www.alliander.com\/nl\/energietransitie\/tekort-aan-technici\/&quot;,&quot;title&quot;:&quot;Tekort aan technici&quot;,&quot;image&quot;:null,&quot;items&quot;:[],&quot;articles&quot;:[]},{&quot;id&quot;:1133,&quot;object_id&quot;:&quot;1093&quot;,&quot;is_active&quot;:false,&quot;url&quot;:&quot;https:\/\/www.alliander.com\/nl\/energietransitie\/elektrisch-vervoer\/&quot;,&quot;title&quot;:&quot;Elektrisch vervoer&quot;,&quot;image&quot;:null,&quot;items&quot;:[],&quot;articles&quot;:[]},{&quot;id&quot;:1102,&quot;object_id&quot;:&quot;1052&quot;,&quot;is_active&quot;:false,&quot;url&quot;:&quot;https:\/\/www.alliander.com\/nl\/energietransitie\/regionale-energiestrategie\/&quot;,&quot;title&quot;:&quot;Regionale Energiestrategie&quot;,&quot;image&quot;:null,&quot;items&quot;:[],&quot;articles&quot;:[]},{&quot;id&quot;:7712,&quot;object_id&quot;:&quot;7670&quot;,&quot;is_active&quot;:false,&quot;url&quot;:&quot;https:\/\/www.alliander.com\/nl\/over-alliander\/strategie-digitalisering\/&quot;,&quot;title&quot;:&quot;Strategie Digitalisering&quot;,&quot;image&quot;:null,&quot;items&quot;:[],&quot;articles&quot;:[]}],&quot;articles&quot;:[]},{&quot;id&quot;:48,&quot;object_id&quot;:&quot;35&quot;,&quot;is_active&quot;:false,&quot;url&quot;:&quot;https:\/\/www.alliander.com\/nl\/nieuws\/&quot;,&quot;title&quot;:&quot;Nieuws&quot;,&quot;image&quot;:null,&quot;items&quot;:[],&quot;articles&quot;:[]},{&quot;id&quot;:160,&quot;object_id&quot;:&quot;156&quot;,&quot;is_active&quot;:false,&quot;url&quot;:&quot;https:\/\/www.alliander.com\/nl\/verhalen\/&quot;,&quot;title&quot;:&quot;Verhalen&quot;,&quot;image&quot;:null,&quot;items&quot;:[],&quot;articles&quot;:[]},{&quot;id&quot;:47,&quot;object_id&quot;:&quot;37&quot;,&quot;is_active&quot;:false,&quot;url&quot;:&quot;https:\/\/www.alliander.com\/nl\/investor-relations\/&quot;,&quot;title&quot;:&quot;Investor relations&quot;,&quot;image&quot;:null,&quot;items&quot;:[{&quot;id&quot;:187,&quot;object_id&quot;:&quot;174&quot;,&quot;is_active&quot;:false,&quot;url&quot;:&quot;https:\/\/www.alliander.com\/nl\/investor-relations\/alliander-jaarverslag-kerncijfers\/&quot;,&quot;title&quot;:&quot;Kerncijfers&quot;,&quot;image&quot;:null,&quot;items&quot;:[],&quot;articles&quot;:[]},{&quot;id&quot;:1439,&quot;object_id&quot;:&quot;1409&quot;,&quot;is_active&quot;:false,&quot;url&quot;:&quot;https:\/\/www.alliander.com\/nl\/investor-relations\/fin-beleid\/&quot;,&quot;title&quot;:&quot;Financieel beleid&quot;,&quot;image&quot;:null,&quot;items&quot;:[],&quot;articles&quot;:[]},{&quot;id&quot;:1603,&quot;object_id&quot;:&quot;1595&quot;,&quot;is_active&quot;:false,&quot;url&quot;:&quot;https:\/\/www.alliander.com\/nl\/investor-relations\/financiering\/&quot;,&quot;title&quot;:&quot;Financiering&quot;,&quot;image&quot;:null,&quot;items&quot;:[],&quot;articles&quot;:[]},{&quot;id&quot;:1645,&quot;object_id&quot;:&quot;1639&quot;,&quot;is_active&quot;:false,&quot;url&quot;:&quot;https:\/\/www.alliander.com\/nl\/investor-relations\/financiele-publicaties\/&quot;,&quot;title&quot;:&quot;Financi\u00eble publicaties&quot;,&quot;image&quot;:null,&quot;items&quot;:[],&quot;articles&quot;:[]}],&quot;articles&quot;:[]},{&quot;id&quot;:46,&quot;object_id&quot;:&quot;41&quot;,&quot;is_active&quot;:false,&quot;url&quot;:&quot;https:\/\/www.alliander.com\/nl\/contact\/&quot;,&quot;title&quot;:&quot;Contact&quot;,&quot;image&quot;:null,&quot;items&quot;:[{&quot;id&quot;:1555,&quot;object_id&quot;:&quot;216&quot;,&quot;is_active&quot;:false,&quot;url&quot;:&quot;https:\/\/www.alliander.com\/nl\/contact\/pers\/&quot;,&quot;title&quot;:&quot;Pers&quot;,&quot;image&quot;:null,&quot;items&quot;:[],&quot;articles&quot;:[]},{&quot;id&quot;:5049,&quot;object_id&quot;:&quot;4663&quot;,&quot;is_active&quot;:false,&quot;url&quot;:&quot;https:\/\/www.alliander.com\/nl\/locaties\/&quot;,&quot;title&quot;:&quot;Onze locaties&quot;,&quot;image&quot;:null,&quot;items&quot;:[],&quot;articles&quot;:[]},{&quot;id&quot;:7929,&quot;object_id&quot;:&quot;7929&quot;,&quot;is_active&quot;:false,&quot;url&quot;:&quot;https:\/\/www.alliander.com\/beeldbank\/&quot;,&quot;title&quot;:&quot;Beeldbank&quot;,&quot;image&quot;:null,&quot;items&quot;:[],&quot;articles&quot;:[]}],&quot;articles&quot;:[]}],&quot;jobCount&quot;:308,&quot;homeUrl&quot;:&quot;https:\/\/www.alliander.com\/nl\/&quot;,&quot;jobsUrl&quot;:&quot;\/\/werkenbij.alliander.com\/vacatures&quot;,&quot;highlightLink&quot;:null,&quot;isDotcom&quot;:true,&quot;oppositeLinkHome&quot;:&quot;werkenbij.alliander.com&quot;,&quot;languages&quot;:{&quot;nl&quot;:{&quot;id&quot;:2,&quot;order&quot;:1,&quot;slug&quot;:&quot;nl&quot;,&quot;locale&quot;:&quot;nl-NL&quot;,&quot;name&quot;:&quot;Nederlands&quot;,&quot;url&quot;:&quot;https:\/\/www.alliander.com\/nl\/cookies\/&quot;,&quot;flag&quot;:&quot;https:\/\/www.alliander.com\/content\/plugins\/polylang-pro\/vendor\/wpsyntex\/polylang\/flags\/nl.png&quot;,&quot;current_lang&quot;:true,&quot;no_translation&quot;:false,&quot;classes&quot;:[&quot;lang-item&quot;,&quot;lang-item-2&quot;,&quot;lang-item-nl&quot;,&quot;current-lang&quot;,&quot;lang-item-first&quot;],&quot;link_classes&quot;:[]},&quot;en&quot;:{&quot;id&quot;:5,&quot;order&quot;:2,&quot;slug&quot;:&quot;en&quot;,&quot;locale&quot;:&quot;en-GB&quot;,&quot;name&quot;:&quot;English&quot;,&quot;url&quot;:&quot;https:\/\/www.alliander.com\/en\/cookies\/&quot;,&quot;flag&quot;:&quot;https:\/\/www.alliander.com\/content\/plugins\/polylang-pro\/vendor\/wpsyntex\/polylang\/flags\/gb.png&quot;,&quot;current_lang&quot;:false,&quot;no_translation&quot;:false,&quot;classes&quot;:[&quot;lang-item&quot;,&quot;lang-item-5&quot;,&quot;lang-item-en&quot;],&quot;link_classes&quot;:[]}},&quot;i18n&quot;:{&quot;sluit&quot;:&quot;Sluit&quot;,&quot;menu&quot;:&quot;Menu&quot;,&quot;zoeken&quot;:&quot;Zoeken&quot;,&quot;werken-bij-alliander&quot;:&quot;Werken bij Alliander&quot;,&quot;naar-alliander-com&quot;:&quot;Naar Alliander.com&quot;,&quot;vacatures&quot;:&quot;Vacatures&quot;}}}"><nav class="src_includes_site_header_mobile_SiteHeaderMobile_component"><a class="src_includes_site_header_mobile_SiteHeaderMobile_logo" href="/" data-x="link-to-home"><img src="/kaliberjs/images/logo-alliander.png" role="presentation" alt="Logo Alliander"/></a><div class="src_includes_site_header_mobile_SiteHeaderMobile_componentJobsLink"><a data-x="menu-level-0" href=""></a><span class="src_includes_site_header_mobile_SiteHeaderMobile_bullet"></span></div><button class="src_includes_site_header_mobile_SiteHeaderMobile_button" type="button" data-x="toggle-navigation"><span></span><span class="src_includes_site_header_mobile_SiteHeaderMobile_menuIcon"><svg xmlns="http://www.w3.org/2000/svg" viewBox='0 0 32 32'>
+  <path d="M2 9h28v2H2zm8 12h20v2H10z" fill="currentColor" fill-rule="evenodd"/>
+</svg>
+</span></button><div class="src_includes_site_header_mobile_SiteHeaderMobile_content" style="height:0"><div class="src_includes_site_header_mobile_SiteHeaderMobile_innerContentBox"><ol class="src_includes_site_header_mobile_SiteHeaderMobile_orderedList"><li class="src_includes_site_header_mobile_SiteHeaderMobile_list"><a href="/?s=" class="src_includes_site_header_mobile_SiteHeaderMobile_componentItem src_includes_site_header_mobile_SiteHeaderMobile_buttonBase src_includes_site_header_mobile_SiteHeaderMobile_itemLayout" data-x="menu-level-1"><span class="src_includes_site_header_mobile_SiteHeaderMobile_itemTitle"></span><span class="src_includes_site_header_mobile_SiteHeaderMobile_iconLayout"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 9 14">
+  <path stroke="#006131" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1.203 1 6 6-6 6"/>
+</svg>
+</span></a></li><li class="src_includes_site_header_mobile_SiteHeaderMobile_list"><a class="src_includes_site_header_mobile_SiteHeaderMobile_componentItem src_includes_site_header_mobile_SiteHeaderMobile_buttonBase src_includes_site_header_mobile_SiteHeaderMobile_itemLayout" data-x="main-menu-cta"><span class="src_includes_site_header_mobile_SiteHeaderMobile_itemTitle"></span><span class="src_includes_site_header_mobile_SiteHeaderMobile_iconLayout"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 9 14">
+  <path stroke="#006131" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1.203 1 6 6-6 6"/>
+</svg>
+</span></a></li></ol><div class="src_includes_site_header_mobile_SiteHeaderMobile_componentFooter src_includes_site_header_mobile_SiteHeaderMobile_oppositeMenuLinkLayout"><a data-x="switch-to-site-cta" href="//" class="src_includes_site_header_mobile_SiteHeaderMobile_link"></a><div class="src_includes_language_switch_LanguageSwitch_component"></div></div></div></div></nav></div>      </header>
+
+    <header class="SiteHeader SiteHeader--lg" data-x="site-header-large">
+      <div class="SiteHeader-logo SiteHeader-logo--alt">
+        <a href="https://www.alliander.com/nl/" class="SiteHeader-logoLink" data-x="link-to-home">
+                      <img src="https://www.alliander.com/kaliberjs/images/logo-alliander.png" class="SiteHeader-logoImage" alt="Logo Alliander" />
+                  </a>
+      </div>
+
+      <div class="SiteHeader-navigation relativeToParent">
+        <div class="SiteHeader-mainMenu relativeToParent">
+          
+    <script defer src='/kaliberjs/NavigationXlApp-YH524WVJ.js' type='module'></script><link rel='stylesheet' href='/kaliberjs/includes/navigation-xl/EDDDT4JG-navigation-xl.php.css' type='text/css' media='all' />        <div data-componentid="f4615ba494c2ee2f00c24cb2f8cf9cda" data-props="{&quot;phpProps&quot;:{&quot;theme&quot;:&quot;&quot;,&quot;count&quot;:308,&quot;layoutClassName&quot;:&quot;SiteHeader-navComponent&quot;,&quot;navItemGroups&quot;:[{&quot;id&quot;:49,&quot;object_id&quot;:&quot;33&quot;,&quot;is_active&quot;:false,&quot;url&quot;:&quot;https:\/\/www.alliander.com\/nl\/over-alliander\/&quot;,&quot;title&quot;:&quot;Over Alliander&quot;,&quot;image&quot;:null,&quot;items&quot;:[{&quot;id&quot;:1271,&quot;object_id&quot;:&quot;1234&quot;,&quot;is_active&quot;:false,&quot;url&quot;:&quot;https:\/\/www.alliander.com\/nl\/over-alliander\/onze-organisatie\/&quot;,&quot;title&quot;:&quot;Onze organisatie&quot;,&quot;image&quot;:null,&quot;items&quot;:[],&quot;articles&quot;:[]},{&quot;id&quot;:6167,&quot;object_id&quot;:&quot;184&quot;,&quot;is_active&quot;:false,&quot;url&quot;:&quot;https:\/\/www.alliander.com\/nl\/over-alliander\/strategie\/&quot;,&quot;title&quot;:&quot;Strategie&quot;,&quot;image&quot;:null,&quot;items&quot;:[],&quot;articles&quot;:[]},{&quot;id&quot;:842,&quot;object_id&quot;:&quot;535&quot;,&quot;is_active&quot;:false,&quot;url&quot;:&quot;https:\/\/www.alliander.com\/nl\/over-alliander\/corporate-governance\/&quot;,&quot;title&quot;:&quot;Corporate Governance&quot;,&quot;image&quot;:null,&quot;items&quot;:[],&quot;articles&quot;:[]},{&quot;id&quot;:259,&quot;object_id&quot;:&quot;256&quot;,&quot;is_active&quot;:false,&quot;url&quot;:&quot;https:\/\/www.alliander.com\/nl\/over-alliander\/maatschappelijke-duurzaamheid\/&quot;,&quot;title&quot;:&quot;Maatschappelijke impact&quot;,&quot;image&quot;:null,&quot;items&quot;:[],&quot;articles&quot;:[]},{&quot;id&quot;:6240,&quot;object_id&quot;:&quot;6214&quot;,&quot;is_active&quot;:false,&quot;url&quot;:&quot;https:\/\/www.alliander.com\/nl\/over-alliander\/samenwerking\/&quot;,&quot;title&quot;:&quot;Samen werken aan de beste oplossingen&quot;,&quot;image&quot;:null,&quot;items&quot;:[],&quot;articles&quot;:[]},{&quot;id&quot;:6639,&quot;object_id&quot;:&quot;6473&quot;,&quot;is_active&quot;:false,&quot;url&quot;:&quot;https:\/\/www.alliander.com\/nl\/over-alliander\/next-grid\/&quot;,&quot;title&quot;:&quot;Alliander Next Grid&quot;,&quot;image&quot;:null,&quot;items&quot;:[],&quot;articles&quot;:[]},{&quot;id&quot;:3792,&quot;object_id&quot;:&quot;3687&quot;,&quot;is_active&quot;:false,&quot;url&quot;:&quot;https:\/\/www.alliander.com\/nl\/open-source\/&quot;,&quot;title&quot;:&quot;Alliander en open source&quot;,&quot;image&quot;:null,&quot;items&quot;:[],&quot;articles&quot;:[]},{&quot;id&quot;:6432,&quot;object_id&quot;:&quot;6294&quot;,&quot;is_active&quot;:false,&quot;url&quot;:&quot;https:\/\/www.alliander.com\/nl\/alliander-en-open-research\/&quot;,&quot;title&quot;:&quot;Alliander en open research&quot;,&quot;image&quot;:null,&quot;items&quot;:[],&quot;articles&quot;:[]},{&quot;id&quot;:512,&quot;object_id&quot;:&quot;474&quot;,&quot;is_active&quot;:false,&quot;url&quot;:&quot;https:\/\/www.alliander.com\/nl\/over-alliander\/leveranciers\/&quot;,&quot;title&quot;:&quot;Leveranciers&quot;,&quot;image&quot;:null,&quot;items&quot;:[],&quot;articles&quot;:[]},{&quot;id&quot;:365,&quot;object_id&quot;:&quot;359&quot;,&quot;is_active&quot;:false,&quot;url&quot;:&quot;https:\/\/www.alliander.com\/nl\/over-alliander\/opleiden\/&quot;,&quot;title&quot;:&quot;Opleiden&quot;,&quot;image&quot;:null,&quot;items&quot;:[],&quot;articles&quot;:[]},{&quot;id&quot;:277,&quot;object_id&quot;:&quot;275&quot;,&quot;is_active&quot;:false,&quot;url&quot;:&quot;https:\/\/www.alliander.com\/nl\/over-alliander\/sponsoring\/&quot;,&quot;title&quot;:&quot;Sponsoring&quot;,&quot;image&quot;:null,&quot;items&quot;:[],&quot;articles&quot;:[]}],&quot;articles&quot;:[]},{&quot;id&quot;:45,&quot;object_id&quot;:&quot;43&quot;,&quot;is_active&quot;:false,&quot;url&quot;:&quot;https:\/\/www.alliander.com\/nl\/energietransitie\/&quot;,&quot;title&quot;:&quot;Energietransitie&quot;,&quot;image&quot;:null,&quot;items&quot;:[{&quot;id&quot;:1104,&quot;object_id&quot;:&quot;1009&quot;,&quot;is_active&quot;:false,&quot;url&quot;:&quot;https:\/\/www.alliander.com\/nl\/energietransitie\/transportcapaciteit\/&quot;,&quot;title&quot;:&quot;Transportcapaciteit&quot;,&quot;image&quot;:null,&quot;items&quot;:[],&quot;articles&quot;:[]},{&quot;id&quot;:1105,&quot;object_id&quot;:&quot;430&quot;,&quot;is_active&quot;:false,&quot;url&quot;:&quot;https:\/\/www.alliander.com\/nl\/energietransitie\/een-aardgasvrije-toekomst-kosten-van-de-energietransitie\/&quot;,&quot;title&quot;:&quot;Een aardgasvrije toekomst&quot;,&quot;image&quot;:null,&quot;items&quot;:[],&quot;articles&quot;:[]},{&quot;id&quot;:8386,&quot;object_id&quot;:&quot;8381&quot;,&quot;is_active&quot;:false,&quot;url&quot;:&quot;https:\/\/www.alliander.com\/nl\/energietransitie\/balanswijk\/&quot;,&quot;title&quot;:&quot;De Balanswijk&quot;,&quot;image&quot;:null,&quot;items&quot;:[],&quot;articles&quot;:[]},{&quot;id&quot;:5010,&quot;object_id&quot;:&quot;4368&quot;,&quot;is_active&quot;:false,&quot;url&quot;:&quot;https:\/\/www.alliander.com\/nl\/energietransitie\/waterstof-pilot\/&quot;,&quot;title&quot;:&quot;Pilots met waterstof&quot;,&quot;image&quot;:null,&quot;items&quot;:[],&quot;articles&quot;:[]},{&quot;id&quot;:1313,&quot;object_id&quot;:&quot;1296&quot;,&quot;is_active&quot;:false,&quot;url&quot;:&quot;https:\/\/www.alliander.com\/nl\/energietransitie\/tekort-aan-technici\/&quot;,&quot;title&quot;:&quot;Tekort aan technici&quot;,&quot;image&quot;:null,&quot;items&quot;:[],&quot;articles&quot;:[]},{&quot;id&quot;:1133,&quot;object_id&quot;:&quot;1093&quot;,&quot;is_active&quot;:false,&quot;url&quot;:&quot;https:\/\/www.alliander.com\/nl\/energietransitie\/elektrisch-vervoer\/&quot;,&quot;title&quot;:&quot;Elektrisch vervoer&quot;,&quot;image&quot;:null,&quot;items&quot;:[],&quot;articles&quot;:[]},{&quot;id&quot;:1102,&quot;object_id&quot;:&quot;1052&quot;,&quot;is_active&quot;:false,&quot;url&quot;:&quot;https:\/\/www.alliander.com\/nl\/energietransitie\/regionale-energiestrategie\/&quot;,&quot;title&quot;:&quot;Regionale Energiestrategie&quot;,&quot;image&quot;:null,&quot;items&quot;:[],&quot;articles&quot;:[]},{&quot;id&quot;:7712,&quot;object_id&quot;:&quot;7670&quot;,&quot;is_active&quot;:false,&quot;url&quot;:&quot;https:\/\/www.alliander.com\/nl\/over-alliander\/strategie-digitalisering\/&quot;,&quot;title&quot;:&quot;Strategie Digitalisering&quot;,&quot;image&quot;:null,&quot;items&quot;:[],&quot;articles&quot;:[]}],&quot;articles&quot;:[]},{&quot;id&quot;:48,&quot;object_id&quot;:&quot;35&quot;,&quot;is_active&quot;:false,&quot;url&quot;:&quot;https:\/\/www.alliander.com\/nl\/nieuws\/&quot;,&quot;title&quot;:&quot;Nieuws&quot;,&quot;image&quot;:null,&quot;items&quot;:[],&quot;articles&quot;:[]},{&quot;id&quot;:160,&quot;object_id&quot;:&quot;156&quot;,&quot;is_active&quot;:false,&quot;url&quot;:&quot;https:\/\/www.alliander.com\/nl\/verhalen\/&quot;,&quot;title&quot;:&quot;Verhalen&quot;,&quot;image&quot;:null,&quot;items&quot;:[],&quot;articles&quot;:[]},{&quot;id&quot;:47,&quot;object_id&quot;:&quot;37&quot;,&quot;is_active&quot;:false,&quot;url&quot;:&quot;https:\/\/www.alliander.com\/nl\/investor-relations\/&quot;,&quot;title&quot;:&quot;Investor relations&quot;,&quot;image&quot;:null,&quot;items&quot;:[{&quot;id&quot;:187,&quot;object_id&quot;:&quot;174&quot;,&quot;is_active&quot;:false,&quot;url&quot;:&quot;https:\/\/www.alliander.com\/nl\/investor-relations\/alliander-jaarverslag-kerncijfers\/&quot;,&quot;title&quot;:&quot;Kerncijfers&quot;,&quot;image&quot;:null,&quot;items&quot;:[],&quot;articles&quot;:[]},{&quot;id&quot;:1439,&quot;object_id&quot;:&quot;1409&quot;,&quot;is_active&quot;:false,&quot;url&quot;:&quot;https:\/\/www.alliander.com\/nl\/investor-relations\/fin-beleid\/&quot;,&quot;title&quot;:&quot;Financieel beleid&quot;,&quot;image&quot;:null,&quot;items&quot;:[],&quot;articles&quot;:[]},{&quot;id&quot;:1603,&quot;object_id&quot;:&quot;1595&quot;,&quot;is_active&quot;:false,&quot;url&quot;:&quot;https:\/\/www.alliander.com\/nl\/investor-relations\/financiering\/&quot;,&quot;title&quot;:&quot;Financiering&quot;,&quot;image&quot;:null,&quot;items&quot;:[],&quot;articles&quot;:[]},{&quot;id&quot;:1645,&quot;object_id&quot;:&quot;1639&quot;,&quot;is_active&quot;:false,&quot;url&quot;:&quot;https:\/\/www.alliander.com\/nl\/investor-relations\/financiele-publicaties\/&quot;,&quot;title&quot;:&quot;Financi\u00eble publicaties&quot;,&quot;image&quot;:null,&quot;items&quot;:[],&quot;articles&quot;:[]}],&quot;articles&quot;:[]},{&quot;id&quot;:46,&quot;object_id&quot;:&quot;41&quot;,&quot;is_active&quot;:false,&quot;url&quot;:&quot;https:\/\/www.alliander.com\/nl\/contact\/&quot;,&quot;title&quot;:&quot;Contact&quot;,&quot;image&quot;:null,&quot;items&quot;:[{&quot;id&quot;:1555,&quot;object_id&quot;:&quot;216&quot;,&quot;is_active&quot;:false,&quot;url&quot;:&quot;https:\/\/www.alliander.com\/nl\/contact\/pers\/&quot;,&quot;title&quot;:&quot;Pers&quot;,&quot;image&quot;:null,&quot;items&quot;:[],&quot;articles&quot;:[]},{&quot;id&quot;:5049,&quot;object_id&quot;:&quot;4663&quot;,&quot;is_active&quot;:false,&quot;url&quot;:&quot;https:\/\/www.alliander.com\/nl\/locaties\/&quot;,&quot;title&quot;:&quot;Onze locaties&quot;,&quot;image&quot;:null,&quot;items&quot;:[],&quot;articles&quot;:[]},{&quot;id&quot;:7929,&quot;object_id&quot;:&quot;7929&quot;,&quot;is_active&quot;:false,&quot;url&quot;:&quot;https:\/\/www.alliander.com\/beeldbank\/&quot;,&quot;title&quot;:&quot;Beeldbank&quot;,&quot;image&quot;:null,&quot;items&quot;:[],&quot;articles&quot;:[]}],&quot;articles&quot;:[]}],&quot;highlightLink&quot;:null}}"><nav class="src_includes_navigation_xl_NavigationXl_component src_includes_navigation_xl_NavigationXl_relativeToParent"><ul class="src_includes_navigation_xl_NavigationXl_list src_includes_navigation_xl_NavigationXl_relativeToParent"><li class="src_includes_navigation_xl_NavigationXl_wrapperLink"><a data-x="main-menu-cta" class="src_includes_highlight_menu_item_HighLightMenuItem_componentBase src_includes_highlight_menu_item_HighLightMenuItem_componentZonderJou"></a></li></ul></nav></div>          </div>
+
+        <div class="SiteHeader-search">
+          <div class="SiteHeaderSearch">
+    <a href="https://www.alliander.com/nl/?s=" class="Link js-TrackClickEvent Link--greenDark Link--icon Link--iconRight Link--iconSearchS Link--icon"  title="Zoeken"  data-x="main-menu-search" >
+    
+<span class="Link-inner">
+  <span class="Link-label u-visuallyHidden">
+    Zoeken  </span>
+    <span class="Link-icon"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18"><g fill="none" fill-rule="evenodd"><circle cx="8" cy="8" r="6" stroke="currentColor" stroke-width="2"/><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 16l-3-3"/></g></svg>
+</span>
+  </span>
+  </a>
+</div>
+        </div>
+
+                  <div class="SiteHeader-switchLanguage">
+            
+    <script defer src='/kaliberjs/LanguageSwitchApp-4SV4SKT6.js' type='module'></script><link rel='stylesheet' href='/kaliberjs/includes/language-switch/GOYRC4JB-language-switch.php.css' type='text/css' media='all' />        <div data-componentid="b5d2a95ee187fd4504facc9dc16000f9" data-props="{&quot;phpProps&quot;:{&quot;languages&quot;:{&quot;nl&quot;:{&quot;id&quot;:2,&quot;order&quot;:1,&quot;slug&quot;:&quot;nl&quot;,&quot;locale&quot;:&quot;nl-NL&quot;,&quot;name&quot;:&quot;Nederlands&quot;,&quot;url&quot;:&quot;https:\/\/www.alliander.com\/nl\/cookies\/&quot;,&quot;flag&quot;:&quot;https:\/\/www.alliander.com\/content\/plugins\/polylang-pro\/vendor\/wpsyntex\/polylang\/flags\/nl.png&quot;,&quot;current_lang&quot;:true,&quot;no_translation&quot;:false,&quot;classes&quot;:[&quot;lang-item&quot;,&quot;lang-item-2&quot;,&quot;lang-item-nl&quot;,&quot;current-lang&quot;,&quot;lang-item-first&quot;],&quot;link_classes&quot;:[]},&quot;en&quot;:{&quot;id&quot;:5,&quot;order&quot;:2,&quot;slug&quot;:&quot;en&quot;,&quot;locale&quot;:&quot;en-GB&quot;,&quot;name&quot;:&quot;English&quot;,&quot;url&quot;:&quot;https:\/\/www.alliander.com\/en\/cookies\/&quot;,&quot;flag&quot;:&quot;https:\/\/www.alliander.com\/content\/plugins\/polylang-pro\/vendor\/wpsyntex\/polylang\/flags\/gb.png&quot;,&quot;current_lang&quot;:false,&quot;no_translation&quot;:false,&quot;classes&quot;:[&quot;lang-item&quot;,&quot;lang-item-5&quot;,&quot;lang-item-en&quot;],&quot;link_classes&quot;:[]}}}}"><div class="src_includes_language_switch_LanguageSwitch_component"></div></div>            </div>
+        
+        <div class="SiteHeader-switchSite">
+          
+      <a href="//werkenbij.alliander.com" target="_blank" rel="noopener noreferrer" class="SwitchSite-switchLink" data-x="switch-site-link">
+      <div class="Badge SwitchSite-badge">
+  308</div>
+      Werken bij Alliander    </a>
+            </div>
+      </div>
+    </header>
+    </div>
+</div>
+</div>
+
+<main class="SiteLayout-main">
+
+<div class="BackToTop">
+  <button
+    type="button"
+    class="BackToTop-arrow js-back-to-top js-hidden"
+    data-scroll-target=".BackToTop"
+    data-x="link-to-top"
+    aria-label="Scroll naar boven"
+  >
+    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18"><g fill="none" fill-rule="evenodd" stroke-linecap="round" stroke-linejoin="round"><polyline stroke="#006131" stroke-width="2" points="6 0 12 6 6 12" transform="matrix(0 -1 -1 0 15 15)"/><path stroke="#006131" stroke-width="2" d="M9 3.5V16"/></g></svg>
+  </button>
+</div>
+<div class="PageSimple">
+  <div class="Container Container--sm">
+  <div class="Container-layout">
+    
+<header class="HeroPageSimple js-Reveal" data-x="hero">
+  <div class="HeroPageSimple-content">
+    <h1 class="HeroPageSimple-title SlideInReveal">
+      <span class="HeroPageSimple-title--highlighted">Cookies</span>    </h1>
+          <div class="HeroPageSimple-intro SlideInReveal" data-reveal-delay="100">
+        <p class="HeroPageSimple-intro">
+          Voor al onze Alliander-websites (alliander.com, werkenbij.alliander.com) maken wij gebruik van cookies. Graag leggen we u uit waar de cookies voor worden gebruikt en wat het voor u betekent. U leest het hier.        </p>
+              </div>
+      </div>
+</header>
+  </div>
+</div>
+
+  <div class="FlexibleContent FlexibleContent--single">
+                  
+        
+        <section data-x="wysiwyg-content" class="FlexibleContent-item FlexibleContent-item--wysiwygContent">
+          <div class="Container Container--lg">
+  <div class="Container-layout">
+                <div class="js-Reveal">
+  <div class="WysiwygContent SlideInReveal" data-reveal-delay="100">
+    <div class="WpContent">
+  <h2>Wat zijn cookies?</h2>
+<p>Een cookie is een klein tekstbestand dat op de pagina’s van deze website wordt geladen. De cookie wordt door uw browser op de harde schijf van uw computer opgeslagen. We gebruiken drie verschillende soorten cookies:</p>
+<ol>
+<li>Functionele cookies; zijn er om een website te laten werken.</li>
+<li>Analytische cookies; zijn er om surfgedrag vast te leggen.</li>
+<li>Tracking cookies (third-party cookies): zijn er om een bezoekersprofiel vast te leggen voor marketingdoeleinden.</li>
+</ol>
+<p>Functionele en analytische cookies zijn voor eigen gebruik en worden niet gedeeld met derden. Alleen voor het gebruik van marketing cookies is uw akkoord nodig. We gaan zorgvuldig om met de geregistreerde gegevens. Bekijk ons <a href="https://www.alliander.com/nl/privacy-statement/" target="_blank" rel="noopener">Privacy statement</a> voor meer informatie.</p>
+<p>Je kunt je afmelden voor cookies door je internetbrowser zo in te stellen dat deze geen cookies meer opslaat. Daarnaast kun je ook alle informatie die eerder is opgeslagen via de instellingen van je browser verwijderen. Bekijk voor een uitgebreidere toelichting <a href="https://veiliginternetten.nl/themes/situatie/cookies-wat-zijn-het-en-wat-doe-ik-ermee/">deze website</a>.</p>
+<p>Op werkenbij.alliander.com worden ook cookies geplaatst door derden. Dit zijn bijvoorbeeld adverteerders en/of de sociale media bedrijven. Ook als je cookies voor advertenties weigert nadat je ze eerder wél had geaccepteerd, kan het zijn dat je nog steeds gepersonaliseerde advertenties ziet op andere platforms zoals sociale media. Dit komt doordat externe partijen, zoals sociale netwerken, gegevens kunnen blijven verzamelen via andere methoden (zoals inloggegevens of trackingpixels) om advertenties aan te passen aan je interesses. We doen ons best om je privacy te beschermen, maar houd er rekening mee dat deze platforms hun eigen gegevensverwerking uitvoeren.</p>
+<h3>Welke cookies gebruiken wij</h3>
+<p>In onderstaand overzicht vindt u alle cookies die wij in onze domeinen gebruiken:</p>
+<table dir="ltr" border="1" cellspacing="0" cellpadding="0" data-sheets-root="1" data-sheets-baot="1">
+<colgroup>
+<col width="100" />
+<col width="202" />
+<col width="202" />
+<col width="100" />
+<col width="202" />
+<col width="113" />
+<col width="417" /></colgroup>
+<tbody>
+<tr>
+<td>#</td>
+<td>Naam</td>
+<td>in export?</td>
+<td>Vendor</td>
+<td>Categorie</td>
+<td>Bewaartermijn</td>
+<td>Omschrijving</td>
+</tr>
+<tr>
+<td>1</td>
+<td>alliander-accept-tracking-cookies</td>
+<td>#N/A</td>
+<td>Alliander</td>
+<td>Functioneel</td>
+<td>2 jaar</td>
+<td>Slaat gegeven toestemmingsinstellingen op.</td>
+</tr>
+<tr>
+<td>2</td>
+<td>PHPSESSID</td>
+<td>PHPSESSID</td>
+<td>Alliander</td>
+<td>Functioneel</td>
+<td>sessie</td>
+<td>Cookie gegenereerd door applicaties op basis van de PHP-taal. Dit is een algemene identifier die wordt gebruikt om gebruikerssessievariabelen te behouden. Het is normaal gesproken een willekeurig gegenereerd nummer, de specifieke toepassing kan per site verschillen, maar een goed voorbeeld is het behouden van een ingelogde status van een gebruiker tussen pagina&#8217;s.</td>
+</tr>
+<tr>
+<td>3</td>
+<td>consent_settings</td>
+<td>consent_settings</td>
+<td>Alliander</td>
+<td>Functioneel</td>
+<td>1 jaar</td>
+<td>Slaat gegeven toestemmingsinstellingen op.</td>
+</tr>
+<tr>
+<td>4</td>
+<td>wordpress_test_cookie</td>
+<td>wordpress_test_cookie</td>
+<td>Alliander</td>
+<td>Functioneel</td>
+<td>sessie</td>
+<td>Cookie ingesteld door WordPress om te controleren of cookies zijn ingeschakeld in de browser om de gebruikers een passende ervaring te bieden.</td>
+</tr>
+<tr>
+<td>5</td>
+<td>wp_lang</td>
+<td>wp_lang</td>
+<td>Alliander</td>
+<td>Functioneel</td>
+<td>sessie</td>
+<td>Slaat de gekozen sitetaal op.</td>
+</tr>
+<tr>
+<td>6</td>
+<td>referer</td>
+<td></td>
+<td>Alliander</td>
+<td>Functioneel</td>
+<td>sessie</td>
+<td>Slaat de HTTP-verwijzer op.</td>
+</tr>
+<tr>
+<td>7</td>
+<td>_ga</td>
+<td>_ga</td>
+<td>Google</td>
+<td>Analytics</td>
+<td>2 jaar</td>
+<td>ID gebruikt om gebruikers te identificeren.</td>
+</tr>
+<tr>
+<td>8</td>
+<td>_ga_</td>
+<td>#N/A</td>
+<td>Google</td>
+<td>Analytics</td>
+<td>2 jaar</td>
+<td>ID gebruikt om gebruikers te identificeren.</td>
+</tr>
+<tr>
+<td>9</td>
+<td>_gcl_au</td>
+<td>#N/A</td>
+<td>Google</td>
+<td>Analytics</td>
+<td>3 maanden</td>
+<td>Gebruikt door Google AdSense om te experimenteren met de effectiviteit van advertenties op websites die hun diensten gebruiken.</td>
+</tr>
+<tr>
+<td>10</td>
+<td>_gid</td>
+<td>#N/A</td>
+<td>Google</td>
+<td>Analytics</td>
+<td>24 uur</td>
+<td>ID gebruikt om gebruikers te identificeren gedurende 24 uur na de laatste activiteit.</td>
+</tr>
+<tr>
+<td>11</td>
+<td>test_cookie</td>
+<td>#N/A</td>
+<td>Google</td>
+<td>Tracking</td>
+<td>1 jaar</td>
+<td>Deze cookie wordt ingesteld door DoubleClick (dat eigendom is van Google) om te bepalen of de browser van de websitebezoeker cookies ondersteunt.</td>
+</tr>
+<tr>
+<td>12</td>
+<td>FPAU</td>
+<td>FPAU</td>
+<td>Google</td>
+<td>Tracking</td>
+<td>sessie</td>
+<td>Wijst een specifieke ID toe aan de bezoeker. Dit stelt de website in staat om het aantal specifieke gebruikersbezoeken voor analyse en statistieken te bepalen.</td>
+</tr>
+<tr>
+<td>13</td>
+<td>FPID</td>
+<td>FPID</td>
+<td>Google</td>
+<td>Tracking</td>
+<td>sessie</td>
+<td>Registreert statistische gegevens over het gedrag van gebruikers op de website. Gebruikt voor interne analyse door de websitebeheerder.</td>
+</tr>
+<tr>
+<td>14</td>
+<td>FPLC</td>
+<td>FPLC</td>
+<td>Google</td>
+<td>Tracking</td>
+<td>sessie</td>
+<td>Deze FPLC-cookie is de cross-domein linker-cookie die is gehashd van de FPID-cookie. Het is niet HttpOnly, wat betekent dat het kan worden gelezen met JavaScript. Het heeft een relatief korte levensduur, slechts 20 uur.</td>
+</tr>
+<tr>
+<td>15</td>
+<td>_hjSessionUser_</td>
+<td>#N/A</td>
+<td>HotJar</td>
+<td>Tracking</td>
+<td>365 dagen</td>
+<td>Hotjar-cookie die wordt ingesteld wanneer een gebruiker voor het eerst op een pagina met het Hotjar-script terechtkomt. Het wordt gebruikt om de Hotjar-gebruikers-ID te behouden, uniek voor die site op de browser. Dit zorgt ervoor dat gedrag bij volgende bezoeken aan dezelfde site wordt toegeschreven aan dezelfde gebruikers-ID.</td>
+</tr>
+<tr>
+<td>16</td>
+<td>__hssrc</td>
+<td>#N/A</td>
+<td>HubSpot</td>
+<td>Analytics</td>
+<td>sessie</td>
+<td>Telkens wanneer HubSpot de sessiecookie wijzigt, wordt ook deze cookie ingesteld om te bepalen of de bezoeker zijn browser opnieuw heeft opgestart.</td>
+</tr>
+<tr>
+<td>17</td>
+<td>hubspotutk</td>
+<td>#N/A</td>
+<td>HubSpot</td>
+<td>Tracking</td>
+<td>13 maanden</td>
+<td>Deze cookie houdt de identiteit van een bezoeker bij. Het wordt doorgegeven aan HubSpot bij het indienen van een formulier en gebruikt bij het dedupliceren van contactpersonen.</td>
+</tr>
+<tr>
+<td>18</td>
+<td>INDEED_CSRF_TOKEN</td>
+<td>#N/A</td>
+<td>Indeed</td>
+<td>Functioneel</td>
+<td>Sessie</td>
+<td>Deze cookie wordt gebruikt door Cloudflare om betrouwbaar webverkeer te identificeren.</td>
+</tr>
+<tr>
+<td>19</td>
+<td>JSESSIONID</td>
+<td>#N/A</td>
+<td>Indeed</td>
+<td>Functioneel</td>
+<td>sessie</td>
+<td>JSESSIONID is een cookie die wordt gegenereerd door Servlet-containers en wordt gebruikt voor sessiebeheer in J2EE-webapplicaties voor het HTTP-protocol. Als een webserver een cookie gebruikt voor sessiebeheer, maakt en verzendt deze een JSESSIONID-cookie naar de client, die deze vervolgens terugstuurt naar de server in daaropvolgende HTTP-verzoeken. JSESSIONID is een platformsessiecookie en wordt gebruikt door sites met JavaServer Pages (JSP). De cookie wordt gebruikt om een anonieme gebruikerssessie door de server te onderhouden.</td>
+</tr>
+<tr>
+<td>20</td>
+<td>CTK</td>
+<td>#N/A</td>
+<td>Indeed</td>
+<td>Tracking</td>
+<td>1825 dagen</td>
+<td>Deze cookie wordt gebruikt om een consistentere gebruikerservaring over sessies heen te bieden door verbeterde jobaanbevelingen en andere diensten die we aanbieden op Indeed. Dit helpt Indeed ook om in het algemeen te analyseren hoe mensen het beste geholpen kunnen worden om een baan te vinden. Deze cookie gebruikt geen gegevens van derden en wordt niet gebruikt voor targeting.</td>
+</tr>
+<tr>
+<td>21</td>
+<td>ctkgen</td>
+<td>#N/A</td>
+<td>Ined</td>
+<td>Tracking</td>
+<td>1 dag</td>
+<td>Bevat informatie met betrekking tot het registreren (tellen) van een sollicitatie via een vacature op indeed.com.</td>
+</tr>
+<tr>
+<td>22</td>
+<td>lang</td>
+<td>#N/A</td>
+<td>LinkedIn</td>
+<td>Functioneel</td>
+<td>sessie</td>
+<td>Gebruikt om de taalinstelling van een gebruiker te onthouden.</td>
+</tr>
+<tr>
+<td>23</td>
+<td>AnalyticsSyncHistory</td>
+<td>#N/A</td>
+<td>LinkedIn</td>
+<td>Tracking</td>
+<td>30 dagen</td>
+<td>Gebruikt om informatie op te slaan over het tijdstip waarop een synchronisatie met de lms_analytics-cookie heeft plaatsgevonden voor gebruikers in de aangewezen landen.</td>
+</tr>
+<tr>
+<td>24</td>
+<td>bcookie</td>
+<td>#N/A</td>
+<td>LinkedIn</td>
+<td>Tracking</td>
+<td>1 jaar</td>
+<td>Gebruikt door LinkedIn om het gebruik van ingesloten diensten te volgen.</td>
+</tr>
+<tr>
+<td>25</td>
+<td>bscookie</td>
+<td>#N/A</td>
+<td>LinkedIn</td>
+<td>Tracking</td>
+<td>1 jaar</td>
+<td>Gebruikt door LinkedIn om het gebruik van ingesloten diensten te volgen.</td>
+</tr>
+<tr>
+<td>26</td>
+<td>li_gc</td>
+<td>#N/A</td>
+<td>LinkedIn</td>
+<td>Tracking</td>
+<td>2 jaar</td>
+<td>Gebruikt om gasttoestemming op te slaan voor het gebruik van cookies voor niet-essentiële doeleinden.</td>
+</tr>
+<tr>
+<td>27</td>
+<td>lidc</td>
+<td>#N/A</td>
+<td>LinkedIn</td>
+<td>Tracking</td>
+<td>1 dag</td>
+<td>Gebruikt door de sociale netwerkdienst LinkedIn om het gebruik van ingesloten diensten te volgen.</td>
+</tr>
+<tr>
+<td>28</td>
+<td>UserMatchHistory</td>
+<td>#N/A</td>
+<td>LinkedIn</td>
+<td>Tracking</td>
+<td>sessie</td>
+<td>Deze cookies worden ingesteld door LinkedIn voor advertentiedoeleinden, inclusief: het volgen van bezoekers zodat relevantere advertenties kunnen worden gepresenteerd, gebruikers in staat stellen de functies &#8216;Apply with LinkedIn&#8217; of &#8216;Sign-in with LinkedIn&#8217; te gebruiken, informatie verzamelen over hoe bezoekers de site gebruiken, enz.</td>
+</tr>
+<tr>
+<td>29</td>
+<td>_fbp</td>
+<td>_fbp</td>
+<td>Meta</td>
+<td>Tracking</td>
+<td>4 maanden</td>
+<td>Gebruikt door Facebook om een reeks advertentieproducten te leveren, zoals real-time bieden van externe adverteerders.</td>
+</tr>
+<tr>
+<td>30</td>
+<td>_rdt_uuid</td>
+<td>_rdt_uuid</td>
+<td>Reddit</td>
+<td>Tracking</td>
+<td>90 dagen</td>
+<td>Deze cookie wordt ingesteld door Reddit en wordt gebruikt voor remarketing op reddit.com.</td>
+</tr>
+<tr>
+<td>31</td>
+<td>_scid</td>
+<td>_scid</td>
+<td>Snap</td>
+<td>Tracking</td>
+<td>1 jaar</td>
+<td>Gebruikt om een bezoeker te identificeren.</td>
+</tr>
+<tr>
+<td>32</td>
+<td>sc_at</td>
+<td>#N/A</td>
+<td>Snap</td>
+<td>Tracking</td>
+<td>1 jaar</td>
+<td>Gebruikt om een bezoeker over meerdere domeinen te identificeren.</td>
+</tr>
+<tr>
+<td>33</td>
+<td>_ScCbts</td>
+<td>_ScCbts</td>
+<td>Snap</td>
+<td>Tracking</td>
+<td>1 week</td>
+<td>Onbekend.</td>
+</tr>
+<tr>
+<td>34</td>
+<td>_scid_r</td>
+<td>_scid_r</td>
+<td>Snap</td>
+<td>Tracking</td>
+<td>13 maanden</td>
+<td>Stelt een unieke ID in voor de bezoeker, waarmee externe adverteerders de bezoeker met relevante advertenties kunnen targeten. Deze koppeldienst wordt geleverd door advertentiehubs van derden, die realtime bieden voor adverteerders faciliteren.</td>
+</tr>
+<tr>
+<td>35</td>
+<td>X-AB</td>
+<td>#N/A</td>
+<td>Snapchat</td>
+<td>Tracking</td>
+<td>1 dag</td>
+<td>Deze cookie wordt gebruikt door de operator van de website in de context van multi-variatietesten. Dit is een tool die wordt gebruikt om inhoud op de website te combineren of te wijzigen. Dit stelt de website in staat om de beste variant/versie van de site te vinden.</td>
+</tr>
+<tr>
+<td>36</td>
+<td>_tt_enable_cookie</td>
+<td>_tt_enable_cookie</td>
+<td>TikTok</td>
+<td>Tracking</td>
+<td>389 dagen</td>
+<td>Tracking-cookie gebruikt door TikTok om een bezoeker te identificeren.</td>
+</tr>
+<tr>
+<td>37</td>
+<td>_ttp</td>
+<td>_ttp</td>
+<td>TikTok</td>
+<td>Tracking</td>
+<td>389 dagen</td>
+<td>Tracking-cookie gebruikt door TikTok om een bezoeker te identificeren.</td>
+</tr>
+</tbody>
+</table>
+</div>
+  </div>
+</div>
+            </div>
+</div>
+        </section>
+                </div>
+</div>
+</main>
+<footer class="SiteFooter" data-x="site-footer">
+  <div class="Container Container--lg">
+  <div class="Container-layout">
+        <div class="SiteFooter-layout">
+
+      <div class="SiteFooter-logo">
+        <a href="https://www.alliander.com/nl/" class="SiteFooter-logoLink" data-x="footer-menu-link">
+                      <img src="https://www.alliander.com/kaliberjs/images/logo-alliander.png" class="SiteFooter-logoImage" alt="Logo Alliander" />
+                  </a>
+      </div>
+
+      <div class="SiteFooter-links">
+        <div class="SiteFooter-nav">
+          <div class="SiteFooter-menuContainer">
+            <div class="SiteFooterMenu">
+  <ul class="SiteFooterMenu-list">    <li class="SiteFooterMenu-item">
+      <a href="https://www.alliander.com/nl/" class="SiteFooterMenu-link js-link " target="_self"  data-x="footer-menu-link">
+        <span class="SiteFooterMenu-text">
+          Alliander
+        </span>
+      </a></li>
+    <li class="SiteFooterMenu-item">
+      <a href="https://www.alliander.com/nl/over-alliander/" class="SiteFooterMenu-link js-link " target="_self"  data-x="footer-menu-link">
+        <span class="SiteFooterMenu-text">
+          Over Alliander
+        </span>
+      </a></li>
+    <li class="SiteFooterMenu-item">
+      <a href="https://www.alliander.com/nl/energietransitie/" class="SiteFooterMenu-link js-link " target="_self"  data-x="footer-menu-link">
+        <span class="SiteFooterMenu-text">
+          Energietransitie
+        </span>
+      </a></li>
+    <li class="SiteFooterMenu-item">
+      <a href="https://www.alliander.com/nl/nieuws/" class="SiteFooterMenu-link js-link " target="_self"  data-x="footer-menu-link">
+        <span class="SiteFooterMenu-text">
+          Nieuws
+        </span>
+      </a></li>
+    <li class="SiteFooterMenu-item">
+      <a href="https://www.alliander.com/nl/investor-relations/" class="SiteFooterMenu-link js-link " target="_self"  data-x="footer-menu-link">
+        <span class="SiteFooterMenu-text">
+          Investor relations
+        </span>
+      </a></li>
+    <li class="SiteFooterMenu-item">
+      <a href="https://www.alliander.com/nl/contact/" class="SiteFooterMenu-link js-link " target="_self"  data-x="footer-menu-link">
+        <span class="SiteFooterMenu-text">
+          Contact
+        </span>
+      </a></li>
+</ul></div>
+          </div>
+
+          <div class="SiteFooter-externalLinks">
+                            <a href="//werkenbij.alliander.com" class="Link js-TrackClickEvent Link--greenDarkest Link--icon Link--iconRight Link--iconArrowRight Link--small Link--iconSmall" target="_blank" rel="noopener noreferrer" title="Werken bij Alliander"  data-x="footer-menu-link" >
+    
+<span class="Link-inner">
+  <span class="Link-label">
+    Werken bij Alliander  </span>
+    <span class="Link-icon"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18"><g fill="none" fill-rule="evenodd" stroke-linecap="round" stroke-linejoin="round"><polyline stroke="currentColor" stroke-width="2" points="9 3 15 9 9 15" transform="matrix(1 0 0 -1 0 18)"/><path stroke="currentColor" stroke-width="2" d="M14.5 9H2"/></g></svg>
+</span>
+  </span>
+  </a>
+                        <div class="SiteFooter-socialFollow">
+              
+<div class="SocialFollow">
+  
+  <a href="https://www.facebook.com/werkenbijalliander" target="_blank" rel="noopener noreferrer" class="LinkIcon js-TrackClickEvent LinkIcon--green LinkIcon--iconFacebookS LinkIcon--sizeSmall" title="Bekijk Facebook"  data-x="footer-menu-link"  data-tracking-event="social-clicked" data-tracking-value="facebook">
+    <span class="LinkIcon-inner">
+      <span class="LinkIcon-icon"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18"><path fill="currentColor" d="M13 1.115v2.539h-1.454c-.53 0-.889.115-1.074.346-.185.23-.278.577-.278 1.038v1.818h2.713l-.36 2.846h-2.353V17H7.361V9.702H5V6.856h2.361V4.76c0-1.193.321-2.117.963-2.774C8.966 1.329 9.821 1 10.89 1c.907 0 1.611.038 2.111.115z"/></svg>
+</span>
+    </span>
+  </a>
+  
+  <a href="http://www.linkedin.com/company/alliander" target="_blank" rel="noopener noreferrer" class="LinkIcon js-TrackClickEvent LinkIcon--green LinkIcon--iconLinkedinS LinkIcon--sizeSmall" title="Bekijk LinkedIn"  data-x="footer-menu-link"  data-tracking-event="social-clicked" data-tracking-value="linkedin">
+    <span class="LinkIcon-inner">
+      <span class="LinkIcon-icon"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18"><path fill="currentColor" d="M5.408 6.549V16H2.186V6.549h3.222zm.205-2.918a1.49 1.49 0 0 1-.493 1.163c-.335.312-.776.468-1.323.468h-.02c-.534 0-.963-.156-1.289-.468A1.545 1.545 0 0 1 2 3.631c0-.47.168-.86.503-1.168C2.838 2.154 3.276 2 3.816 2c.54 0 .974.154 1.3.463.325.308.49.697.497 1.168zM17 10.583V16h-3.213v-5.054c0-.668-.132-1.191-.395-1.57-.264-.378-.676-.567-1.236-.567-.41 0-.753.11-1.03.33-.277.219-.483.49-.62.815-.072.19-.108.448-.108.772V16H7.186c.013-2.537.02-4.594.02-6.17 0-1.577-.004-2.518-.01-2.823l-.01-.458h3.212v1.373h-.02c.131-.203.265-.381.401-.534.137-.152.32-.318.552-.496a2.56 2.56 0 0 1 .85-.414 3.958 3.958 0 0 1 1.118-.148c1.113 0 2.008.36 2.685 1.082.677.722 1.016 1.779 1.016 3.171z"/></svg>
+</span>
+    </span>
+  </a>
+  
+  <a href="https://www.instagram.com/werkenbijalliander/" target="_blank" rel="noopener noreferrer" class="LinkIcon js-TrackClickEvent LinkIcon--green LinkIcon--iconInstagramS LinkIcon--sizeSmall" title="Bekijk Instagram"  data-x="footer-menu-link"  data-tracking-event="social-clicked" data-tracking-value="instagram">
+    <span class="LinkIcon-inner">
+      <span class="LinkIcon-icon"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18"><path d="M16 9c0 1.391-.015 2.355-.046 2.89-.06 1.263-.437 2.242-1.13 2.934-.692.693-1.67 1.07-2.935 1.13-.534.03-1.498.046-2.889.046-1.391 0-2.355-.015-2.89-.046-1.263-.06-2.242-.437-2.934-1.13-.693-.692-1.07-1.67-1.13-2.935C2.016 11.355 2 10.391 2 9c0-1.391.015-2.355.046-2.89.06-1.263.437-2.242 1.13-2.934.692-.693 1.67-1.07 2.935-1.13C6.645 2.016 7.609 2 9 2c1.391 0 2.355.015 2.89.046 1.263.06 2.242.437 2.934 1.13.693.692 1.07 1.67 1.13 2.935.03.534.046 1.498.046 2.889zm-2.424-3.737a.808.808 0 0 0-.247-.592.808.808 0 0 0-.592-.247.808.808 0 0 0-.592.247.808.808 0 0 0-.247.592c0 .23.082.428.247.592a.808.808 0 0 0 .592.247c.23 0 .428-.082.592-.247a.808.808 0 0 0 .247-.592zM12.938 9c0-1.093-.383-2.022-1.15-2.789-.766-.766-1.695-1.15-2.788-1.15-1.093 0-2.022.384-2.789 1.15-.766.767-1.15 1.696-1.15 2.789 0 1.093.384 2.022 1.15 2.789.767.766 1.696 1.15 2.789 1.15 1.093 0 2.022-.384 2.789-1.15.766-.767 1.15-1.696 1.15-2.789zm-1.38 0c0 .706-.249 1.31-.749 1.81-.5.499-1.103.749-1.809.749s-1.31-.25-1.81-.75c-.499-.5-.749-1.103-.749-1.809s.25-1.31.75-1.81c.5-.499 1.103-.749 1.809-.749s1.31.25 1.81.75c.499.5.749 1.103.749 1.809z"/></svg></span>
+    </span>
+  </a>
+</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="SiteFooter-disclaimer">
+          <div class="SiteFooterFunctionalMenu js-SiteFooterFunctionalMenu">
+  <ul class="SiteFooterFunctionalMenu-list">    <li class="SiteFooterFunctionalMenu-item">
+      <a href="https://www.alliander.com/nl/disclaimer/" class="SiteFooterFunctionalMenu-link js-link " target="_self"  data-x="functional-menu-link">
+        <span class="SiteFooterFunctionalMenu-text">
+          Disclaimer
+        </span>
+      </a></li>
+    <li class="SiteFooterFunctionalMenu-item">
+      <a href="https://www.alliander.com/nl/privacy-statement/" class="SiteFooterFunctionalMenu-link js-link " target="_self"  data-x="functional-menu-link">
+        <span class="SiteFooterFunctionalMenu-text">
+          Privacy statement
+        </span>
+      </a></li>
+    <li class="SiteFooterFunctionalMenu-item">
+      <a href="https://www.alliander.com/nl/over-alliander/toegankelijkheidsverklaring/" class="SiteFooterFunctionalMenu-link js-link " target="_self"  data-x="functional-menu-link">
+        <span class="SiteFooterFunctionalMenu-text">
+          Toegankelijkheid
+        </span>
+      </a></li>
+    <li class="SiteFooterFunctionalMenu-item">
+      <a href="https://www.alliander.com/nl/cookies/" class="SiteFooterFunctionalMenu-link js-link SiteFooterFunctionalMenu-link--active" target="_self"  data-x="functional-menu-link">
+        <span class="SiteFooterFunctionalMenu-text">
+          Cookies
+        </span>
+      </a></li>
+    <li class="SiteFooterFunctionalMenu-item">
+      <a href="https://www.alliander.com/nl/coordinated-vulnerability-disclosure/" class="SiteFooterFunctionalMenu-link js-link " target="_self"  data-x="functional-menu-link">
+        <span class="SiteFooterFunctionalMenu-text">
+          CVD
+        </span>
+      </a></li>
+</ul>
+  <button data-x="click-to-change-preferences" type="button" class="SiteFooterFunctionalMenu-cookieConsent js-SiteFooterFunctionalMenu-cookieConsent">
+    Cookie voorkeuren aanpassen  </button>
+</div>
+          <div class="SiteFooter-copyright">
+            Copyright &copy;&nbsp;2025&nbsp;Alliander          </div>
+        </div>
+      </div>
+
+    </div>
+    </div>
+</div>
+</footer>
+
+</div>
+
+<div class="Drawer js-drawer">
+  <div class="Drawer-scrollContainer js-drawer-scrollContainer">
+    <div class="Drawer-layout">
+      <div class="Drawer-header">
+        <div class="Container Container--lg">
+  <div class="Container-layout">
+              <div class="Drawer-headerInner">
+            <div class="Drawer-logoContainer">
+              <div class="Drawer-logo">
+                <a href="https://www.alliander.com/nl/" class="Drawer-logoLink" data-x="link-to-home">
+                                      <img src="https://www.alliander.com/kaliberjs/images/logo-alliander.png" class="Drawer-logoImage" alt="Logo Alliander" />
+                                  </a>
+              </div>
+            </div>
+            <div class="Drawer-closeContainer">
+              <button class="Drawer-closeButton js-drawer-close" type="button" data-x="toggle-navigation">
+                <div class="Drawer-menuText">
+                  Sluit                </div>
+                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21.89 21.89L9.164 9.164m-.142 12.87L22.032 9.02"/></svg>
+              </button>
+            </div>
+          </div>
+          </div>
+</div>
+      </div>
+      <div class="Drawer-navigation">
+        <div class="Drawer-menu">
+          <div class="Container Container--lg">
+  <div class="Container-layout">
+    
+            </div>
+</div>
+          <div class="Container Container--lg">
+  <div class="Container-layout">
+                <ul class="DrawerMenu-list">
+              <li class="DrawerMenu-item">
+                <a class="DrawerMenu-link DrawerMenu-linkSearch" href="https://www.alliander.com/?s" data-x="submit">
+                  <span>Zoeken</span>
+                  <div class="DrawerMenu-linkSearchIcon"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18"><g fill="none" fill-rule="evenodd"><circle cx="8" cy="8" r="6" stroke="currentColor" stroke-width="2"/><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 16l-3-3"/></g></svg>
+</div>
+                </a>
+              </li>
+            </ul>
+            </div>
+</div>
+        </div>
+      </div>
+      <div class="Drawer-footer">
+        <div class="Container Container--lg">
+  <div class="Container-layout">
+              <div class="Drawer-links">
+                          <div class="Drawer-switchLanguage">
+                                  <a
+                    href="https://www.alliander.com/nl/cookies/"
+                    class="Drawer-switchLanguageLink js-setLanguage Drawer-switchLanguageLink--active"
+                    data-x="link-to-switch-language"
+                  >
+                    NL                  </a>
+                                  <a
+                    href="https://www.alliander.com/en/cookies/"
+                    class="Drawer-switchLanguageLink js-setLanguage"
+                    data-x="link-to-switch-language"
+                  >
+                    EN                  </a>
+                              </div>
+                        
+      <a href="//werkenbij.alliander.com" target="_blank" rel="noopener noreferrer" class="SwitchSite-switchLink" data-x="switch-site-link">
+      <div class="Badge SwitchSite-badge">
+  308</div>
+      Werken bij Alliander    </a>
+              </div>
+          </div>
+</div>
+        <div class="Container Container--lg">
+  <div class="Container-layout">
+              <div class="Drawer-socialFollow">
+            
+<div class="SocialFollow">
+  
+  <a href="https://www.facebook.com/werkenbijalliander" target="_blank" rel="noopener noreferrer" class="LinkIcon js-TrackClickEvent LinkIcon--green LinkIcon--iconFacebookS LinkIcon--sizeSmall" title="Bekijk Facebook"  data-x="footer-menu-link"  data-tracking-event="social-clicked" data-tracking-value="facebook">
+    <span class="LinkIcon-inner">
+      <span class="LinkIcon-icon"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18"><path fill="currentColor" d="M13 1.115v2.539h-1.454c-.53 0-.889.115-1.074.346-.185.23-.278.577-.278 1.038v1.818h2.713l-.36 2.846h-2.353V17H7.361V9.702H5V6.856h2.361V4.76c0-1.193.321-2.117.963-2.774C8.966 1.329 9.821 1 10.89 1c.907 0 1.611.038 2.111.115z"/></svg>
+</span>
+    </span>
+  </a>
+  
+  <a href="http://www.linkedin.com/company/alliander" target="_blank" rel="noopener noreferrer" class="LinkIcon js-TrackClickEvent LinkIcon--green LinkIcon--iconLinkedinS LinkIcon--sizeSmall" title="Bekijk LinkedIn"  data-x="footer-menu-link"  data-tracking-event="social-clicked" data-tracking-value="linkedin">
+    <span class="LinkIcon-inner">
+      <span class="LinkIcon-icon"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18"><path fill="currentColor" d="M5.408 6.549V16H2.186V6.549h3.222zm.205-2.918a1.49 1.49 0 0 1-.493 1.163c-.335.312-.776.468-1.323.468h-.02c-.534 0-.963-.156-1.289-.468A1.545 1.545 0 0 1 2 3.631c0-.47.168-.86.503-1.168C2.838 2.154 3.276 2 3.816 2c.54 0 .974.154 1.3.463.325.308.49.697.497 1.168zM17 10.583V16h-3.213v-5.054c0-.668-.132-1.191-.395-1.57-.264-.378-.676-.567-1.236-.567-.41 0-.753.11-1.03.33-.277.219-.483.49-.62.815-.072.19-.108.448-.108.772V16H7.186c.013-2.537.02-4.594.02-6.17 0-1.577-.004-2.518-.01-2.823l-.01-.458h3.212v1.373h-.02c.131-.203.265-.381.401-.534.137-.152.32-.318.552-.496a2.56 2.56 0 0 1 .85-.414 3.958 3.958 0 0 1 1.118-.148c1.113 0 2.008.36 2.685 1.082.677.722 1.016 1.779 1.016 3.171z"/></svg>
+</span>
+    </span>
+  </a>
+  
+  <a href="https://www.instagram.com/werkenbijalliander/" target="_blank" rel="noopener noreferrer" class="LinkIcon js-TrackClickEvent LinkIcon--green LinkIcon--iconInstagramS LinkIcon--sizeSmall" title="Bekijk Instagram"  data-x="footer-menu-link"  data-tracking-event="social-clicked" data-tracking-value="instagram">
+    <span class="LinkIcon-inner">
+      <span class="LinkIcon-icon"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18"><path d="M16 9c0 1.391-.015 2.355-.046 2.89-.06 1.263-.437 2.242-1.13 2.934-.692.693-1.67 1.07-2.935 1.13-.534.03-1.498.046-2.889.046-1.391 0-2.355-.015-2.89-.046-1.263-.06-2.242-.437-2.934-1.13-.693-.692-1.07-1.67-1.13-2.935C2.016 11.355 2 10.391 2 9c0-1.391.015-2.355.046-2.89.06-1.263.437-2.242 1.13-2.934.692-.693 1.67-1.07 2.935-1.13C6.645 2.016 7.609 2 9 2c1.391 0 2.355.015 2.89.046 1.263.06 2.242.437 2.934 1.13.693.692 1.07 1.67 1.13 2.935.03.534.046 1.498.046 2.889zm-2.424-3.737a.808.808 0 0 0-.247-.592.808.808 0 0 0-.592-.247.808.808 0 0 0-.592.247.808.808 0 0 0-.247.592c0 .23.082.428.247.592a.808.808 0 0 0 .592.247c.23 0 .428-.082.592-.247a.808.808 0 0 0 .247-.592zM12.938 9c0-1.093-.383-2.022-1.15-2.789-.766-.766-1.695-1.15-2.788-1.15-1.093 0-2.022.384-2.789 1.15-.766.767-1.15 1.696-1.15 2.789 0 1.093.384 2.022 1.15 2.789.767.766 1.696 1.15 2.789 1.15 1.093 0 2.022-.384 2.789-1.15.766-.767 1.15-1.696 1.15-2.789zm-1.38 0c0 .706-.249 1.31-.749 1.81-.5.499-1.103.749-1.809.749s-1.31-.25-1.81-.75c-.499-.5-.749-1.103-.749-1.809s.25-1.31.75-1.81c.5-.499 1.103-.749 1.809-.749s1.31.25 1.81.75c.499.5.749 1.103.749 1.809z"/></svg></span>
+    </span>
+  </a>
+</div>
+          </div>
+          <div class="Drawer-disclaimer">
+            <div class="SiteFooterFunctionalMenu js-SiteFooterFunctionalMenu">
+  <ul class="SiteFooterFunctionalMenu-list">    <li class="SiteFooterFunctionalMenu-item">
+      <a href="https://www.alliander.com/nl/disclaimer/" class="SiteFooterFunctionalMenu-link js-link " target="_self"  data-x="functional-menu-link">
+        <span class="SiteFooterFunctionalMenu-text">
+          Disclaimer
+        </span>
+      </a></li>
+    <li class="SiteFooterFunctionalMenu-item">
+      <a href="https://www.alliander.com/nl/privacy-statement/" class="SiteFooterFunctionalMenu-link js-link " target="_self"  data-x="functional-menu-link">
+        <span class="SiteFooterFunctionalMenu-text">
+          Privacy statement
+        </span>
+      </a></li>
+    <li class="SiteFooterFunctionalMenu-item">
+      <a href="https://www.alliander.com/nl/over-alliander/toegankelijkheidsverklaring/" class="SiteFooterFunctionalMenu-link js-link " target="_self"  data-x="functional-menu-link">
+        <span class="SiteFooterFunctionalMenu-text">
+          Toegankelijkheid
+        </span>
+      </a></li>
+    <li class="SiteFooterFunctionalMenu-item">
+      <a href="https://www.alliander.com/nl/cookies/" class="SiteFooterFunctionalMenu-link js-link SiteFooterFunctionalMenu-link--active" target="_self"  data-x="functional-menu-link">
+        <span class="SiteFooterFunctionalMenu-text">
+          Cookies
+        </span>
+      </a></li>
+    <li class="SiteFooterFunctionalMenu-item">
+      <a href="https://www.alliander.com/nl/coordinated-vulnerability-disclosure/" class="SiteFooterFunctionalMenu-link js-link " target="_self"  data-x="functional-menu-link">
+        <span class="SiteFooterFunctionalMenu-text">
+          CVD
+        </span>
+      </a></li>
+</ul>
+  <button data-x="click-to-change-preferences" type="button" class="SiteFooterFunctionalMenu-cookieConsent js-SiteFooterFunctionalMenu-cookieConsent">
+    Cookie voorkeuren aanpassen  </button>
+</div>
+          </div>
+          </div>
+</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    <script defer src='/kaliberjs/CookieBarApp-VWNVRADM.js' type='module'></script><link rel='stylesheet' href='/kaliberjs/includes/cookie-bar/EIRJPYEN-CookieBarApp.php.css' type='text/css' media='all' />        <div data-componentid="e425411f9e1dc60f99ef0d924ec7bdfa" data-props="{&quot;phpProps&quot;:{&quot;i18n&quot;:{&quot;cookieMessage&quot;:&quot;Wij maken op deze website gebruik van cookies en vergelijkbare technieken om bezoek te analyseren en om u relevante boodschappen te tonen op social media. Door op &#039;ik ga akkoord&#039; te klikken geeft u toestemming voor de plaatsing ervan en het verwerken van op deze wijze verkregen persoonsgegevens, zoals in ons&quot;,&quot;readMoreMessage&quot;:&quot;wordt vermeld.&quot;,&quot;readMore&quot;:&quot;cookie statement&quot;,&quot;accept&quot;:&quot;Ik ga akkoord&quot;,&quot;notAccept&quot;:&quot;Ik ga niet akkoord&quot;,&quot;cookie-classification-functional-title&quot;:&quot;Noodzakelijk&quot;,&quot;cookie-classification-functional-body&quot;:&quot;Deze cookies verzamelen geen persoonlijke gegevens en worden automatisch verwijderd wanneer je de website verlaat. Zonder deze cookies kan de website niet goed functioneren.&quot;,&quot;cookie-classification-analytics-title&quot;:&quot;Statistieken &amp; analyse&quot;,&quot;cookie-classification-analytics-body&quot;:&quot;Door het anoniem bijhouden van gegevens zoals bezoekersaantallen, paginaweergaven en klikgedrag, kunnen we inzicht krijgen in hoe bezoekers de website gebruiken en waar verbeteringen nodig zijn.&quot;,&quot;cookie-classification-marketing-title&quot;:&quot;Marketing&quot;,&quot;cookie-classification-marketing-body&quot;:&quot;Deze cookies worden gebruikt om gepersonaliseerde advertenties te tonen op basis van het surfgedrag na jouw bezoek. Ze geven ook inzicht in onze eigen advertenties en hoe goed deze het doen.&quot;,&quot;cookie-popup-refuse&quot;:&quot;Weigeren&quot;,&quot;cookie-popup-accept&quot;:&quot;Accepteren&quot;,&quot;cookie-privacy-statement&quot;:&quot;Cookies &amp; Privacy statement&quot;,&quot;cookie-statement&quot;:&quot;Cookie&quot;,&quot;privacy-statement&quot;:&quot;Privacy statement&quot;,&quot;cookie-introduction-1&quot;:&quot;Alliander gebruikt cookies en vergelijkbare technieken om gegevens over uw sitebezoek te verzamelen. Dit doen we voor analyse, social media en gepersonaliseerde advertenties, ook op andere websites &amp; apps.&quot;,&quot;cookie-introduction-2&quot;:&quot;Door &#039;Accepteren&#039; te kiezen, gaat u akkoord met alle cookies en technieken.&quot;,&quot;cookie-introduction-3&quot;:&quot;Kiest u &#039;Weigeren&#039; dan plaatsen we alleen functionele en anonieme analytische cookies.&quot;,&quot;cookie-introduction-4&quot;:&quot;Meer informatie vind u in ons&quot;,&quot;cookie-title&quot;:&quot;Alliander maakt gebruik van cookies&quot;,&quot;read-more&quot;:&quot;Lees meer&quot;,&quot;read-less&quot;:&quot;Lees minder&quot;,&quot;prefix-and&quot;:&quot;en&quot;,&quot;a11y&quot;:{&quot;enable-x&quot;:&quot;Zet %s aan&quot;,&quot;disable-x&quot;:&quot;Zet %s uit&quot;,&quot;x-of-category-x&quot;:&quot;%s van categorie &#039;%s&#039;&quot;}},&quot;language&quot;:&quot;nl&quot;,&quot;cookie_url&quot;:&quot;https:\/\/www.alliander.com\/nl\/cookies\/&quot;,&quot;privacy_url&quot;:&quot;https:\/\/www.alliander.com\/nl\/over-alliander\/toegankelijkheidsverklaring\/&quot;,&quot;initialConfiguration&quot;:{&quot;show&quot;:true,&quot;version&quot;:2,&quot;timestamp&quot;:1753526104,&quot;permissions&quot;:{&quot;functionality_storage&quot;:&quot;granted&quot;,&quot;analytics_storage&quot;:&quot;granted&quot;,&quot;ad_storage&quot;:&quot;denied&quot;,&quot;ad_user_data&quot;:&quot;denied&quot;,&quot;ad_personalization&quot;:&quot;denied&quot;,&quot;personalization_storage&quot;:&quot;denied&quot;}},&quot;config&quot;:{&quot;version&quot;:2,&quot;cookieEndpoint&quot;:&quot;\/wp-json\/wp\/v2\/hcs\/consents\/&quot;,&quot;availablePermissions&quot;:[{&quot;classification&quot;:&quot;functional&quot;,&quot;name&quot;:&quot;functionality_storage&quot;},{&quot;classification&quot;:&quot;analytics&quot;,&quot;name&quot;:&quot;analytics_storage&quot;,&quot;required&quot;:false,&quot;enabled_by_default&quot;:true},{&quot;classification&quot;:&quot;marketing&quot;,&quot;name&quot;:&quot;ad_storage&quot;},{&quot;classification&quot;:&quot;marketing&quot;,&quot;name&quot;:&quot;ad_user_data&quot;},{&quot;classification&quot;:&quot;marketing&quot;,&quot;name&quot;:&quot;ad_personalization&quot;},{&quot;classification&quot;:&quot;marketing&quot;,&quot;name&quot;:&quot;personalization_storage&quot;}]}}}"><div></div></div>  
+</body>
+</html>
