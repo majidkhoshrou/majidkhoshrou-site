@@ -9,10 +9,11 @@ function sendMessage() {
   if (text === '') return;
 
   appendMessage('user', text);
+  saveMessage('user', text);
+
   input.value = '';
   input.focus();
 
-  // Show typing placeholder (with animation class)
   const typingEl = appendMessage('assistant', 'Mr. <i>M</i> is typing...', true);
   typingEl.classList.add('typing');
 
@@ -23,16 +24,18 @@ function sendMessage() {
   })
     .then(response => response.json())
     .then(data => {
-      // Simulate typing delay
       setTimeout(() => {
         typingEl.remove();
         appendMessage('assistant', data.reply);
+        saveMessage('assistant', data.reply);
       }, 700);
     })
     .catch(error => {
       console.error('Error:', error);
       typingEl.remove();
-      appendMessage('assistant', 'Sorry, there was an error processing your request.');
+      const errorMsg = 'Sorry, there was an error processing your request.';
+      appendMessage('assistant', errorMsg);
+      saveMessage('assistant', errorMsg);
     });
 }
 
@@ -41,19 +44,16 @@ function appendMessage(sender, text, isTyping = false) {
   const div = document.createElement('div');
   div.className = `message ${sender}`;
   if (isTyping) {
-    div.innerHTML = text; // ✅ Use innerHTML for HTML support
+    div.innerHTML = text;
   } else {
-    div.innerHTML = sanitizeHTML(text); // ✅ still sanitize user/assistant replies
+    div.innerHTML = sanitizeHTML(text);
   }
-
   chatWindow.appendChild(div);
   chatWindow.scrollTop = chatWindow.scrollHeight;
   return div;
 }
 
-
 function sanitizeHTML(str) {
-  // Basic sanitization: supports <strong>, <em>, <br>, <a href="">
   return str
     .replace(/</g, "&lt;")
     .replace(/>/g, "&gt;")
@@ -63,6 +63,20 @@ function sanitizeHTML(str) {
     .replace(/(https?:\/\/[^\s]+)/g, '<a href="$1" target="_blank">$1</a>');
 }
 
+function saveMessage(sender, text) {
+  const chat = JSON.parse(sessionStorage.getItem('chatHistory') || '[]');
+  chat.push({ sender, text });
+  sessionStorage.setItem('chatHistory', JSON.stringify(chat));
+}
+
+function loadChatHistory() {
+  const chat = JSON.parse(sessionStorage.getItem('chatHistory') || '[]');
+  chat.forEach(msg => {
+    appendMessage(msg.sender, msg.text);
+  });
+}
+
 window.onload = () => {
+  loadChatHistory();
   document.getElementById('user-input').focus();
 };

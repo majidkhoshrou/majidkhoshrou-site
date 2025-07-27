@@ -45,24 +45,42 @@
          Unknown Country: <strong id="unknown-country-count">...</strong></p>
     </section>
 
-    <!-- Map First -->
+    <!-- Map -->
     <section>
       <h3>Visitor Locations</h3>
       <div id="map" style="height: 500px; border-radius: 8px;"></div>
     </section>
 
-    <!-- Daily Chart -->
+    <!-- Daily Visits -->
     <section class="chart-section">
       <h3>Daily Visits</h3>
       <canvas id="dailyChart"></canvas>
     </section>
 
-    <!-- Device Chart -->
+    <!-- Device Types -->
     <section class="chart-section pie-section">
       <h3>Device Types</h3>
       <div class="chart-wrapper">
         <canvas id="deviceChart"></canvas>
       </div>
+    </section>
+
+    <!-- Page Popularity Chart -->
+    <section class="chart-section">
+      <h3>Page Visit Popularity</h3>
+      <p>Most Visited Tab: <strong id="top-page">Loading...</strong></p>
+      <canvas id="pageChart"></canvas>
+    </section>
+
+    <!-- Toggle Filter -->
+    <section class="chart-section">
+      <h3>Filter by Device / Country</h3>
+      <label for="groupFilter">Group by:</label>
+      <select id="groupFilter">
+        <option value="by_device">Device Type</option>
+        <option value="by_country">Country</option>
+      </select>
+      <canvas id="groupChart"></canvas>
     </section>
   </main>
 
@@ -94,60 +112,64 @@
       });
 
     function loadChoroplethMap() {
-      const map = L.map('map').setView([25, 0], 2);
-      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        attribution: '&copy; OpenStreetMap contributors'
+  const map = L.map('map').setView([25, 0], 2);
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '&copy; OpenStreetMap contributors'
+  }).addTo(map);
+
+  fetch("/static/data/world-countries.geo.json")
+    .then(res => res.json())
+    .then(geoData => {
+      L.geoJson(geoData, {
+        style: feature => ({
+          fillColor: getColor(countryVisitCounts[feature.properties.name] || 0),
+          weight: 1,
+          opacity: 1,
+          color: 'white',
+          dashArray: '3',
+          fillOpacity: 0.7
+        }),
+        onEachFeature: (feature, layer) => {
+          const visits = countryVisitCounts[feature.properties.name] || 0;
+          layer.bindPopup(`${feature.properties.name}: ${visits} visit(s)`);
+        }
       }).addTo(map);
 
-      fetch("/static/data/world-countries.geo.json")
-        .then(res => res.json())
-        .then(geoData => {
-          L.geoJson(geoData, {
-            style: feature => ({
-              fillColor: getColor(countryVisitCounts[feature.properties.name] || 0),
-              weight: 1,
-              opacity: 1,
-              color: 'white',
-              dashArray: '3',
-              fillOpacity: 0.7
-            }),
-            onEachFeature: (feature, layer) => {
-              const visits = countryVisitCounts[feature.properties.name] || 0;
-              layer.bindPopup(`${feature.properties.name}: ${visits} visit(s)`);
-            }
-          }).addTo(map);
+      const legend = L.control({position: 'bottomright'});
+      legend.onAdd = function () {
+        const div = L.DomUtil.create('div', 'info legend');
+        const grades = [0, 1, 5, 10, 20, 50];
+        const labels = [];
 
-          const legend = L.control({position: 'bottomright'});
-          legend.onAdd = function () {
-            const div = L.DomUtil.create('div', 'info legend');
-            const grades = [0, 1, 5, 10, 20, 50];
-            const labels = [];
+        for (let i = 0; i < grades.length; i++) {
+          const from = grades[i];
+          const to = grades[i + 1];
+          labels.push(
+            `<i style="background:${getColor(from + 1)}"></i> ${from}${to ? '&ndash;' + to : '+'}`
+          );
+        }
 
-            for (let i = 0; i < grades.length; i++) {
-              const from = grades[i];
-              const to = grades[i + 1];
-              labels.push(
-                `<i style="background:${getColor(from + 1)}"></i> ${from}${to ? '&ndash;' + to : '+'}`
-              );
-            }
+        div.innerHTML = labels.join('<br>');
+        return div;
+      };
+      legend.addTo(map);
 
-            div.innerHTML = labels.join('<br>');
-            return div;
-          };
-          legend.addTo(map);
-        });
-    }
+      // ✅ Fix: ensure map is sized correctly after layout settles
+      setTimeout(() => {
+        map.invalidateSize();
+      }, 300);
+    });
+}
 
     function getColor(d) {
-      return d > 50 ? '#7F0000' :   // dark red
-            d > 20 ? '#B30000' :   // strong red
-            d > 10 ? '#E34A33' :   // reddish-orange
-            d > 5  ? '#FC8D59' :   // light orange
-            d > 1  ? '#FDBB84' :   // peach
-            d > 0  ? '#FDD49E' :   // warm beige
-                      '#FFFFCC';    // pale yellow
+      return d > 50 ? '#7F0000' :
+             d > 20 ? '#B30000' :
+             d > 10 ? '#E34A33' :
+             d > 5  ? '#FC8D59' :
+             d > 1  ? '#FDBB84' :
+             d > 0  ? '#FDD49E' :
+                      '#FFFFCC';
     }
-
 
     fetch("/api/analytics-summary")
       .then(res => res.json())
@@ -155,7 +177,9 @@
         document.getElementById("total-visits").textContent = data.total_visits;
         document.getElementById("vpn-count").textContent = data.vpn_count;
         document.getElementById("unknown-country-count").textContent = data.unknown_country_count;
+        document.getElementById("top-page").textContent = data.most_visited_path || "Unavailable";
 
+        // Device Pie
         const deviceCtx = document.getElementById("deviceChart").getContext("2d");
         new Chart(deviceCtx, {
           type: 'pie',
@@ -172,6 +196,7 @@
           }
         });
 
+        // Daily Line
         const dailyCtx = document.getElementById("dailyChart").getContext("2d");
         const days = Object.keys(data.by_day).sort();
         new Chart(dailyCtx, {
@@ -186,6 +211,84 @@
             }]
           }
         });
+
+        
+        // Tab name → Path map (must match Python TAB_NAME_MAP)
+        const tabToPath = {
+          "Home": "/",
+          "About Me": "/about",
+          "Projects": "/projects",
+          "Research": "/research",
+          "Talks": "/talks",
+          "Ask Mr. M": "/ask-mr-m",
+          "Analytics": "/analytics",
+          "Contact": "/contact"
+        };
+
+        const pageCtx = document.getElementById("pageChart").getContext("2d");
+        const pages = Object.keys(data.by_tab);
+        const pageCounts = Object.values(data.by_tab);
+
+        new Chart(pageCtx, {
+          type: 'bar',
+          data: {
+            labels: pages,
+            datasets: [{
+              label: 'Visits per Tab',
+              data: pageCounts,
+              backgroundColor: 'rgba(54, 162, 235, 0.6)'
+            }]
+          },
+          options: {
+            onClick: (e, elements) => {
+              if (elements.length > 0) {
+                const clickedLabel = pages[elements[0].index];
+                const targetPath = tabToPath[clickedLabel];
+                if (targetPath) {
+                  window.open(targetPath, '_blank');
+                }
+              }
+            },
+            responsive: true,
+            scales: {
+              y: { beginAtZero: true }
+            }
+          }
+        });
+
+
+        // Filter toggle (device/country)
+        const groupCtx = document.getElementById("groupChart").getContext("2d");
+        let currentChart;
+
+        function renderGroupChart(key) {
+          if (currentChart) currentChart.destroy();
+
+          const dataset = data[key];
+          currentChart = new Chart(groupCtx, {
+            type: 'bar',
+            data: {
+              labels: Object.keys(dataset),
+              datasets: [{
+                label: `Visits by ${key === 'by_device' ? 'Device' : 'Country'}`,
+                data: Object.values(dataset),
+                backgroundColor: 'rgba(255, 99, 132, 0.6)'
+              }]
+            },
+            options: {
+              responsive: true,
+              scales: {
+                y: { beginAtZero: true }
+              }
+            }
+          });
+        }
+
+        document.getElementById("groupFilter").addEventListener("change", e => {
+          renderGroupChart(e.target.value);
+        });
+
+        renderGroupChart("by_device"); // default
       });
   </script>
 </body>
