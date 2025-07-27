@@ -4,14 +4,19 @@ from collections import defaultdict
 from typing import Dict, Any, List
 from flask import request, has_request_context
 from urllib.parse import urlparse
+from filelock import FileLock
 import requests
 import json
 import re
 
+# Optional: thread-level safety (in case Flask runs in threaded mode)
+from threading import Lock
+file_mutex = Lock()
+
+
 def parse_device(user_agent: str) -> str:
     if not user_agent:
         return "Unknown"
-
     ua = user_agent.lower()
     if "mobile" in ua or "android" in ua or "iphone" in ua:
         return "Mobile"
@@ -26,11 +31,15 @@ def anonymize_ip(ip: str) -> str:
     parts = ip.split('.')
     return '.'.join(parts[:2]) + '.***.***' if len(parts) == 4 else ip
 
+
 def log_visit(log_dir: Path = None) -> None:
     if not has_request_context():
         return
 
     log_dir = log_dir or Path("data")
+    log_file = log_dir / "visits.json"
+    lock_file = log_file.with_suffix(".lock")
+    log_dir.mkdir(parents=True, exist_ok=True)
 
     TAB_NAME_MAP = {
         "/": "Home",
@@ -47,11 +56,9 @@ def log_visit(log_dir: Path = None) -> None:
     parsed = urlparse(referer)
     ref_path = parsed.path
 
-    # Normalize to standard path
     path = ref_path if ref_path else request.path or "/"
     if path in ["/index.html", "/home"]:
         path = "/"
-
     if path not in TAB_NAME_MAP:
         return
 
@@ -89,30 +96,44 @@ def log_visit(log_dir: Path = None) -> None:
         "latitude": latitude,
         "longitude": longitude,
         "path": path,
-        "tab": tab_name  # ✅ readable tab name
+        "tab": tab_name
     }
 
-    log_file = log_dir / "visits.json"
-    log_dir.mkdir(parents=True, exist_ok=True)
-
     logs: List[Dict[str, Any]] = []
-    if log_file.exists():
-        with log_file.open("r", encoding="utf-8") as f:
-            logs = json.load(f)
 
-    logs.append(log_entry)
+    with file_mutex:
+        with FileLock(lock_file):
+            if log_file.exists():
+                try:
+                    with log_file.open("r", encoding="utf-8") as f:
+                        content = f.read().strip()
+                        if content:
+                            logs = json.loads(content)
+                except json.JSONDecodeError:
+                    logs = []
 
-    with log_file.open("w", encoding="utf-8") as f:
-        json.dump(logs, f, indent=2)
+            logs.append(log_entry)
+
+            with log_file.open("w", encoding="utf-8") as f:
+                json.dump(logs, f, indent=2)
 
 
 def load_analytics_data(log_dir: Path = None) -> List[Dict[str, Any]]:
     log_dir = log_dir or Path("data")
     log_file = log_dir / "visits.json"
+    lock_file = log_file.with_suffix(".lock")
+
     if not log_file.exists():
         return []
-    with log_file.open("r", encoding="utf-8") as f:
-        return json.load(f)
+
+    with file_mutex:
+        with FileLock(lock_file):
+            try:
+                with log_file.open("r", encoding="utf-8") as f:
+                    content = f.read().strip()
+                    return json.loads(content) if content else []
+            except json.JSONDecodeError:
+                return []
 
 
 def summarize_analytics(log_dir: Path = None) -> Dict[str, Any]:
@@ -124,7 +145,7 @@ def summarize_analytics(log_dir: Path = None) -> Dict[str, Any]:
     by_ip = defaultdict(int)
     by_day = defaultdict(int)
     by_path = defaultdict(int)
-    by_tab = defaultdict(int)  # ✅ new
+    by_tab = defaultdict(int)
 
     vpn_count = 0
     unknown_country_count = 0
@@ -134,13 +155,13 @@ def summarize_analytics(log_dir: Path = None) -> Dict[str, Any]:
         device = visit.get("device", "Unknown")
         ip = visit.get("ip", "Unknown")
         path = visit.get("path", "Unknown")
-        tab = visit.get("tab", "Unknown")  # ✅ new
+        tab = visit.get("tab", "Unknown")
 
         by_country[country] += 1
         by_device[device] += 1
         by_ip[ip] += 1
         by_path[path] += 1
-        by_tab[tab] += 1  # ✅ new
+        by_tab[tab] += 1
 
         if country == "Unknown":
             unknown_country_count += 1
@@ -164,9 +185,9 @@ def summarize_analytics(log_dir: Path = None) -> Dict[str, Any]:
         "by_ip": dict(by_ip),
         "by_day": dict(by_day),
         "by_path": dict(by_path),
-        "by_tab": dict(by_tab),  # ✅ added
+        "by_tab": dict(by_tab),
         "most_visited_path": most_visited_path,
-        "most_visited_tab": most_visited_tab,  # ✅ added
+        "most_visited_tab": most_visited_tab,
         "unknown_country_count": unknown_country_count,
         "vpn_count": vpn_count
     }

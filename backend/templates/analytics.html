@@ -245,9 +245,13 @@
                 const clickedLabel = pages[elements[0].index];
                 const targetPath = tabToPath[clickedLabel];
                 if (targetPath) {
-                  window.open(targetPath, '_blank');
+                  // window.open(targetPath, '_blank');
+                  window.location.href = targetPath; // Open in same tab
                 }
               }
+            },
+            onHover: (event, elements) => {
+              event.native.target.style.cursor = elements.length ? 'pointer' : 'default';
             },
             responsive: true,
             scales: {
