@@ -1,169 +1,45 @@
-# Majid Khoshrou Personal Website and AI Assistant
+# Ask Mr M – Personalized AI Assistant
 
-This repository contains my personal homepage, portfolio, and an AI-powered assistant chatbot.
+**Mr M** is a personalized AI assistant trained on the complete professional and academic portfolio of Majid Khoshrou. It uses Retrieval-Augmented Generation (RAG) to answer questions about his research, projects, education, and publications by pulling directly from embedded content — including PDFs, HTML pages, and externally linked sources.
 
----
+## 🔍 What It Does
 
-## 📂 Repository Structure
+- Indexes and embeds all knowledge sources from:
+  - Static PDFs (e.g., papers, reports)
+  - HTML content from `templates/`
+  - External links mentioned in those HTML files
+- Embeds content using OpenAI's `text-embedding-3-small` model
+- Stores and retrieves vector representations using FAISS
+- Uses GPT (via OpenAI API) to answer questions using only relevant context
+- Available through a web interface and `/api/chat` endpoint
+- Tracks visits and usage via basic analytics logging
 
-```
-/
-├── frontend/
-│   ├── index.html
-│   ├── about.html
-│   ├── research.html
-│   ├── projects.html
-│   ├── talks.html
-│   ├── contact.html
-│   ├── chat.html
-│   ├── css/
-│   │   ├── style.css
-│   │   ├── chat-style.css
-│   │   └── publications-style.css
-│   ├── js/
-│   │   ├── chat.js
-│   │   └── publications.js
-│   └── data/
-│       └── publications.json
-│
-└── backend/
-    ├── app.py
-    ├── requirements.txt
-    └── (future) retrieval scripts, embeddings, PDF parsers
-```
+## 🧠 Architecture Overview
 
----
+1. **Knowledge Extraction**
+   - `extract_knowledge.py`: extracts text, cleans it, splits it into overlapping chunks, and collects metadata.
+   - Input: `templates/*.html`, `static/pdfs/*.pdf`, external URLs from `<a>` tags.
+   - Output: `data/knowledge_chunks.json`
 
-## 🌐 Frontend
+2. **Embedding & Indexing**
+   - `generate_embedding_knowledge.py`: embeds the text chunks using OpenAI embeddings and stores them in FAISS.
+   - Output:
+     - `data/faiss.index`
+     - `data/metadata.pkl`
 
-The frontend is a static website containing:
+3. **Web Application**
+   - `app.py`: Flask-based frontend and backend.
+   - `/api/chat`: handles user queries, retrieves top-k similar chunks, sends them as context to OpenAI's GPT, and returns the response.
 
-- **Home** — overview and highlights
-- **About Me** — professional background and skills
-- **Projects** — selected work and open-source contributions
-- **Research** — publications loaded dynamically from `publications.json`
-- **Talks** — embedded PhD defense video
-- **CV** — printable HTML CV
-- **Contact** — email and social links
-- **Chat** — AI assistant interface
+4. **Frontend**
+   - Static UI in `templates/ask-mr-m.html`
+   - Includes a chat window to interact with Mr M in natural language.
 
-Deployed via GitHub Pages or Netlify.
+## 🚀 How to Run (using `uv`)
 
----
+1. **Install dependencies**
 
-## 🧠 Backend
-
-The backend is a Python Flask API providing chat functionality:
-
-- Accepts POST requests to `/api/chat`
-- Forwards user questions to OpenAI GPT-4
-- Returns answers to the frontend chat UI
-
-Planned future capabilities:
-
-- Retrieval-Augmented Generation (RAG) using:
-  - `publications.json`
-  - PDF parsing
-  - Site-wide content indexing
-- Embedding pipelines for semantic search
-
----
-
-## 🚀 Deployment
-
-### Frontend
-Deploy to GitHub Pages:
-
-1. Commit the `frontend/` folder.
-2. Configure Pages to serve from `/frontend`.
-
-or deploy via Netlify or Vercel.
-
-### Backend
-Deploy Flask API:
-
-1. Create a Python environment.
-2. Install dependencies:
-
-   ```
-   pip install -r requirements.txt
-   ```
-
-3. Set your OpenAI API key:
-
-   ```
-   export OPENAI_API_KEY="sk-..."
-   ```
-
-4. Run locally:
-
-   ```
-   python app.py
-   ```
-
-5. Deploy to Render, fly.io, Heroku, or your preferred host.
-
----
-
-## 🛣️ Roadmap
-"""
-- [x] Frontend static site complete
-- [x] Dynamic publications loading
-- [x] Initial chat interface connected to OpenAI
-- [ ] Retrieval over `publications.json`
-- [ ] PDF parsing and chunking
-- [ ] Embedding content for vector search
-- [ ] Full retrieval-augmented chatbot
-+------------------+
-|  All your assets |
-|  HTML, PDFs, MP4 |
-|  JPG, MP3, etc.  |
-+--------+---------+
-         |
-         v
-+------------------+
-|  Extraction Layer|
-| - HTML text      |
-| - PDF text       |
-| - Audio transcript (ASR)|
-| - Video transcript (ASR)|
-| - Image captions |
-+--------+---------+
-         |
-         v
-+------------------+
-|  Chunking Layer  |
-| (Split into ~500 token chunks)
-+--------+---------+
-         |
-         v
-+------------------+
-| Embedding Layer  |
-| (e.g., text-embedding-3-large)
-+--------+---------+
-         |
-         v
-+------------------+
-| Vector Store     |
-| (FAISS, Chroma, etc.)
-+--------+---------+
-         |
-         v
-+------------------+
-| Retrieval + GPT  |
-| (RAG pipeline)   |
-+------------------+
-"""
----
-
-## 📄 License
-
-This project is licensed under the MIT License.
-
----
-
-## ✨ Acknowledgments
-
-- [OpenAI API](https://platform.openai.com)
-- [Flask](https://flask.palletsprojects.com/)
-- [GitHub Pages](https://pages.github.com)
+```bash
+uv venv
+source .venv/bin/activate
+uv pip install -r requirements.txt

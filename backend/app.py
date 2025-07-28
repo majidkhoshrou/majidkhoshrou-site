@@ -26,8 +26,6 @@ print([m.id for m in models.data if "embedding" in m.id])
 app = Flask(__name__, static_folder="static", template_folder="templates")
 app.jinja_env.globals.update(request=request)
 
-# CORS(app)
-
 # ------------------------------
 # 📂 Load FAISS index & metadata
 # ------------------------------
