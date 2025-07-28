@@ -41,43 +41,55 @@
     </section>
 
     <section class="highlights">
-      
+
       <div class="project">
-        <img src="{{ url_for('static', filename='gifs/probabilistic_forecasting.gif') }}" alt="Short Term Forecasts" class="project-media">
+        <div class="project-media-container">
+          <img src="{{ url_for('static', filename='gifs/probabilistic_forecasting.gif') }}" alt="Short Term Forecasts" class="project-media">
+        </div>
         <div class="project-info">
           <h3>Mr <i>M</i> Majid's AI Assistant</h3>
           <p>Ask Mr M</p>
-          
-        </div>
-      </div>
-      <div class="project">
-        <img src="{{ url_for('static', filename='gifs/probabilistic_forecasting.gif') }}" alt="Short Term Forecasts" class="project-media">
-        <div class="project-info">
-          <h3>Powering Smarter Market Forecasts — Day-Ahead Allocation at Alliander</h3>
-          <p>Since June 2024, I've been part of the Short-Term Energy Forecasts (STEF) team at Alliander, where I focus on improving allocation forecasts for the day-ahead energy market. By refining core models, fixing legacy bugs, and introducing high-impact predictors, I helped boost forecast accuracy by 30% — leading to over €1.3 million in annual cost savings.
-
-          The outcomes of this work were integrated into <a href="https://github.com/OpenSTEF/openstef" target="_blank">OpenSTEF</a>, Alliander's open-source forecasting library, enhancing its robustness and usability. This project directly supported the Market Services (Marketdiensten) team, enabling more data-driven decision-making in grid operations and market planning.</p>
         </div>
       </div>
 
       <div class="project">
-        <img src="{{ url_for('static', filename='gifs/risk_assessment.gif') }}" alt="Risk Assessment" class="project-media">
+        <div class="project-media-container">
+          <img src="{{ url_for('static', filename='gifs/probabilistic_forecasting.gif') }}" alt="Short Term Forecasts" class="project-media">
+        </div>
         <div class="project-info">
-          <h3>Data-Driven Risk Modeling for Medium Voltage Grid Reliability</h3>
-          <p>As a Data Consultant in the Power Flow Analysis Team at Alliander in 2023, I developed a framework to assess risk across medium voltage (MV) grid routes. We analyzed and ranked available data sources to create a scoring system that identified high-risk segments. I also built statistical models to quantify reliability threats and standardized model validation practices across teams. This work enabled consistent performance tracking and informed strategic decisions on grid maintenance and targeted sensor deployment.</p>
+          <h3>Improving Day-Ahead Load Forecasts Under Delayed Feedback — Alliander</h3>
+          <p>Since June 2024, I've been part of the Short-Term Energy Forecasts (STEF) team at Alliander, where I focus on improving allocation forecasts for the day-ahead energy market. This wasn’t a typical forecasting problem — the target variable (Total Load) becomes available only in delayed stages: first after 3 days, then revised at 5 and 8 days, and finalized after 10 days. This made accurate training, evaluation, and monitoring significantly more complex.
+
+          To overcome these challenges, I refined core models, resolved long-standing legacy issues, and introduced high-impact predictors. These improvements led to a 30% boost in forecast accuracy and generated over €1.3 million in annual savings.
+
+          The solutions were integrated into <a href="https://github.com/OpenSTEF" target="_blank">OpenSTEF</a>, Alliander's open-source forecasting library, making it more robust and production-ready. This project has been instrumental in supporting the Market Services (Marketdiensten) team with more reliable insights for energy market operations and grid planning.</p>
         </div>
       </div>
 
       <div class="project">
-        <video loop autoplay muted playsinline class="project-media">
-            <source src="{{ url_for('static', filename='videos/EM_2_MPEG-4.mp4') }}" type="video/mp4">
-            Your browser does not support the video tag.
-        </video>
+        <div class="project-media-container">
+          <img src="{{ url_for('static', filename='gifs/risk_assessment.gif') }}" alt="Risk Assessment" class="project-media">
+        </div>
         <div class="project-info">
-          <h3>Carbon Impact Metrics</h3>
-          <p>Created tools to assess the carbon footprint of server clusters, influencing sustainability reporting.</p>
+          <h3>Data-Driven Risk Modeling for Medium Voltage Grid Reliability — Alliander</h3>
+          <p>From January 2023 to June 2024, I worked as a Data Expert in the Power Flow Analysis team at Alliander, where I led the development of a data-driven framework to assess risk across medium voltage (MV) grid routes. My primary responsibility was to analyze capacity-related data and translate it into actionable insights for planning and operations.
+
+          The core challenge was the lack of clear KPIs and a unified definition of "risk" in MV routes, which made it difficult to prioritize interventions. I initiated and facilitated cross-functional discussions with key stakeholders, defined a transparent risk score, and identified measurable, available risk factors with sufficient grid coverage.
+
+          The resulting model enabled systematic monitoring of grid vulnerability, supported more targeted maintenance and sensor deployment strategies, and established a common language around reliability risk across teams.</p>
         </div>
       </div>
+
+      <div class="project">
+        <div class="project-media-container">
+          <img src="{{ url_for('static', filename='gifs/gmm_auv.gif') }}" alt="AUV GMM Sampling" class="project-media">
+        </div>
+        <div class="project-info">
+          <h3>Real-Time Unsupervised Motion Learning for AUVs</h3>
+          <p>During my Master's studies at <a href="https://www.up.pt/feup/en/study/masters-degree/master-programmes/feup/22862/" target="_blank">FEUP</a>, I worked as a researcher at the <a href="https://c2sr.fe.up.pt/about-us/" target="_blank" > C2SR</a> Lab, where I focused on adaptive motion planning for a coordinated fleet of Autonomous Underwater Vehicles (AUVs) in uncertain marine environments. My thesis proposed a real-time unsupervised learning framework based on Gaussian Mixture Models (GMMs), capable of incrementally estimating model parameters without requiring a fixed number of clusters or a pre-existing dataset. This algorithm was integrated into a leader-follower fleet structure, where AUVs dynamically adjusted their formation in response to local variations in Conductivity-Temperature-Depth (CTD) data. By exchanging GMM parameters during coordinated resurfacing, the system measured distributional differences using variational distance and adapted formation geometry accordingly—effectively zooming in on areas of higher data variability. <a href="https://github.com/majidkhoshrou/AUV_Path_Planning_GMM" target="_blank">Extensive simulations</a> demonstrated the approach's robustness and efficiency in both uniform and complex oceanographic scenarios.</p>
+        </div>
+      </div>
+
     </section>
   </main>
 

@@ -1,6 +1,6 @@
-/* ========================
-   Base Styles
-======================== */
+/* =============
+   Base styles
+=============== */
 html, body {
   margin: 0;
   padding: 0;
@@ -10,9 +10,9 @@ html, body {
   line-height: 1.6;
 }
 
-/* ========================
-   Header
-======================== */
+/* =============
+   Header styles
+=============== */
 header {
   background-color: #0d47a1;
   color: white;
@@ -49,10 +49,11 @@ header p {
   font-size: 1em;
 }
 
-/* ========================
-   Navigation Bar
-======================== */
+/* ============================
+   Navigation Bar (Full Width)
+============================= */
 nav {
+  display: block;
   background-color: #1565c0;
   width: 100%;
 }
@@ -99,9 +100,9 @@ nav a.active {
   }
 }
 
-/* ========================
-   Main Content
-======================== */
+/* =============
+   Main content
+=============== */
 main {
   width: 95%;
   max-width: 1400px;
@@ -122,9 +123,9 @@ main {
   font-size: 1.1em;
 }
 
-/* ========================
+/* =============
    Reusable Button
-======================== */
+=============== */
 .button {
   display: inline-block;
   margin-top: 0.5rem;
@@ -141,9 +142,9 @@ main {
   transform: scale(1.1);
 }
 
-/* ========================
-   Highlight Projects
-======================== */
+/* =============
+   Highlight Projects (New Layout)
+=============== */
 .highlights {
   display: flex;
   flex-direction: column;
@@ -160,23 +161,11 @@ main {
   border-bottom: 1px solid #ddd;
 }
 
-.project-media-container {
-  width: 300px;
-  height: 200px;
-  overflow: hidden;
-  border-radius: 8px;
-  flex-shrink: 0;
-}
-
 .project-media {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  transition: transform 0.3s ease;
-}
-
-.project-media:hover {
-  transform: scale(1.05);
+  width: 300px;
+  max-width: 100%;
+  border-radius: 8px;
+  object-fit: contain;
 }
 
 .project-info {
@@ -188,7 +177,7 @@ main {
   margin-top: 0;
 }
 
-/* Responsive stacking for projects */
+/* Responsive stacking for small screens */
 @media (max-width: 700px) {
   .project {
     flex-direction: column;
@@ -196,15 +185,9 @@ main {
     text-align: center;
   }
 
-  .project-media-container {
-    width: 100%;
-    height: auto;
-    aspect-ratio: 3 / 2;
-  }
-
   .project-media {
     width: 100%;
-    height: 100%;
+    max-width: 400px;
   }
 
   .project-info {
@@ -212,9 +195,9 @@ main {
   }
 }
 
-/* ========================
-   Card Grid (Deprecated)
-======================== */
+/* =============
+   Card Grid (Deprecated if using new layout)
+=============== */
 .cards {
   display: flex;
   flex-wrap: wrap;
@@ -244,9 +227,9 @@ main {
   font-size: 0.95em;
 }
 
-/* ========================
+/* =============
    Footer
-======================== */
+=============== */
 footer {
   text-align: center;
   padding: 20px;
@@ -255,9 +238,9 @@ footer {
   margin-top: 40px;
 }
 
-/* ========================
+/* =============
    Contact
-======================== */
+=============== */
 .contact-details ul {
   list-style: none;
   padding: 0;
@@ -267,4 +250,27 @@ footer {
 
 .contact-details li {
   margin-bottom: 12px;
+}
+
+
+.project-media {
+  transition: transform 0.3s ease;
+}
+
+.project-media:hover {
+  transform: scale(1.05);
+}
+
+
+@media (max-width: 700px) {
+  .project-media-container {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 3 / 2;
+  }
+
+  .project-media {
+    width: 100%;
+    height: 100%;
+  }
 }
