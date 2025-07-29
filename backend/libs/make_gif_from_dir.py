@@ -67,4 +67,4 @@ def make_gif_from_dir(path: Path, output_gif: str = "animated_output.gif", durat
     print(f"GIF saved at: {gif_path}")
 
 # Usage example
-make_gif_from_dir(Path('/mnt/c/Users/al27278/OneDrive - Alliander NV/Output/create_gif/gmm'))
+make_gif_from_dir(Path('/mnt/c/Users/al27278/OneDrive - Alliander NV/Output/create_gif/ask_mr_m'))
