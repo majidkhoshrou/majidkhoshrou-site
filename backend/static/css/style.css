@@ -327,19 +327,23 @@ footer {
   font-size: 1.1em;
   margin-top: 1rem;
 }
-
-.bio-content {
+.biography {
   position: relative;
-  padding-bottom: 3em; /* to avoid overlap with buttons */
-}
-
-.cta-wrapper {
-  display: flex;
-  justify-content: flex-end;
-  margin-top: 1em;
+  padding-bottom: 4rem; /* Ensure space for buttons */
 }
 
 .cta-buttons {
+  position: absolute;
+  bottom: 1rem;
+  right: 1rem;
   display: flex;
-  gap: 1em;
+  gap: 0.5rem; /* Space between buttons */
+}
+
+.button {
+  padding: 0.5rem 1rem;
+  background-color: #007BFF; /* Change as needed */
+  color: white;
+  text-decoration: none;
+  border-radius: 5px;
 }

@@ -33,22 +33,32 @@
     </nav>
   </header>
 
-  <main>
+<main>
     <section class="biography">
-      <div class="bio-content">
-        <h2>Biography</h2>
-        <p>I’m a Data Scientist with 10+ years of experience across industry and academia, working at the intersection of machine learning, forecasting, and real-time analytics. I specialize in building intelligent systems for energy, mobility, and infrastructure — from optimizing grid operations to advancing AI-driven decision support tools.</p>
-        <p>Currently, I lead forecasting and risk modeling initiatives at <a href="https://www.alliander.com/en/" target="_blank">Alliander</a>. My academic background includes a PhD in AI from TU Delft and CWI, where I focused on time series modeling in smart energy systems.</p>
+      <h2>Biography</h2>
+      <p>
+        I’m a Data Scientist with over a decade of experience spanning both industry and academia. My work focuses on solving real-world problems using machine learning, generative AI, and real-time decision support systems. I specialize in building AI systems that untangle complexity — from energy forecasting to intelligent assistants. I'm also a strong advocate for open-source technologies and actively contribute to initiatives that promote transparency and collaboration.
+        Throughout my career, I’ve worked across a wide range of domains, including energy, marine studies, robotics, social and market analysis, and explainable AI. I also bring hands-on experience with generative AI applications.
+        For example, my AI assistant <a href="{{ url_for('ask_mr_m') }}" class="{% if request.endpoint == 'ask_mr_m' %}active{% endif %}">Mr. <i>M</i></a> is available to answer questions about my background, expertise, and projects, from publication summaries to technical explanations.
+      </p>
+      <p>
+        I was born and raised in Ghaemshahr, Mazandaran — a lush region in northern Iran near the Caspian Sea, known for its rice fields, citrus orchards, and mountain landscapes. My upbringing continues to shape my values, curiosity, and drive to create sustainable and intelligent systems.
+        I earned my bachelor’s degree in Electrical Engineering from Babol Noshirvani University of Technology. In 2012, I began my master’s studies at the University of Porto in Portugal, where I discovered a deep interest in data science and analytics. Alongside my studies, I worked as a machine learning researcher at the Cyber-Physical Control Systems and Robotics Lab (C2SR), focusing on autonomous vehicle navigation and path planning. During that time, I developed an online unsupervised learning algorithm for Gaussian Mixture Models, applied to autonomous underwater vehicle path planning.      </p>
+      <p>
+        In late 2015, I began my PhD at the Intelligent and Autonomous Systems group at the Dutch national research center for mathematics and computer science (CWI), in collaboration with the Smart Energy Systems department at TU Delft. My research focused on data-driven methods for time series analysis and forecasting in smart energy systems.
+        From 2020 to December 2022, I continued as a postdoctoral researcher at CWI. While I enjoyed academic research, I felt increasingly drawn to work that delivers direct, tangible impact — where innovation is matched by real-world application, and where contributing to society is both recognized and encouraged.
+        In January 2023, I joined <a href="https://www.alliander.com/en/" target="_blank">Alliander</a> in Arnhem as a Senior Data Scientist. There, I lead initiatives in grid forecasting, energy market optimization, and risk modeling. My recent work involves real-time forecasting models for the Dutch energy market, scalable and explainable AI systems.
+      </p>
 
-        <div class="cta-wrapper">
-          <div class="cta-buttons">
-            <a href="{{ url_for('static', filename='pdfs/CV_Majid_Khoshrou.pdf') }}" class="button" download title="2-page resume (PDF)">📄 Download CV</a>
-            <a href="{{ url_for('contact') }}" class="button" title="Get in touch">📧 Contact Me</a>
-          </div>
+      <div class="bio-flex">
+        <p class="bio-last">
+        </p>
+        <div class="cta-buttons">
+          <a href="{{ url_for('static', filename='pdfs/CV_Majid_Khoshrou.pdf') }}" class="button" download title="2-page resume (PDF)">📄 Download CV</a>
+          <a href="{{ url_for('contact') }}" class="button" title="Get in touch">📧 Contact Me</a>
         </div>
       </div>
     </section>
-
 
     <section class="experience">
       <h2>Work Experience</h2>
@@ -99,6 +109,11 @@
           <h3>Talks</h3>
           <p>Invited talks, lectures, and recorded presentations.</p>
           <a href="{{ url_for('talks') }}" class="button">Watch Talks</a>
+        </div>
+        <div class="card">
+          <h3>Ask Mr <i>M</i></h3>
+          <p>Talk to my AI assistant trained on my work and career history.</p>
+          <a href="{{ url_for('ask_mr_m') }}" class="button">Chat Now</a>
         </div>
       </div>
     </section>
