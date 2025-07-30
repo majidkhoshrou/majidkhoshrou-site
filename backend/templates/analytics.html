@@ -21,17 +21,16 @@
     <div class="header-container">
       <img src="{{ url_for('static', filename='images/majid_tudelft_02.png') }}" alt="Majid Khoshrou" class="profile-photo">
       <h1>Majid Khoshrou</h1>
-      <p>Data Scientist | Machine Learning | Forecasting | Real-Time Analytics</p>
+      <p>Data Scientist | Machine Learning | Generative AI | Real-Time Analytics</p>
     </div>
     <nav>
       <ul>
         <li><a href="{{ url_for('home') }}" class="{% if request.endpoint == 'home' %}active{% endif %}">Home</a></li>
-        <li><a href="{{ url_for('about') }}" class="{% if request.endpoint == 'about' %}active{% endif %}">About Me</a></li>
+        <li><a href="{{ url_for('research') }}" class="{% if request.endpoint == 'research' %}active{% endif %}">Publications</a></li>
         <li><a href="{{ url_for('projects') }}" class="{% if request.endpoint == 'projects' %}active{% endif %}">Projects</a></li>
-        <li><a href="{{ url_for('research') }}" class="{% if request.endpoint == 'research' %}active{% endif %}">Research & Publications</a></li>
         <li><a href="{{ url_for('talks') }}" class="{% if request.endpoint == 'talks' %}active{% endif %}">Talks</a></li>
-        <li><a href="{{ url_for('ask_mr_m') }}" class="{% if request.endpoint == 'ask_mr_m' %}active{% endif %}">Ask Mr. <i>M</i></a></li>
         <li><a href="{{ url_for('analytics') }}" class="{% if request.endpoint == 'analytics' %}active{% endif %}">Analytics</a></li>
+        <li><a href="{{ url_for('ask_mr_m') }}" class="{% if request.endpoint == 'ask_mr_m' %}active{% endif %}">Ask Mr. <i>M</i></a></li>
         <li><a href="{{ url_for('contact') }}" class="{% if request.endpoint == 'contact' %}active{% endif %}">Contact</a></li>
       </ul>
     </nav>
@@ -216,7 +215,6 @@
         // Tab name → Path map (must match Python TAB_NAME_MAP)
         const tabToPath = {
           "Home": "/",
-          "About Me": "/about",
           "Projects": "/projects",
           "Research": "/research",
           "Talks": "/talks",

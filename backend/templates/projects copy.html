@@ -22,13 +22,14 @@
     </div>
     <nav>
       <ul>
-        <li><a href="{{ url_for('home') }}" class="{% if request.endpoint == 'home' %}active{% endif %}">Home</a></li>
-        <li><a href="{{ url_for('research') }}" class="{% if request.endpoint == 'research' %}active{% endif %}">Publications</a></li>
-        <li><a href="{{ url_for('projects') }}" class="{% if request.endpoint == 'projects' %}active{% endif %}">Projects</a></li>
-        <li><a href="{{ url_for('talks') }}" class="{% if request.endpoint == 'talks' %}active{% endif %}">Talks</a></li>
-        <li><a href="{{ url_for('analytics') }}" class="{% if request.endpoint == 'analytics' %}active{% endif %}">Analytics</a></li>
-        <li><a href="{{ url_for('ask_mr_m') }}" class="{% if request.endpoint == 'ask_mr_m' %}active{% endif %}">Ask Mr. <i>M</i></a></li>
-        <li><a href="{{ url_for('contact') }}" class="{% if request.endpoint == 'contact' %}active{% endif %}">Contact</a></li>
+        <li><a href="{{ url_for('home') }}">Home</a></li>
+        <li><a href="{{ url_for('about') }}">About Me</a></li>
+        <li><a href="{{ url_for('projects') }}" class="active">Projects</a></li>
+        <li><a href="{{ url_for('research') }}">Research & Publications</a></li>
+        <li><a href="{{ url_for('talks') }}">Talks</a></li>
+        <li><a href="{{ url_for('ask_mr_m') }}">Ask Mr. <i>M</i></a></li>
+        <li><a href="{{ url_for('analytics') }}">Analytics</a></li>
+        <li><a href="{{ url_for('contact') }}">Contact</a></li>
       </ul>
     </nav>
   </header>
@@ -45,12 +46,7 @@
           <img src="{{ url_for('static', filename='gifs/ask_mr_m.gif') }}" alt="Talk to Mr. M" class="project-media">
         </div>
         <div class="project-info">
-          <h3>Mr <i>M</i> — Majid's AI Assistant
-            <span class="badge">Generative AI</span>
-            <span class="badge">LLM + RAG</span>
-            <span class="badge">Knowledge Engineering</span>
-          </h3>
-          
+          <h3>Mr <i>M</i> — Majid's AI Assistant</h3>
           <p>
             <a href="https://github.com/majidkhoshrou/majidkhoshrou.github.io" target="_blank">Mr <i>M</i></a> is a custom-built AI assistant trained entirely on my own academic and professional materials — including research papers, personal website content, and relevant project documentation. Its goal is to make my expertise, background, and ongoing work easily accessible through natural language queries. All underlying data sources (HTML, PDFs, external links) are processed, cleaned, and embedded using <a href="https://platform.openai.com/docs/quickstart?api-mode=responses" target="_blank">OpenAI's models</a> and indexed via <a href="https://github.com/facebookresearch/faiss/wiki" target="_blank">FAISS</a>.
           </p>
@@ -65,11 +61,7 @@
           <img src="{{ url_for('static', filename='gifs/probabilistic_forecasting.gif') }}" alt="Short Term Forecasts" class="project-media">
         </div>
         <div class="project-info">
-        <h3>Improving Day-Ahead Load Forecasts Under Delayed Feedback — Alliander
-          <span class="badge">Time Series</span>
-          <span class="badge">Energy Forecasting</span>
-          <span class="badge">Open Source</span>
-        </h3>
+          <h3>Improving Day-Ahead Load Forecasts Under Delayed Feedback — Alliander</h3>
           <p>
             Since June 2024, I've been part of the Short-Term Energy Forecasts (STEF) team at Alliander, where I focus on improving allocation forecasts for the day-ahead energy market. This wasn’t a typical forecasting problem — the target variable (Total Load) becomes available only in delayed stages: first after 3 days, then revised at 5 and 8 days, and finalized after 10 days. This delay made accurate training, evaluation, and monitoring significantly more complex.
           </p>
@@ -84,11 +76,7 @@
           <img src="{{ url_for('static', filename='gifs/risk_assessment.gif') }}" alt="Risk Assessment" class="project-media">
         </div>
         <div class="project-info">
-          <h3>Operational Risk Framework for MV Grids — Alliander
-            <span class="badge">Reliability Engineering</span>
-            <span class="badge">Decision Intelligence</span>
-            <span class="badge">Data Strategy</span>
-          </h3>
+          <h3>Data-Driven Risk Modeling for Medium Voltage Grid Reliability — Alliander</h3>
           <p>
             From January 2023 to June 2024, I worked as a Data Expert in the Power Flow Analysis team at Alliander, where I led the development of a data-driven framework to assess risk across medium voltage (MV) grid routes. My main focus was to analyze capacity-related data and translate it into actionable insights that could support planning and operational decisions.
           </p>
@@ -103,11 +91,7 @@
           <img src="{{ url_for('static', filename='gifs/gmm_auv.gif') }}" alt="AUV GMM Sampling" class="project-media">
         </div>
         <div class="project-info">
-          <h3>Real-Time Unsupervised Motion Learning for AUVs
-            <span class="badge">Unsupervised Learning</span>
-            <span class="badge">Robotics</span>
-            <span class="badge">Marine Systems</span>
-          </h3>
+          <h3>Real-Time Unsupervised Motion Learning for AUVs</h3>
           <p>
             During my Master's studies at <a href="https://www.up.pt/feup/en/study/masters-degree/master-programmes/feup/22862/" target="_blank">FEUP</a>, I worked as a researcher at the <a href="https://c2sr.fe.up.pt/about-us/" target="_blank">C2SR</a> Lab, where I focused on adaptive motion planning for a coordinated fleet of Autonomous Underwater Vehicles (AUVs) operating in uncertain marine environments. My thesis introduced a real-time unsupervised learning framework based on Gaussian Mixture Models (GMMs), capable of incrementally estimating model parameters without needing a fixed number of clusters or a pre-existing dataset.
           </p>

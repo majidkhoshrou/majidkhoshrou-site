@@ -192,6 +192,19 @@ main {
   margin-top: 0;
 }
 
+.badge {
+  background-color: #275ca1f3;
+  color: white;
+  font-size: 0.65em;
+  padding: 3px 6px;
+  border-radius: 6px;
+  margin-left: 6px;
+  vertical-align: middle;
+  white-space: nowrap;
+}
+
+
+
 @media (max-width: 700px) {
   .project {
     flex-direction: column;
@@ -264,4 +277,69 @@ footer {
 
 .contact-details li {
   margin-bottom: 12px;
+}
+
+
+.life-outside {
+  background: #fff;
+  padding: 2rem;
+  text-align: center;
+  margin-top: 2rem;
+  border-top: 1px solid #ddd;
+}
+
+.life-outside h2 {
+  margin-bottom: 1rem;
+  color: #0d47a1;
+}
+
+.life-outside p {
+  font-size: 1.05em;
+  max-width: 700px;
+  margin: 0 auto 1rem;
+}
+
+.life-icons {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  font-size: 1.1em;
+  color: #444;
+}
+
+.hero-image img {
+  width: 200px;
+  max-width: 100%;
+  height: auto;
+  border-radius: 12px;
+}
+
+.life-beyond ul {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1.5rem;
+  font-size: 1.1em;
+  margin-top: 1rem;
+}
+
+.bio-content {
+  position: relative;
+  padding-bottom: 3em; /* to avoid overlap with buttons */
+}
+
+.cta-wrapper {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 1em;
+}
+
+.cta-buttons {
+  display: flex;
+  gap: 1em;
 }

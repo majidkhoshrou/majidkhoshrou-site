@@ -3,10 +3,10 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <meta name="description" content="Majid Khoshrou – Data Scientist specialized in machine learning, forecasting, and real-time analytics." />
+  <meta name="description" content="Majid Khoshrou – Data Scientist specialized in machine learning, forecasting, and generative AI." />
   <meta http-equiv="pragma" content="no-cache"/>
   <meta property="og:title" content="Majid Khoshrou - About Me">
-  <meta property="og:description" content="Forecasting, machine learning, and real-time analytics in energy & mobility.">
+  <meta property="og:description" content="Forecasting, machine learning, generative AI, and real-time analytics in energy & mobility.">
   <meta property="og:image" content="{{ url_for('static', filename='images/majid_tudelft_02.png', _external=True) }}">
   <meta property="og:type" content="website">
   <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
@@ -18,17 +18,16 @@
     <div class="header-container">
       <img src="{{ url_for('static', filename='images/majid_tudelft_02.png') }}" alt="Majid Khoshrou" class="profile-photo">
       <h1>Majid Khoshrou</h1>
-      <p>Data Scientist | Machine Learning | Forecasting | Real-Time Analytics</p>
+      <p>Data Scientist | Machine Learning | Generative AI | Real-Time Analytics</p>
     </div>
     <nav>
       <ul>
         <li><a href="{{ url_for('home') }}" class="{% if request.endpoint == 'home' %}active{% endif %}">Home</a></li>
-        <li><a href="{{ url_for('about') }}" class="{% if request.endpoint == 'about' %}active{% endif %}">About Me</a></li>
+        <li><a href="{{ url_for('research') }}" class="{% if request.endpoint == 'research' %}active{% endif %}">Publications</a></li>
         <li><a href="{{ url_for('projects') }}" class="{% if request.endpoint == 'projects' %}active{% endif %}">Projects</a></li>
-        <li><a href="{{ url_for('research') }}" class="{% if request.endpoint == 'research' %}active{% endif %}">Research & Publications</a></li>
         <li><a href="{{ url_for('talks') }}" class="{% if request.endpoint == 'talks' %}active{% endif %}">Talks</a></li>
-        <li><a href="{{ url_for('ask_mr_m') }}" class="{% if request.endpoint == 'ask_mr_m' %}active{% endif %}">Ask Mr. <i>M</i></a></li>
         <li><a href="{{ url_for('analytics') }}" class="{% if request.endpoint == 'analytics' %}active{% endif %}">Analytics</a></li>
+        <li><a href="{{ url_for('ask_mr_m') }}" class="{% if request.endpoint == 'ask_mr_m' %}active{% endif %}">Ask Mr. <i>M</i></a></li>
         <li><a href="{{ url_for('contact') }}" class="{% if request.endpoint == 'contact' %}active{% endif %}">Contact</a></li>
       </ul>
     </nav>
@@ -38,23 +37,17 @@
     <article class="intro">
       <h2>About Me</h2>
       <p>
-        I am a Data Scientist with over a decade of combined experience in industry and academia.
-        My work focuses on applying machine learning, forecasting, and real-time analytics to domains including energy systems, urban mobility, and sustainability.
+        I’m a Data Scientist with 10+ years of experience across academia and industry, building AI systems that turn complexity into clarity. My core focus is on time series forecasting, generative AI, and real-time decision support — with applications in energy, mobility, and robotics.
       </p>
       <p>
-        I am originally from <a href="https://en.wikipedia.org/wiki/Ghaemshahr" target="_blank">Ghaemshahr, Mazandaran</a> in northern Iran — a lush region by the Caspian Sea, known for its rice fields, citrus orchards, and proximity to the Alborz mountains. 
-        It’s a place where nature meets tradition, and it continues to inspire my values and curiosity. 
-        I currently live in <a href="https://en.wikipedia.org/wiki/%27s-Hertogenbosch" target="_blank">’s-Hertogenbosch</a>, Netherlands, and work as a Senior Data Scientist at 
-        <a href="https://www.alliander.com/en/" target="_blank">Alliander</a> in <a href="https://en.wikipedia.org/wiki/Arnhem" target="_blank">Arnhem</a>.
+        I currently work at <a href="https://www.alliander.com/en/" target="_blank">Alliander</a> as a Senior Data Scientist, improving grid forecasting and risk modeling for energy infrastructure. I hold a PhD from TU Delft and CWI, where I specialized in machine learning and intelligent systems.
       </p>
     </article>
 
     <article>
       <h2>Professional Summary</h2>
       <p>
-        Throughout my career, I have delivered solutions in time series analysis, probabilistic modeling, and anomaly detection. 
-        I am passionate about building scalable AI systems and making impactful contributions to open-source initiatives like 
-        <a href="https://github.com/OpenSTEF/openstef" target="_blank">OpenSTEF</a>.
+        My work blends deep technical skill with practical impact — from real-time forecasting models for the Dutch energy market to building my own AI assistant, <a href="{{ url_for('ask_mr_m') }}">Mr M</a>, trained on my publications and projects. I actively contribute to open-source initiatives such as <a href="https://github.com/OpenSTEF/openstef" target="_blank">OpenSTEF</a>, and have a track record of building systems that are both scalable and explainable.
       </p>
     </article>
 
@@ -64,7 +57,7 @@
         <li>Python, SQL, MATLAB, PySpark</li>
         <li>Machine Learning: scikit-learn, TensorFlow, PyTorch, XGBoost</li>
         <li>Cloud Platforms: AWS, GCP, Azure</li>
-        <li>Data Visualization: Power BI, Tableau, Matplotlib</li>
+        <li>Generative AI: OpenAI APIs, Embedding Pipelines, RAG systems</li>
         <li>Time Series Forecasting & Anomaly Detection</li>
       </ul>
     </article>
@@ -72,17 +65,13 @@
     <article>
       <h2>Education</h2>
       <ul>
-        <li>PhD in Artificial Intelligence – CWI and Delft University of Technology 
-          <time datetime="2015-12">(2015–2022)</time></li>
-        <li>MSc in Information Engineering – University of Porto 
-          <time datetime="2012-09">(2012–2015)</time></li>
-        <li>BSc in Electrical Power Engineering – Babol Noshirvani University of Technology 
-          <time datetime="2007-09">(2007–2011)</time></li>
-          <li>link to a paper external source: <a href="https://pure.tudelft.nl/ws/files/56847223/Applied_Energy_LSBoosting_LoadForecast_002_.pdf" target="_blank">energy forecasting paper</a></li>
+        <li>PhD in Artificial Intelligence – CWI and TU Delft <time datetime="2015-12">(2015–2022)</time></li>
+        <li>MSc in Information Engineering – University of Porto <time datetime="2012-09">(2012–2015)</time></li>
+        <li>BSc in Electrical Power Engineering – Babol Noshirvani University of Technology <time datetime="2007-09">(2007–2011)</time></li>
       </ul>
     </article>
 
-    
+
     <section class="highlights">
       <h2>Explore</h2>
       <div class="cards">
@@ -103,43 +92,6 @@
         </div>
       </div>
     </section>
-
-    <!-- Optional visual section -->
-    
-  <section class="location-maps">
-    <h2>Where I'm From & Where I Live</h2>
-    <div id="map" style="height: 480px; width: 100%; margin-top: 1em; border-radius: 8px;"></div>
-    <p style="text-align: center;">
-      A global view connecting <strong>Ghaemshahr, Iran</strong> and <strong>’s-Hertogenbosch, Netherlands</strong>.
-    </p>
-  </section>
-
-  <!-- Leaflet CSS + JS -->
-  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
-  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
-
-  <script>
-    const map = L.map('map').setView([39.5, 35.0], 3); // Center between Iran & Netherlands
-
-    // Add OpenStreetMap base
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      attribution: '© OpenStreetMap contributors',
-      maxZoom: 18,
-    }).addTo(map);
-
-    // Add markers
-    const ghaemshahr = L.marker([36.4667, 52.8667]).addTo(map);
-    ghaemshahr.bindPopup("<b>Ghaemshahr</b><br>Mazandaran, Iran");
-
-    const hertogenbosch = L.marker([51.6978, 5.3037]).addTo(map);
-    hertogenbosch.bindPopup("<b>’s-Hertogenbosch</b><br>Netherlands");
-
-    // Auto-open one popup for context
-    hertogenbosch.openPopup();
-  </script>
-
-
-    
   </main>
 
   <footer>
@@ -150,7 +102,7 @@
       <a href="https://github.com/majidkhoshrou" target="_blank">GitHub</a>
     </div>
   </footer>
-  <script> fetch("/api/log-visit", { method: "POST" }); </script>
 
+  <script> fetch("/api/log-visit", { method: "POST" }); </script>
 </body>
 </html>

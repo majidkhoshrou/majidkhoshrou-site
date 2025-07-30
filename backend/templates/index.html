@@ -3,10 +3,10 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <meta name="description" content="Majid Khoshrou - Data Scientist specialized in machine learning, forecasting, and real-time analytics." />
+  <meta name="description" content="Majid Khoshrou - Data Scientist specialized in machine learning, forecasting, and generative AI." />
   <meta http-equiv="pragma" content="no-cache"/>
   <meta property="og:title" content="Majid Khoshrou - Home">
-  <meta property="og:description" content="Forecasting, machine learning, and real-time analytics in energy & mobility.">
+  <meta property="og:description" content="Forecasting, machine learning, generative AI, and real-time analytics in energy & mobility.">
   <meta property="og:image" content="{{ url_for('static', filename='images/majid_tudelft_02.png', _external=True) }}">
   <meta property="og:type" content="website">
   <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
@@ -18,43 +18,71 @@
     <div class="header-container">
       <img src="{{ url_for('static', filename='images/majid_tudelft_02.png') }}" alt="Majid Khoshrou" class="profile-photo" loading="lazy">
       <h1>Majid Khoshrou</h1>
-      <p>Data Scientist | Machine Learning | Forecasting | Real-Time Analytics</p>
+      <p>Data Scientist | Machine Learning | Generative AI | Real-Time Analytics</p>
     </div>
     <nav>
       <ul>
         <li><a href="{{ url_for('home') }}" class="{% if request.endpoint == 'home' %}active{% endif %}">Home</a></li>
-        <li><a href="{{ url_for('about') }}" class="{% if request.endpoint == 'about' %}active{% endif %}">About Me</a></li>
+        <li><a href="{{ url_for('research') }}" class="{% if request.endpoint == 'research' %}active{% endif %}">Publications</a></li>
         <li><a href="{{ url_for('projects') }}" class="{% if request.endpoint == 'projects' %}active{% endif %}">Projects</a></li>
-        <li><a href="{{ url_for('research') }}" class="{% if request.endpoint == 'research' %}active{% endif %}">Research</a></li>
         <li><a href="{{ url_for('talks') }}" class="{% if request.endpoint == 'talks' %}active{% endif %}">Talks</a></li>
-        <li><a href="{{ url_for('ask_mr_m') }}" class="{% if request.endpoint == 'ask_mr_m' %}active{% endif %}">Ask Mr. <i>M</i></a></li>
         <li><a href="{{ url_for('analytics') }}" class="{% if request.endpoint == 'analytics' %}active{% endif %}">Analytics</a></li>
+        <li><a href="{{ url_for('ask_mr_m') }}" class="{% if request.endpoint == 'ask_mr_m' %}active{% endif %}">Ask Mr. <i>M</i></a></li>
         <li><a href="{{ url_for('contact') }}" class="{% if request.endpoint == 'contact' %}active{% endif %}">Contact</a></li>
       </ul>
     </nav>
   </header>
 
   <main>
-    <section class="intro">
-      <h2>Hello & Welcome</h2>
-      <p>
-        I'm Majid — a Data Scientist passionate about leveraging machine learning, forecasting, and real-time analytics to create sustainable and intelligent systems.
-      </p>
+    <section class="biography">
+      <div class="bio-content">
+        <h2>Biography</h2>
+        <p>I’m a Data Scientist with 10+ years of experience across industry and academia, working at the intersection of machine learning, forecasting, and real-time analytics. I specialize in building intelligent systems for energy, mobility, and infrastructure — from optimizing grid operations to advancing AI-driven decision support tools.</p>
+        <p>Currently, I lead forecasting and risk modeling initiatives at <a href="https://www.alliander.com/en/" target="_blank">Alliander</a>. My academic background includes a PhD in AI from TU Delft and CWI, where I focused on time series modeling in smart energy systems.</p>
 
-      <ul class="quick-stats">
-        <li>🔹 10+ years in data science (industry + academia)</li>
-        <li>🔹 Specializing in energy systems, urban mobility, and AI</li>
-        <li>🔹 Open-source contributor to OpenSTEF</li>
-        <li>🔹 PhD from TU Delft & CWI</li>
-      </ul>
-
-      <div class="cta-buttons">
-      <a href="{{ url_for('static', filename='pdfs/CV_Majid_Khoshrou.pdf') }}" class="button" download>Download CV</a>
-        <a href="{{ url_for('contact') }}" class="button">Contact Me</a>
+        <div class="cta-wrapper">
+          <div class="cta-buttons">
+            <a href="{{ url_for('static', filename='pdfs/CV_Majid_Khoshrou.pdf') }}" class="button" download title="2-page resume (PDF)">📄 Download CV</a>
+            <a href="{{ url_for('contact') }}" class="button" title="Get in touch">📧 Contact Me</a>
+          </div>
+        </div>
       </div>
     </section>
 
-    <section class="highlights">
+
+    <section class="experience">
+      <h2>Work Experience</h2>
+      <ul>
+        <li><strong>Senior Data Scientist – Alliander (2023–Present)</strong><br>Boosted forecast accuracy, enabled cost savings, and contributed to OpenSTEF.</li>
+        <li><strong>Postdoctoral Researcher – CWI (2020–2022)</strong><br>Forecasted EV demand, co-taught AI topics, and integrated carbon metrics.</li>
+        <li><strong>Data Scientist – Maistering (2019–2020)</strong><br>Built segmentation models and deployed ML-powered product features.</li>
+        <li><strong>PhD Researcher – CWI & TU Delft (2015–2019)</strong><br>Advanced probabilistic models and anomaly detection for smart energy systems.</li>
+      </ul>
+    </section>
+
+    <section class="skills">
+      <h2>Skills & Technologies</h2>
+      <ul>
+        <li><strong>Languages:</strong> Python, SQL, MATLAB, PySpark, Bash</li>
+        <li><strong>ML Frameworks:</strong> Scikit-learn, TensorFlow, PyTorch, XGBoost, LightGBM</li>
+        <li><strong>Cloud & Tools:</strong> AWS, GCP, Azure, Databricks, Docker, Git</li>
+        <li><strong>Visualization:</strong> Power BI, Tableau, Plotly, Matplotlib, Seaborn</li>
+        <li><strong>Generative AI:</strong> OpenAI APIs, Embedding Pipelines, RAG systems</li>
+      </ul>
+    </section>
+
+    <section class="education">
+      <h2>Education & Credentials</h2>
+      <ul>
+        <li>PhD in Artificial Intelligence – TU Delft & CWI (2015–2020)</li>
+        <li>MSc in Information Engineering – University of Porto (2012–2015)</li>
+        <li>BSc in Electrical Power Engineering – Babol Noshirvani University (2002–2007)</li>
+        <li>Advanced Data Analytics Certificate – Google/Coursera (2024)</li>
+        <li>Google IT Support Certificate – Google/Coursera (2021)</li>
+      </ul>
+    </section>
+
+    <section class="explore">
       <h2>Explore</h2>
       <div class="cards">
         <div class="card">
@@ -73,6 +101,11 @@
           <a href="{{ url_for('talks') }}" class="button">Watch Talks</a>
         </div>
       </div>
+    </section>
+
+    <section class="personal">
+      <h2>Beyond Work</h2>
+      <p>I enjoy fitness, photography, museums, and chess. I’m always curious about new tech and learning methods — which fuels both my work and hobbies.</p>
     </section>
   </main>
 
