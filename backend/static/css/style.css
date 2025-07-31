@@ -101,6 +101,7 @@ nav a.active {
 main {
   width: 95%;
   max-width: 1400px;
+  text-align: justify;
   margin: 20px auto;
   padding: 0 10px;
 }
@@ -116,6 +117,19 @@ main {
 
 .intro p {
   font-size: 1.1em;
+}
+
+.content-wrapper {
+  max-width: 800px; /* or 60ch if you want character-based line length */
+  margin: 0 auto;    /* center the block */
+  padding: 0 1rem;   /* some side padding */
+  line-height: 1.6;
+}
+
+section p {
+  text-align: justify;
+  text-justify: inter-word;
+  hyphens: auto;
 }
 
 /* ========================
