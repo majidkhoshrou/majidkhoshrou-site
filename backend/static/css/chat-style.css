@@ -1,3 +1,4 @@
+/* Container Styles */
 .chat-container {
   max-width: 700px;
   margin: 40px auto;
@@ -8,11 +9,12 @@
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
 }
 
-.chat-container h2 {
-  text-align: center;
-  margin-bottom: 16px;
+.chat-container h2,
+.assistant-header {
+  display: none; /* Hide header */
 }
 
+/* Chat Window */
 .chat-window {
   border: 1px solid #ccc;
   height: 400px;
@@ -25,12 +27,12 @@
   flex-direction: column;
 }
 
-/* Assistant Introduction Box */
+/* Assistant Intro */
 .assistant-intro {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   background-color: #eef4fb;
-  padding: 10px;
+  padding: 12px;
   border-radius: 10px;
   margin-bottom: 12px;
 }
@@ -38,12 +40,40 @@
 .assistant-avatar {
   width: 40px;
   height: 40px;
-  margin-right: 10px;
+  margin-right: 12px;
   border-radius: 50%;
   object-fit: cover;
 }
 
-/* Message row container */
+.assistant-content {
+  display: flex;
+  flex: 1;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.assistant-content > p {
+  flex: 1 1 50%;
+  margin: 0;
+}
+
+.example-questions {
+  flex: 1 1 45%;
+  font-size: 0.9em;
+  color: #444;
+}
+
+.example-questions ul {
+  padding-left: 16px;
+  margin: 4px 0 0;
+}
+
+.example-questions li {
+  margin-bottom: 4px;
+}
+
+/* Chat Message Rows */
 .message-row {
   display: flex;
   align-items: flex-start;
@@ -58,7 +88,7 @@
   justify-content: flex-end;
 }
 
-/* Avatar */
+/* Avatars */
 .avatar {
   width: 28px;
   height: 28px;
@@ -67,7 +97,7 @@
   object-fit: contain;
 }
 
-/* Message bubbles */
+/* Message Bubbles */
 .message {
   background-color: #f1f1f1;
   padding: 10px 14px;
@@ -94,7 +124,7 @@
   box-shadow: 0 2px 6px rgba(0,0,0,0.08);
 }
 
-/* Optional typing animation */
+/* Typing Animation */
 .message.assistant.typing {
   animation: pulse 1.5s infinite;
   opacity: 0.7;
@@ -111,7 +141,7 @@
   to { opacity: 1; transform: translateY(0); }
 }
 
-/* Chat input styles */
+/* Input Section */
 .chat-input {
   display: flex;
   gap: 10px;

@@ -36,17 +36,22 @@
 
   <main>
     <div class="chat-container">
-      <h2>Talk to Mr. <i>M</i> — Your AI Assistant</h2>
+      <h2 class="assistant-header">Talk to Mr. <i>M</i> — Majid's custom-trained AI Assistant</h2>
 
       <!-- Mr. M intro block -->
-      <div class="assistant-intro">
-        <img src="{{ url_for('static', filename='images/ai-assistant.png') }}"  alt="Mr. M Avatar" class="assistant-avatar">
+    <div class="assistant-intro">
+      <img src="{{ url_for('static', filename='images/ai-assistant.png') }}" alt="Mr. M Avatar" class="assistant-avatar">
+      <div>
         <p><strong>Mr. <i>M</i></strong> is Majid's custom-trained AI assistant. Curious about my research, background, or projects? Just ask!</p>
-        <p class="examples"><em>Example questions:  
-          “What are Majid’s latest publications?”,  
-          “Tell me about his work at Alliander”,  
-          “What projects has he done in energy forecasting?”</em></p>
+        <p class="example-questions"><em>
+          Example questions:<br>
+          “Tell me about his work at Alliander”<br>
+          “What projects has he done in energy forecasting?”
+        </em></p>
       </div>
+    </div>
+
+
 
       <!-- Chat messages go here -->
       <div id="chat-window" class="chat-window">
