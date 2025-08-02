@@ -27,7 +27,7 @@
         <li><a href="{{ url_for('projects') }}" class="{% if request.endpoint == 'projects' %}active{% endif %}">Projects</a></li>
         <li><a href="{{ url_for('talks') }}" class="{% if request.endpoint == 'talks' %}active{% endif %}">Talks</a></li>
         <li><a href="{{ url_for('analytics') }}" class="{% if request.endpoint == 'analytics' %}active{% endif %}">Analytics</a></li>
-        <li><a href="{{ url_for('ask_mr_m') }}" class="{% if request.endpoint == 'ask_mr_m' %}active{% endif %}">Ask Mr. <i>M</i></a></li>
+        <li><a href="{{ url_for('ask_mr_m') }}" class="{% if request.endpoint == 'ask_mr_m' %}active{% endif %}">Ask Mr M</a></li>
         <li><a href="{{ url_for('contact') }}" class="{% if request.endpoint == 'contact' %}active{% endif %}">Contact</a></li>
       </ul>
     </nav>
@@ -42,7 +42,7 @@
         I’m a passionate advocate for open-source innovation and regularly contribute to projects that emphasize transparency, reproducibility, and collaborative progress. My work spans diverse domains — including energy, robotics, marine science, social behavior analysis, and explainable AI — all connected by a commitment to applied, ethical AI.
         <br><br>
         I also explore creative uses of generative AI. One example is my assistant, 
-        <a href="{{ url_for('ask_mr_m') }}" class="{% if request.endpoint == 'ask_mr_m' %}active{% endif %}">Mr. <i>M</i></a>, who can answer questions about my work — from digestible summaries of publications to in-depth technical walkthroughs.
+        <a href="{{ url_for('ask_mr_m') }}" class="{% if request.endpoint == 'ask_mr_m' %}active{% endif %}">Mr M</a>, who can answer questions about my work — from digestible summaries of publications to in-depth technical walkthroughs.
       </p>
       <p>
       <p>
@@ -127,7 +127,7 @@
           <a href="{{ url_for('talks') }}" class="button">Watch Talks</a>
         </div>
         <div class="card">
-          <h3>Ask Mr. <i>M</i></h3>
+          <h3>Ask Mr M</h3>
           <p>Talk to my AI assistant trained on my work and career history.</p>
           <a href="{{ url_for('ask_mr_m') }}" class="button">Chat Now</a>
         </div>

@@ -27,7 +27,7 @@
         <li><a href="{{ url_for('projects') }}" class="{% if request.endpoint == 'projects' %}active{% endif %}">Projects</a></li>
         <li><a href="{{ url_for('talks') }}" class="{% if request.endpoint == 'talks' %}active{% endif %}">Talks</a></li>
         <li><a href="{{ url_for('analytics') }}" class="{% if request.endpoint == 'analytics' %}active{% endif %}">Analytics</a></li>
-        <li><a href="{{ url_for('ask_mr_m') }}" class="{% if request.endpoint == 'ask_mr_m' %}active{% endif %}">Ask Mr. <i>M</i></a></li>
+        <li><a href="{{ url_for('ask_mr_m') }}" class="{% if request.endpoint == 'ask_mr_m' %}active{% endif %}">Ask Mr M</a></li>
         <li><a href="{{ url_for('contact') }}" class="{% if request.endpoint == 'contact' %}active{% endif %}">Contact</a></li>
       </ul>
     </nav>
@@ -42,20 +42,20 @@
 
       <div class="project">
         <div class="project-media-container">
-          <img src="{{ url_for('static', filename='gifs/ask_mr_m.gif') }}" alt="Talk to Mr. M" class="project-media">
+          <img src="{{ url_for('static', filename='gifs/ask_mr_m.gif') }}" alt="Talk to Mr M" class="project-media">
         </div>
         <div class="project-info">
-          <h3>Mr <i>M</i> — Majid's AI Assistant
+          <h3>Mr M — Majid's AI Assistant
             <span class="badge">Generative AI</span>
             <span class="badge">LLM + RAG</span>
             <span class="badge">Knowledge Engineering</span>
           </h3>
           
           <p>
-            <a href="https://github.com/majidkhoshrou/majidkhoshrou.github.io" target="_blank">Mr <i>M</i></a> is a custom-built AI assistant trained entirely on my own academic and professional materials — including research papers, personal website content, and relevant project documentation. Its goal is to make my expertise, background, and ongoing work easily accessible through natural language queries. All underlying data sources (HTML, PDFs, external links) are processed, cleaned, and embedded using <a href="https://platform.openai.com/docs/quickstart" target="_blank">OpenAI's models</a> and indexed via <a href="https://github.com/facebookresearch/faiss/wiki" target="_blank">FAISS</a>.
+            <a href="https://github.com/majidkhoshrou/majidkhoshrou.github.io" target="_blank">Mr M</a> is a custom-built AI assistant trained entirely on my own academic and professional materials — including research papers, personal website content, and relevant project documentation. Its goal is to make my expertise, background, and ongoing work easily accessible through natural language queries. All underlying data sources (HTML, PDFs, external links) are processed, cleaned, and embedded using <a href="https://platform.openai.com/docs/quickstart" target="_blank">OpenAI's models</a> and indexed via <a href="https://github.com/facebookresearch/faiss/wiki" target="_blank">FAISS</a>.
           </p>
           <p>
-            One of the major challenges in building Mr <i>M</i> was designing a robust pipeline that could unify information from diverse formats while preserving context fidelity. I implemented automatic text extraction, chunking with overlap, and semantic embedding, all wrapped in a context-restricted QA system to ensure trustworthy answers. The final result is an explainable, domain-specific AI system that can accurately respond to questions like "What are Majid’s latest projects?" or "Tell me about his academic research" — with traceability to the original sources.
+            One of the major challenges in building Mr M was designing a robust pipeline that could unify information from diverse formats while preserving context fidelity. I implemented automatic text extraction, chunking with overlap, and semantic embedding, all wrapped in a context-restricted QA system to ensure trustworthy answers. The final result is an explainable, domain-specific AI system that can accurately respond to questions like "What are Majid’s latest projects?" or "Tell me about his academic research" — with traceability to the original sources.
           </p>
         </div>
       </div>

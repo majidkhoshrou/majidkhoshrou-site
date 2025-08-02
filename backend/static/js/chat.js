@@ -14,7 +14,7 @@ function sendMessage() {
   input.value = '';
   input.focus();
 
-  const typingEl = appendMessage('assistant', 'Mr. <i>M</i> is typing...', true);
+  const typingEl = appendMessage('assistant', 'Mr M is typing...', true);
   typingEl.classList.add('typing');
 
   const chat = JSON.parse(sessionStorage.getItem('chatHistory') || '[]');
