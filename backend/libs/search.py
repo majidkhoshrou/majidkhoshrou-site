@@ -6,6 +6,10 @@ import faiss
 from openai import OpenAI
 from dotenv import load_dotenv
 import os
+import tiktoken
+
+load_dotenv()
+client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
 def get_faiss_index(index_path: Path) -> faiss.Index:
     """
@@ -25,10 +29,6 @@ def load_metadata_pickle(path: Path) -> List[Dict]:
         return pickle.load(f)
 
 
-
-load_dotenv()
-client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
-
 def query_index(question: str, index, metadata: List[Dict], top_k: int = 5) -> List[Dict]:
     response = client.embeddings.create(
         input=question,
@@ -44,6 +44,32 @@ def query_index(question: str, index, metadata: List[Dict], top_k: int = 5) -> L
             results.append(metadata[idx])
     return results
 
+
+def build_rag_query(history, current_message, max_tokens=2500):
+    
+    encoding = tiktoken.encoding_for_model("gpt-3.5-turbo")
+
+    user_messages = [
+        msg["content"] for msg in reversed(history)
+        if msg["role"] == "user"
+    ]
+
+    total_tokens = 0
+    selected = []
+
+    for msg in user_messages:
+        msg_tokens = encoding.encode(msg)
+        if total_tokens + len(msg_tokens) > max_tokens:
+            break
+        selected.insert(0, msg)
+        total_tokens += len(msg_tokens)
+
+    # Append current message if space allows
+    current_tokens = encoding.encode(current_message)
+    if total_tokens + len(current_tokens) <= max_tokens:
+        selected.append(current_message)
+
+    return " ".join(selected).strip()
 
 # Add distance
 # something to do!

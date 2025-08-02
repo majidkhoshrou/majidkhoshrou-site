@@ -17,10 +17,18 @@ function sendMessage() {
   const typingEl = appendMessage('assistant', 'Mr. <i>M</i> is typing...', true);
   typingEl.classList.add('typing');
 
+  const chat = JSON.parse(sessionStorage.getItem('chatHistory') || '[]');
+
+  // Convert stored chat to OpenAI-compatible format
+  const history = chat.map(msg => ({
+    role: msg.sender === 'user' ? 'user' : 'assistant',
+    content: msg.text
+  }));
+
   fetch('/api/chat', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ message: text })
+    body: JSON.stringify({ message: text, history })  // 👈 include history
   })
     .then(response => response.json())
     .then(data => {
@@ -77,6 +85,7 @@ function loadChatHistory() {
 }
 
 window.onload = () => {
-  loadChatHistory();
+  sessionStorage.removeItem('chatHistory');  // 👈 Clear chat on refresh
+  loadChatHistory();  // Will now load empty history
   document.getElementById('user-input').focus();
 };

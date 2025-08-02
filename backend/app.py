@@ -8,7 +8,7 @@ from flask_cors import CORS
 from dotenv import load_dotenv
 from openai import OpenAI
 
-from libs.search import get_faiss_index, load_metadata_pickle, query_index
+from libs.search import get_faiss_index, load_metadata_pickle, query_index, build_rag_query
 from libs.analytics import log_visit, load_analytics_data, summarize_analytics
 
 # ------------------------------
@@ -44,9 +44,9 @@ print(f"✅ FAISS index loaded with {index.ntotal} vectors")
 def home():
     return render_template("index.html")
 
-@app.route("/about")
-def about():
-    return render_template("about.html")
+# @app.route("/about")
+# def about():
+#     return render_template("about.html")
 
 @app.route("/cv")
 def cv():
@@ -83,29 +83,44 @@ def analytics():
 def chat():
     data = request.get_json()
     message = data.get("message")
+    history = data.get("history", [])  # list of dicts: [{role, content}]
 
     if not message:
         return jsonify({"error": "Message is required."}), 400
 
     try:
-        relevant_chunks = query_index(message, index, metadata, top_k=5)
+        # Step 1: RAG - Find relevant knowledge
+        rag_query = build_rag_query(history, message, max_tokens=2500)
+        relevant_chunks = query_index(rag_query, index, metadata, top_k=5)
         context = "\n\n".join([f"Source: {c['source_path']}\n{c['text']}" for c in relevant_chunks])
 
-
-        messages = [
-            {
+        # Step 2: Build chat messages
+        system_prompt =  {
                 "role": "system",
                 "content": (
                     "Hello! I am Mr. M — Majid's professional AI assistant. "
-                    "I specialize in answering questions about Majid's background, research, work experience, and publications. "
+                    "I specialize in answering questions about Majid's background, research, publications, work experience, and projects. "
                     "You may only answer using the provided CONTEXT. "
                     "If the context does not include the answer, politely say you don't know. Never make assumptions."
                 )
-            },
-            { "role": "system", "content": f"CONTEXT:\n{context}" },
-            { "role": "user", "content": message }
+            }
+        
+        context_prompt = { "role": "system", "content": f"CONTEXT:\n{context}" }
+        user_prompt = { "role": "user", "content": message }
+        
+        # Step 3: Truncate history (optional, keeps last 6 exchanges = 12 messages)
+        MAX_HISTORY_MESSAGES = 12
+        trimmed_history = history[-MAX_HISTORY_MESSAGES:]
+
+        # Step 4: Compose full message list
+        messages = [
+            system_prompt,
+            context_prompt,
+            *trimmed_history,   # Unpacks prior chat
+            user_prompt
         ]
 
+        # Step 5: Call OpenAI Chat API
         response = client.chat.completions.create(
             model="gpt-3.5-turbo",
             messages=messages
