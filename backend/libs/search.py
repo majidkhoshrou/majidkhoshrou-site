@@ -44,11 +44,21 @@ def query_index(question: str, index, metadata: List[Dict], top_k: int = 5) -> L
             results.append(metadata[idx])
     return results
 
-
 def build_rag_query(history, current_message, max_tokens=2500):
-    
+
     encoding = tiktoken.encoding_for_model("gpt-3.5-turbo")
 
+    current_tokens = encoding.encode(current_message)
+    current_token_count = len(current_tokens)
+
+    # Ensure current message fits by reducing budget for history
+    remaining_tokens = max_tokens - current_token_count
+    if remaining_tokens < 0:
+        # If the current message alone exceeds max_tokens, truncate it
+        truncated_current = encoding.decode(current_tokens[:max_tokens])
+        return truncated_current.strip()
+
+    # Reverse user messages (most recent first)
     user_messages = [
         msg["content"] for msg in reversed(history)
         if msg["role"] == "user"
@@ -59,17 +69,15 @@ def build_rag_query(history, current_message, max_tokens=2500):
 
     for msg in user_messages:
         msg_tokens = encoding.encode(msg)
-        if total_tokens + len(msg_tokens) > max_tokens:
+        token_count = len(msg_tokens)
+        if total_tokens + token_count > remaining_tokens:
             break
         selected.insert(0, msg)
-        total_tokens += len(msg_tokens)
+        total_tokens += token_count
 
-    # Append current message if space allows
-    current_tokens = encoding.encode(current_message)
-    if total_tokens + len(current_tokens) <= max_tokens:
-        selected.append(current_message)
-
+    selected.append(current_message)
     return " ".join(selected).strip()
+
 
 # Add distance
 # something to do!
