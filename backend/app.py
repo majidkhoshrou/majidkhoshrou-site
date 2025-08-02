@@ -77,7 +77,7 @@ def analytics():
     return render_template("analytics.html")
 
 # ------------------------------
-# 🤖 Mr. M Chat Endpoint
+# 🤖 Mr M Chat Endpoint
 # ------------------------------
 @app.route("/api/chat", methods=["POST"])
 def chat():
@@ -98,7 +98,7 @@ def chat():
         system_prompt =  {
                 "role": "system",
                 "content": (
-                    "Hello! I am Mr. M — Majid's professional AI assistant. "
+                    "Hello! I am Mr M — Majid's professional AI assistant. "
                     "I specialize in answering questions about Majid's background, research, publications, work experience, and projects. "
                     "You may only answer using the provided CONTEXT. "
                     "If the context does not include the answer, politely say you don't know. Never make assumptions."

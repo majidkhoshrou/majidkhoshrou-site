@@ -1,5 +1,5 @@
 from pathlib import Path
-from datetime import datetime, timezone
+from datetime import timedelta, datetime, timezone
 from collections import defaultdict
 from typing import Dict, Any, List
 from flask import request, has_request_context
@@ -9,9 +9,13 @@ import requests
 import json
 import re
 
+
 # Optional: thread-level safety (in case Flask runs in threaded mode)
 from threading import Lock
 file_mutex = Lock()
+
+RETENTION_DAYS = 10 # 365
+CUTOFF_DATE = datetime.now(timezone.utc) - timedelta(days=RETENTION_DAYS)
 
 
 def parse_device(user_agent: str) -> str:
@@ -32,6 +36,15 @@ def anonymize_ip(ip: str) -> str:
     return '.'.join(parts[:2]) + '.***.***' if len(parts) == 4 else ip
 
 
+
+def is_recent(entry):
+    try:
+        timestamp = datetime.fromisoformat(entry.get("timestamp", "").replace("Z", "+00:00"))
+        return timestamp >= CUTOFF_DATE
+    except Exception:
+        return False
+    
+
 def log_visit(log_dir: Path = None) -> None:
     if not has_request_context():
         return
@@ -47,7 +60,7 @@ def log_visit(log_dir: Path = None) -> None:
         "/projects": "Projects",
         "/research": "Research",
         "/talks": "Talks",
-        "/ask-mr-m": "Ask Mr. M",
+        "/ask-mr-m": "Ask Mr M",
         "/analytics": "Analytics",
         "/contact": "Contact"
     }
@@ -87,7 +100,7 @@ def log_visit(log_dir: Path = None) -> None:
             proxy = False
 
     log_entry = {
-        "ip": anonymize_ip(ip_raw),
+        "ip": ip_raw,  # anonymize_ip(ip_raw) for rate limiting better not anonymize
         "country": country,
         "device": device,
         "user_agent": user_agent,
@@ -113,6 +126,7 @@ def log_visit(log_dir: Path = None) -> None:
                     logs = []
 
             logs.append(log_entry)
+            logs = [entry for entry in logs if is_recent(entry)]
 
             with log_file.open("w", encoding="utf-8") as f:
                 json.dump(logs, f, indent=2)
