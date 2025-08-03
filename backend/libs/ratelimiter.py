@@ -1,18 +1,21 @@
 # libs/ratelimiter.py
 
+import os
 import redis
 from datetime import timedelta
 
+REDIS_HOST = os.getenv("REDIS_HOST", "localhost")
+
 # Connect to Redis
 r = redis.Redis(
-    host="localhost",  # Update for AWS in prod
+    host=REDIS_HOST,  # Update for AWS in prod
     port=6379,
     db=0,
     decode_responses=True
 )
 
 # Rate limit config
-RATE_LIMIT = 20
+RATE_LIMIT = 5
 WINDOW_SECONDS = 86400  # 24 hours
 
 def check_and_increment_ip(ip: str) -> bool:

@@ -10,6 +10,8 @@ from openai import OpenAI
 
 from libs.search import get_faiss_index, load_metadata_pickle, query_index, build_rag_query
 from libs.analytics import log_visit, load_analytics_data, summarize_analytics
+from libs.ratelimiter import check_and_increment_ip
+
 
 # ------------------------------
 # 🔐 Load environment and OpenAI
@@ -81,6 +83,12 @@ def analytics():
 # ------------------------------
 @app.route("/api/chat", methods=["POST"])
 def chat():
+    ip = request.headers.get("X-Forwarded-For", request.remote_addr)
+
+    # ✅ Rate limit check
+    if not check_and_increment_ip(ip):
+        return jsonify({"error": "You've reached your daily limit. Try again tomorrow."}), 429
+
     data = request.get_json()
     message = data.get("message")
     history = data.get("history", [])  # list of dicts: [{role, content}]
