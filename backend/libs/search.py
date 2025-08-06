@@ -29,7 +29,13 @@ def load_metadata_pickle(path: Path) -> List[Dict]:
         return pickle.load(f)
 
 
-def query_index(question: str, index, metadata: List[Dict], top_k: int = 5) -> List[Dict]:
+def query_index(
+    question: str, 
+    index: faiss.Index, 
+    metadata: List[Dict[str, Any]], 
+    top_k: int = 5
+) -> List[Dict[str, Any]]:
+    
     response = client.embeddings.create(
         input=question,
         model="text-embedding-3-small"
