@@ -180,3 +180,30 @@
 .chat-input button:hover {
   background-color: #155ab6;
 }
+
+
+#quota-banner {
+  padding: 8px 12px;
+  margin: 10px 0;
+  border-radius: 6px;
+  font-weight: 500;
+  font-family: system-ui, sans-serif;
+}
+
+.quota-green {
+  background-color: #e6f4ea;
+  color: #216e39;
+  border-left: 4px solid #27ae60;
+}
+
+.quota-orange {
+  background-color: #fff4e5;
+  color: #8a4d00;
+  border-left: 4px solid #e67e22;
+}
+
+.quota-red {
+  background-color: #ffe6e6;
+  color: #b30000;
+  border-left: 4px solid #e74c3c;
+}

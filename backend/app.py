@@ -10,7 +10,7 @@ from openai import OpenAI
 
 from libs.search import get_faiss_index, load_metadata_pickle, query_index, build_rag_query
 from libs.analytics import log_visit, load_analytics_data, summarize_analytics
-from libs.ratelimiter import check_and_increment_ip
+from libs.ratelimiter import check_and_increment_ip, get_ip_quota
 
 
 # ------------------------------
@@ -139,6 +139,14 @@ def chat():
     except Exception as e:
         print("❌ Error:", e)
         return jsonify({"error": "An error occurred while generating a response."}), 500
+
+# ------------------------------
+# 📊 Quota API Endpoint
+# ------------------------------
+@app.route("/api/quota", methods=["GET"])
+def quota():
+    ip = request.headers.get("X-Forwarded-For", request.remote_addr)
+    return jsonify(get_ip_quota(ip))
 
 # ------------------------------
 # 📊 Analytics API Endpoints

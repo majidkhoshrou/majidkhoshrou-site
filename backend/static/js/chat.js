@@ -3,6 +3,28 @@ document.getElementById('user-input').addEventListener('keypress', function (e) 
   if (e.key === 'Enter') sendMessage();
 });
 
+function updateQuotaBanner() {
+  fetch('/api/quota')
+    .then(res => res.json())
+    .then(data => {
+      const banner = document.getElementById('quota-banner');
+      banner.innerHTML = `📊 You have ${data.remaining} of ${data.limit} messages left today.`;
+
+      // Apply color styles
+      banner.className = 'quota-banner'; // reset
+      if (data.remaining === 0) {
+        banner.classList.add('quota-red');
+      } else if (data.remaining <= 2) {
+        banner.classList.add('quota-orange');
+      } else {
+        banner.classList.add('quota-green');
+      }
+    })
+    .catch(err => {
+      console.warn("Failed to update quota banner:", err);
+    });
+}
+
 function sendMessage() {
   const input = document.getElementById('user-input');
   const text = input.value.trim();
@@ -65,7 +87,10 @@ function sendMessage() {
 
       appendMessage(role, message);
 
-        // ✅ Disable input if rate limit is hit
+      // ✅ Update quota banner after message is sent
+      updateQuotaBanner();
+
+      // ✅ Disable input if rate limit is hit
       if (response.status === 429) {
         document.getElementById('user-input').disabled = true;
         document.getElementById('send-button').disabled = true;
@@ -88,6 +113,9 @@ function sendMessage() {
       saveMessage('assistant', errorMsg);
     });
 }
+
+
+
 
 function appendMessage(sender, text, isTyping = false) {
   const chatWindow = document.getElementById('chat-window');
@@ -143,4 +171,8 @@ window.onload = () => {
   sessionStorage.removeItem('chatHistory');  // 👈 Clear chat on refresh
   loadChatHistory();  // Will now load empty history
   document.getElementById('user-input').focus();
+
+  updateQuotaBanner();  // ✅ Fetch and show quota with correct color
 };
+
+

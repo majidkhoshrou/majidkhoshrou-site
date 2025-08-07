@@ -60,7 +60,7 @@ for html_file in tqdm(html_files, desc="Processing HTMLs"):
     for tag in soup(["header", "nav", "footer", "script", "style"]):
         tag.decompose()
 
-    title = soup.title.string if soup.title else "Untitled"
+    title = soup.title.string.strip() if soup.title and soup.title.string else "Untitled"
     base_dict['title'] = title
 
     text = clean_text(soup.get_text(strip=False))
@@ -81,6 +81,7 @@ for html_file in tqdm(html_files, desc="Processing HTMLs"):
         chunk_dict['chunk_id'] = f"{chunk_dict['id']}_{idx+1}"
         knowledge_chunks.append(chunk_dict)
 
+
 # === Process local PDF files ===
 for pdf_file in tqdm(pdf_files, desc="Processing PDFs"):
     base_dict = {
@@ -88,15 +89,40 @@ for pdf_file in tqdm(pdf_files, desc="Processing PDFs"):
         'created_at': datetime.datetime.now(datetime.UTC).isoformat(),
         'source_type': 'local',
         'source_path': str(pdf_file),
-        'title': pdf_file.stem
     }
 
     pdf_stream = BytesIO(pdf_file.read_bytes())
     doc = fitz.open(stream=pdf_stream, filetype="pdf")
 
+    # --- Title extraction ---
+    meta = doc.metadata
+    title = meta.get("title")
+
+    if not title or title.lower().startswith("untitled") or len(title.strip()) < 5:
+        # Heuristic: pick the largest-font text from the first page
+        first_page = doc[0]
+        data = first_page.get_text("dict")
+        candidates = []
+
+        for block in data.get("blocks", []):
+            for line in block.get("lines", []):
+                for span in line.get("spans", []):
+                    text = span["text"].strip()
+                    if text and len(text.split()) > 3:  # crude filter
+                        candidates.append((span["size"], text))
+
+        if candidates:
+            candidates.sort(key=lambda x: -x[0])  # largest font size first
+            title = candidates[0][1]
+        else:
+            title = pdf_file.stem
+
+    base_dict['title'] = title
+
+    # --- Text extraction ---
     text = ""
     for page in doc:
-        text += page.get_text()
+        text += page.get_text("text")  # plain text
     doc.close()
 
     text = clean_text(text)
@@ -108,6 +134,7 @@ for pdf_file in tqdm(pdf_files, desc="Processing PDFs"):
         chunk_dict['token_count'] = count_tokens(chunk)
         chunk_dict['chunk_id'] = f"{chunk_dict['id']}_{idx+1}"
         knowledge_chunks.append(chunk_dict)
+
 
 # === Process external URLs ===
 for url in tqdm(external_urls, desc="Processing External URLs"):
@@ -128,7 +155,7 @@ for url in tqdm(external_urls, desc="Processing External URLs"):
             for tag in soup(["header", "nav", "footer", "script", "style"]):
                 tag.decompose()
 
-            title = soup.title.string if soup.title else "Untitled"
+            title = soup.title.string.strip() if soup.title and soup.title.string else "Untitled"
             base_dict['title'] = title
             text = clean_text(soup.get_text(strip=False))
 
@@ -138,7 +165,7 @@ for url in tqdm(external_urls, desc="Processing External URLs"):
 
             text = ""
             for page in doc:
-                text += page.get_text()
+                text += page.get_text('text')
             doc.close()
 
             base_dict['title'] = urlparse(url).path.split("/")[-1]
