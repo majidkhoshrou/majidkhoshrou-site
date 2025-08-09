@@ -1,0 +1,75 @@
+/* Contact Page Styling */
+
+.contact-form {
+  max-width: 600px;
+  margin: 2rem auto;
+  padding: 2rem;
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+}
+
+.contact-form form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+}
+
+.contact-form label {
+  font-weight: 600;
+  margin-bottom: 0.4rem;
+  color: #333;
+}
+
+.contact-form input,
+.contact-form textarea {
+  padding: 0.8rem 1rem;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  font-family: inherit;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.contact-form input:focus,
+.contact-form textarea:focus {
+  border-color: #0077b6;
+  box-shadow: 0 0 0 2px rgba(0,119,182,0.15);
+  outline: none;
+}
+
+.contact-form button {
+  background: #0077b6;
+  color: white;
+  padding: 0.9rem 1.4rem;
+  font-size: 1rem;
+  font-weight: 600;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.contact-form button:hover {
+  background: #005f8d;
+}
+
+#status {
+  font-size: 0.95rem;
+  margin-top: -0.5rem;
+  min-height: 1.2em;
+}
+
+#status:empty {
+  display: none;
+}
+
+#status.success {
+  color: green;
+}
+
+#status.error {
+  color: red;
+}

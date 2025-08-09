@@ -11,7 +11,7 @@ from openai import OpenAI
 from libs.search import get_faiss_index, load_metadata_pickle, query_index, build_rag_query
 from libs.analytics import log_visit, load_analytics_data, summarize_analytics
 from libs.ratelimiter import check_and_increment_ip, get_ip_quota
-
+from libs.contact import send_contact_email
 
 # ------------------------------
 # 🔐 Load environment and OpenAI
@@ -163,6 +163,27 @@ def api_analytics_data():
 @app.route("/api/analytics-summary", methods=["GET"])
 def api_analytics_summary():
     return jsonify(summarize_analytics())
+
+# ------------------------------
+# 📫 Contact API Endpoint
+# ------------------------------
+@app.route("/api/contact", methods=["POST"])
+def api_contact():
+    ip = request.headers.get("X-Forwarded-For", request.remote_addr)
+    data = request.get_json(silent=True) or request.form
+
+    result = send_contact_email(
+        name=data.get("name", ""),
+        email=data.get("email", ""),
+        message=data.get("message", ""),
+        ip=ip,
+        honeypot=data.get("company", ""),  # hidden field from the form
+    )
+
+    if result.get("ok"):
+        return jsonify({"status": "sent"}), 200
+    else:
+        return jsonify({"error": result.get("error", "Unknown error")}), 400
 
 # ------------------------------
 # 🚀 Launch

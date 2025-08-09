@@ -361,3 +361,31 @@ footer {
   text-decoration: none;
   border-radius: 5px;
 }
+
+
+/* ========================
+   Social Links
+======================== */
+.social-links {
+  margin: 2rem auto;
+  max-width: 600px;
+  text-align: center;
+}
+
+.social-links ul {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+}
+
+.social-links a {
+  text-decoration: none;
+  color: #0077b6;
+  font-weight: 500;
+}
+
+.social-links a:hover {
+  text-decoration: underline;
+}

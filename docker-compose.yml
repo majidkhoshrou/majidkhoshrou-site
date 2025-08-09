@@ -1,5 +1,3 @@
-version: "3.9"
-
 services:
   web:
     build:
@@ -8,10 +6,12 @@ services:
       - "5000:5000"
     depends_on:
       - redis
+    env_file:
+      - ./backend/.env   # ← or ".env" if your file lives next to this compose file
     environment:
-      - REDIS_HOST=redis
+      REDIS_HOST: redis
+      PYTHONUNBUFFERED: "1"
+      FLASK_ENV: production
 
   redis:
     image: redis:latest
-    # ports:
-    #   - "6379:6379"
