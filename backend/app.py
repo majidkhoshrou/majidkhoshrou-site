@@ -41,6 +41,14 @@ if os.getenv("TRUST_PROXY", "false").lower() == "true":
 
 app.jinja_env.globals.update(request=request)
 
+def get_client_ip():
+    """
+    Prefer CF-Connecting-IP (when behind Cloudflare). Otherwise fall back to Flask's remote_addr.
+    If you later enable ProxyFix with X-Forwarded-For, that will be respected upstream.
+    """
+    ip = request.headers.get("CF-Connecting-IP")
+    return ip or request.remote_addr or "0.0.0.0"
+
 # ------------------------------
 # 📂 Load FAISS index & metadata
 # ------------------------------
@@ -99,34 +107,44 @@ def analytics():
 # ------------------------------
 @app.route("/api/chat", methods=["POST"])
 def chat():
-    ip = request.remote_addr
+    ip = get_client_ip()
 
     # Parse body (keeps your existing shape)
     data = request.get_json(force=True) or {}
     message = data.get("message")
     history = data.get("history", [])          # [{role, content}]
-    token   = data.get("recaptcha_token")      # reCAPTCHA v3/Turnstile token (frontend sends on first message)
-    action  = data.get("recaptcha_action", "chat")
+
+    # Accept BOTH the legacy field and Turnstile’s canonical field
+    token = data.get("cf-turnstile-response") or data.get("recaptcha_token")
+    action = data.get("action") or data.get("recaptcha_action") or "chat"
 
     if not message:
         return jsonify({"error": "Message is required."}), 400
 
-    # 0) Tiny burst control: ~1 message per 3s (configurable inside libs/recaptcha.py)
-    if not burst_ok(ip):
-        return jsonify({"error": "Too many requests. Please wait a moment and try again."}), 429
 
+    # 0) Small burst limiter (configured in libs/challenge.py)
+    if not burst_ok(ip):
+        return jsonify({
+            "error": "Too many requests. Please wait a moment and try again.",
+            "code": "burst"
+        }), 429
+    
     # 1) Adaptive challenge: only when not yet trusted
     if not is_trusted(ip):
         ok, info = verify_challenge(token, ip, expected_action=action)
+        print("[turnstile]", info)  # remove after testing
         if not ok:
             # Optional: log `info` for debugging/metrics
             return jsonify({"error": "challenge_failed", "info": info}), 403
         mark_trusted(ip)  # trust this IP for a short TTL (default 2h)
 
-    # 2) Daily/IP rate limit (fixed window using your ratelimiter)
+    # 2) Daily/IP limit
     if not check_and_increment_ip(ip):
-        return jsonify({"error": "You've reached your daily limit. Try again tomorrow."}), 429
-
+        return jsonify({
+            "error": "You've reached your daily limit. Try again tomorrow.",
+            "code": "daily"
+        }), 429
+    
     try:
         # 3) RAG – Find relevant knowledge (unchanged)
         rag_query = build_rag_query(history, message, max_tokens=2500)
@@ -168,7 +186,7 @@ def chat():
 # ------------------------------
 @app.route("/api/quota", methods=["GET"])
 def quota():
-    ip = request.remote_addr
+    ip = get_client_ip()
     return jsonify(get_ip_quota(ip))
 
 # ------------------------------

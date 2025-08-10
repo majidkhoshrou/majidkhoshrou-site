@@ -15,18 +15,20 @@
   <link rel="icon" href="{{ url_for('static', filename='images/MK.jpeg') }}">
   
   <script>
-    // Inject from env; leave empty in local if you use dev bypass
     window.TURNSTILE_SITE_KEY = "{{ TURNSTILE_SITE_KEY | default('', true) }}";
     window.TURNSTILE_ACTION = "chat";
   </script>
   <script>
-    if (window.TURNSTILE_SITE_KEY) {
+    const key = (window.TURNSTILE_SITE_KEY || '').trim();
+    if (key) {
       const s = document.createElement('script');
       s.src = "https://challenges.cloudflare.com/turnstile/v0/api.js";
       s.async = true; s.defer = true;
+      s.onload = () => { try { ensureTurnstileRendered(); } catch {} }; // pre-render asap
       document.head.appendChild(s);
     }
   </script>
+
 
 
 </head>
@@ -68,8 +70,6 @@
     </div>
 
     <div id="quota-banner" class="quota-banner"></div>
-
-
       <!-- Chat messages go here -->
       <div id="chat-window" class="chat-window">
         <div class="message-row assistant">

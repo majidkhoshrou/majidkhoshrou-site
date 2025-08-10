@@ -128,21 +128,25 @@ async function sendMessage() {
     content: msg.text
   }));
 
-  // Prepare payload with optional Turnstile token (keeps backend fields)
+  // Prepare payload with optional Turnstile token
   let challenge_token = await getTurnstileTokenIfNeeded(false);
+  const actionName = (window.TURNSTILE_ACTION || 'chat');
+
   const body = {
     message: text,
     history,
+    // keep legacy names for compatibility
     recaptcha_token: challenge_token,
-    recaptcha_action: (window.TURNSTILE_ACTION || 'chat')
+    recaptcha_action: actionName,
+    // add Turnstile’s canonical names
+    "cf-turnstile-response": challenge_token,
+    action: actionName
   };
-  // right after: let challenge_token = await getTurnstileTokenIfNeeded(false);
-    console.debug("[turnstile] initial token length:", challenge_token ? challenge_token.length : 0);
 
+  console.debug("[turnstile] initial token length:", challenge_token ? challenge_token.length : 0);
 
-    // Before doRequest():
+  // If not client-trusted, try harder to get a token before sending
   if (!isClientTrusted() && window.TURNSTILE_SITE_KEY) {
-    // Try for up to ~8s to get a token; otherwise show a friendly error
     const deadline = Date.now() + 8000;
     while (!challenge_token && Date.now() < deadline) {
       challenge_token = await getTurnstileTokenIfNeeded(true);
@@ -154,9 +158,9 @@ async function sendMessage() {
       return;
     }
     body.recaptcha_token = challenge_token;
+    body["cf-turnstile-response"] = challenge_token;
   }
 
-  // We’ll allow one auto-retry if server says 403 (needs/failed challenge)
   let attemptedRetry = false;
 
   const doRequest = () => fetch('/api/chat', {
@@ -175,6 +179,7 @@ async function sendMessage() {
       // Force a fresh token and retry once
       challenge_token = await getTurnstileTokenIfNeeded(true);
       body.recaptcha_token = challenge_token;
+      body["cf-turnstile-response"] = challenge_token;
 
       response = await doRequest();
       try { data = await response.json(); } catch {}
@@ -185,7 +190,7 @@ async function sendMessage() {
 
       let message;
       if (response.status === 429) {
-        message = data?.reply || data?.error || "You've hit your daily limit. Try again tomorrow.";
+        message = data?.reply || data?.error || "Rate limit reached.";
       } else if (!response.ok && data.error) {
         message = data.info?.error
           ? `Verification failed: ${data.info.error}`
@@ -206,16 +211,19 @@ async function sendMessage() {
       const role = (response.status === 429 || response.status === 403 || data.error) ? 'system' : 'assistant';
       appendMessage(role, message);
 
+      // Only disable input on DAILY cap, not on BURST
+      if (response.status === 429) {
+        if (data?.code === 'daily') {
+          document.getElementById('user-input').disabled = true;
+          document.getElementById('send-button').disabled = true;
+        }
+      }
+
       if (response.ok) {
         markClientTrusted(); // hint to skip token for ~2h
       }
 
       updateQuotaBanner();
-
-      if (response.status === 429) {
-        document.getElementById('user-input').disabled = true;
-        document.getElementById('send-button').disabled = true;
-      }
 
       if (role === 'assistant') {
         saveMessage('assistant', message);
