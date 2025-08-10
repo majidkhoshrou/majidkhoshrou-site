@@ -13,6 +13,22 @@
   <link rel="stylesheet" href="{{ url_for('static', filename='css/chat-style.css') }}">
   <title>Majid Khoshrou - Ask Mr M</title>
   <link rel="icon" href="{{ url_for('static', filename='images/MK.jpeg') }}">
+  
+  <script>
+    // Inject from env; leave empty in local if you use dev bypass
+    window.TURNSTILE_SITE_KEY = "{{ TURNSTILE_SITE_KEY | default('', true) }}";
+    window.TURNSTILE_ACTION = "chat";
+  </script>
+  <script>
+    if (window.TURNSTILE_SITE_KEY) {
+      const s = document.createElement('script');
+      s.src = "https://challenges.cloudflare.com/turnstile/v0/api.js";
+      s.async = true; s.defer = true;
+      document.head.appendChild(s);
+    }
+  </script>
+
+
 </head>
 <body>
   <header>

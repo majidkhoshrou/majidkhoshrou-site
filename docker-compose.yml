@@ -1,3 +1,4 @@
+
 services:
   web:
     build:
@@ -5,13 +6,30 @@ services:
     ports:
       - "5000:5000"
     depends_on:
-      - redis
+      redis:
+        condition: service_healthy
     env_file:
-      - ./backend/.env   # ← or ".env" if your file lives next to this compose file
+      - ./backend/.env
     environment:
       REDIS_HOST: redis
+      REDIS_PORT: 6379
       PYTHONUNBUFFERED: "1"
       FLASK_ENV: production
+    restart: unless-stopped
 
   redis:
-    image: redis:latest
+    image: redis:7-alpine
+    env_file:
+      - ./backend/.env
+    command: sh -lc "exec redis-server --appendonly yes --requirepass \"$REDIS_PASSWORD\""
+    healthcheck:
+      test: ["CMD-SHELL", "redis-cli -a \"$REDIS_PASSWORD\" PING || exit 1"]
+      interval: 10s
+      timeout: 3s
+      retries: 5
+    volumes:
+      - redis-data:/data
+    restart: unless-stopped
+
+volumes:
+  redis-data:

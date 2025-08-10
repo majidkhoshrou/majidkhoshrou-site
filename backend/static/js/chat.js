@@ -1,3 +1,85 @@
+// === Turnstile helpers =====================================================
+const TRUST_HINT_KEY = "mrM_trusted_until";
+const TRUST_HINT_MS  = 2 * 60 * 60 * 1000; // 2 hours
+
+function isClientTrusted() {
+  const until = Number(localStorage.getItem(TRUST_HINT_KEY) || 0);
+  return Date.now() < until;
+}
+function markClientTrusted() {
+  localStorage.setItem(TRUST_HINT_KEY, String(Date.now() + TRUST_HINT_MS));
+}
+
+function waitForTurnstile(maxWaitMs = 10000, checkEveryMs = 50) {
+  return new Promise((resolve) => {
+    const start = Date.now();
+    const check = () => {
+      if (window.turnstile) return resolve(true);
+      if (Date.now() - start >= maxWaitMs) return resolve(false);
+      setTimeout(check, checkEveryMs);
+    };
+    check();
+  });
+}
+
+let turnstileWidgetId = null;
+async function ensureTurnstileRendered() {
+  // Wait briefly for the script to load if it's async/defer
+  const available = await waitForTurnstile();
+  if (!window.TURNSTILE_SITE_KEY || !available) return null;
+  if (turnstileWidgetId) return turnstileWidgetId;
+
+  let el = document.getElementById('cf-turnstile');
+  if (!el) {
+    el = document.createElement('div');
+    el.id = 'cf-turnstile';
+    el.style.display = 'none';
+    document.body.appendChild(el);
+  }
+  turnstileWidgetId = turnstile.render(el, {
+    sitekey: window.TURNSTILE_SITE_KEY,
+    size: "invisible",
+    action: window.TURNSTILE_ACTION || "chat",
+    callback: () => {}
+  });
+  return turnstileWidgetId;
+}
+
+async function getTurnstileTokenIfNeeded(force = false) {
+  if (!force && isClientTrusted()) return null;
+  if (!window.TURNSTILE_SITE_KEY) return null;
+
+  const widgetId = await ensureTurnstileRendered();
+  if (!widgetId) return null;
+
+  // 1) Try the current response first
+  try {
+    let token = turnstile.getResponse(widgetId);
+    if (typeof token === 'string' && token.length > 0) return token;
+
+    // 2) Try executing (may return previous token)
+    token = await turnstile.execute(widgetId, {
+      action: window.TURNSTILE_ACTION || "chat"
+    });
+    if (typeof token === 'string' && token.length > 0) return token;
+
+    // 3) If we still don't have a token, reset then execute once more
+    try { turnstile.reset(widgetId); } catch {}
+    token = await turnstile.execute(widgetId, {
+      action: window.TURNSTILE_ACTION || "chat"
+    });
+    if (typeof token === 'string' && token.length > 0) return token;
+
+    return null;
+  } catch (e) {
+    console.warn("Turnstile token fetch failed:", e);
+    return null;
+  }
+}
+
+
+// === Original bindings ======================================================
+
 document.getElementById('send-button').addEventListener('click', sendMessage);
 document.getElementById('user-input').addEventListener('keypress', function (e) {
   if (e.key === 'Enter') sendMessage();
@@ -10,7 +92,6 @@ function updateQuotaBanner() {
       const banner = document.getElementById('quota-banner');
       banner.innerHTML = `📊 You have ${data.remaining} of ${data.limit} messages left today.`;
 
-      // Apply color styles
       banner.className = 'quota-banner'; // reset
       if (data.remaining === 0) {
         banner.classList.add('quota-red');
@@ -25,7 +106,7 @@ function updateQuotaBanner() {
     });
 }
 
-function sendMessage() {
+async function sendMessage() {
   const input = document.getElementById('user-input');
   const text = input.value.trim();
   if (text === '') return;
@@ -47,81 +128,115 @@ function sendMessage() {
     content: msg.text
   }));
 
-  fetch('/api/chat', {
+  // Prepare payload with optional Turnstile token (keeps backend fields)
+  let challenge_token = await getTurnstileTokenIfNeeded(false);
+  const body = {
+    message: text,
+    history,
+    recaptcha_token: challenge_token,
+    recaptcha_action: (window.TURNSTILE_ACTION || 'chat')
+  };
+  // right after: let challenge_token = await getTurnstileTokenIfNeeded(false);
+    console.debug("[turnstile] initial token length:", challenge_token ? challenge_token.length : 0);
+
+
+    // Before doRequest():
+  if (!isClientTrusted() && window.TURNSTILE_SITE_KEY) {
+    // Try for up to ~8s to get a token; otherwise show a friendly error
+    const deadline = Date.now() + 8000;
+    while (!challenge_token && Date.now() < deadline) {
+      challenge_token = await getTurnstileTokenIfNeeded(true);
+      if (!challenge_token) await new Promise(r => setTimeout(r, 200));
+    }
+    if (!challenge_token) {
+      typingEl.remove();
+      appendMessage('assistant', "Still preparing the verification challenge—please try sending again in a moment.");
+      return;
+    }
+    body.recaptcha_token = challenge_token;
+  }
+
+  // We’ll allow one auto-retry if server says 403 (needs/failed challenge)
+  let attemptedRetry = false;
+
+  const doRequest = () => fetch('/api/chat', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ message: text, history })  // 👈 include history
-  })
-    
-  .then(async (response) => {
+    body: JSON.stringify(body)
+  });
+
+  try {
+    let response = await doRequest();
     let data = {};
-    try {
-      data = await response.json();
-    } catch (err) {
-      console.error("Failed to parse JSON:", err);
+    try { data = await response.json(); } catch (err) { console.error("Failed to parse JSON:", err); }
+
+    if (response.status === 403 && !attemptedRetry) {
+      attemptedRetry = true;
+      // Force a fresh token and retry once
+      challenge_token = await getTurnstileTokenIfNeeded(true);
+      body.recaptcha_token = challenge_token;
+
+      response = await doRequest();
+      try { data = await response.json(); } catch {}
     }
 
     setTimeout(() => {
       typingEl.remove();
 
       let message;
-
       if (response.status === 429) {
         message = data?.reply || data?.error || "You've hit your daily limit. Try again tomorrow.";
       } else if (!response.ok && data.error) {
-        message = data.error;
+        message = data.info?.error
+          ? `Verification failed: ${data.info.error}`
+          : data.error;
       } else if (data.reply) {
         message = data.reply;
+      } else if (data.ok && data.message) {
+        message = data.message;
       } else {
         message = "Sorry, something went wrong.";
       }
 
-      // ✅ SAFEGUARD to prevent undefined errors
       if (typeof message !== 'string') {
         console.warn("⚠️ Invalid message from server:", message);
         message = "[Sorry, something went wrong.]";
       }
 
-      // ✅ Decide role: system (for errors) or assistant (for normal response)
-      const role = (response.status === 429 || data.error) ? 'system' : 'assistant';
-
+      const role = (response.status === 429 || response.status === 403 || data.error) ? 'system' : 'assistant';
       appendMessage(role, message);
 
-      // ✅ Update quota banner after message is sent
+      if (response.ok) {
+        markClientTrusted(); // hint to skip token for ~2h
+      }
+
       updateQuotaBanner();
 
-      // ✅ Disable input if rate limit is hit
       if (response.status === 429) {
         document.getElementById('user-input').disabled = true;
         document.getElementById('send-button').disabled = true;
       }
 
-      // ✅ Only save normal assistant replies to chat history
       if (role === 'assistant') {
         saveMessage('assistant', message);
       }
     }, 700);
 
-  })
-
-
-    .catch(error => {
-      console.error('Error:', error);
-      typingEl.remove();
-      const errorMsg = 'Sorry, there was an error processing your request.';
-      appendMessage('assistant', errorMsg);
-      saveMessage('assistant', errorMsg);
-    });
+  } catch (error) {
+    console.error('Error:', error);
+    typingEl.remove();
+    const errorMsg = 'Sorry, there was an error processing your request.';
+    appendMessage('assistant', errorMsg);
+    saveMessage('assistant', errorMsg);
+  }
 }
 
-
-
+// === rendering / storage (unchanged) =======================================
 
 function appendMessage(sender, text, isTyping = false) {
   const chatWindow = document.getElementById('chat-window');
   const div = document.createElement('div');
 
-  // Add custom class for 'system' messages (like rate limits or errors)
   if (sender === 'system') {
     div.className = 'message system';
   } else {
@@ -151,7 +266,7 @@ function sanitizeHTML(str) {
     .replace(/\n/g, "<br>")
     .replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>")
     .replace(/\*(.+?)\*/g, "<em>$1</em>")
-    .replace(/(https?:\/\/[^\s]+)/g, '<a href="$1" target="_blank">$1</a>');
+    .replace(/(https?:\/\/[^\s]+)/g, '<a href="$1" target="_blank" rel="noopener noreferrer">$1</a>');
 }
 
 function saveMessage(sender, text) {
@@ -168,11 +283,12 @@ function loadChatHistory() {
 }
 
 window.onload = () => {
-  sessionStorage.removeItem('chatHistory');  // 👈 Clear chat on refresh
-  loadChatHistory();  // Will now load empty history
+  sessionStorage.removeItem('chatHistory');
+  // Pre-render Turnstile early so the first message has a token
+  if (window.TURNSTILE_SITE_KEY) {
+    try { ensureTurnstileRendered(); } catch {}
+  }
+  loadChatHistory();
   document.getElementById('user-input').focus();
-
-  updateQuotaBanner();  // ✅ Fetch and show quota with correct color
+  updateQuotaBanner();
 };
-
-

@@ -7,11 +7,14 @@ from flask import Flask, request, jsonify, render_template
 from flask_cors import CORS
 from dotenv import load_dotenv
 from openai import OpenAI
+from werkzeug.middleware.proxy_fix import ProxyFix
 
 from libs.search import get_faiss_index, load_metadata_pickle, query_index, build_rag_query
 from libs.analytics import log_visit, load_analytics_data, summarize_analytics
 from libs.ratelimiter import check_and_increment_ip, get_ip_quota
+from libs.challenge import is_trusted, mark_trusted, burst_ok, verify_challenge
 from libs.contact import send_contact_email
+
 
 # ------------------------------
 # 🔐 Load environment and OpenAI
@@ -19,13 +22,23 @@ from libs.contact import send_contact_email
 load_dotenv()
 client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
-models = client.models.list()
-print([m.id for m in models.data if "embedding" in m.id])
+# (optional) avoid doing this at import-time in prod; wrap in try/except or behind a flag
+try:
+    models = client.models.list()
+    print([m.id for m in models.data if "embedding" in m.id])
+except Exception as e:
+    print("Model list skipped:", e)
 
 # ------------------------------
-# ⚙️ Flask + CORS setup
+# ⚙️ Flask
 # ------------------------------
 app = Flask(__name__, static_folder="static", template_folder="templates")
+
+# Enable ProxyFix only when you’re behind a trusted proxy (ALB/CloudFront/Nginx)
+if os.getenv("TRUST_PROXY", "false").lower() == "true":
+    num = int(os.getenv("NUM_PROXIES", "1"))  # ALB only=1, CloudFront+ALB=2
+    app.wsgi_app = ProxyFix(app.wsgi_app, x_for=num, x_proto=num, x_host=num, x_port=num)
+
 app.jinja_env.globals.update(request=request)
 
 # ------------------------------
@@ -72,7 +85,10 @@ def contact():
 
 @app.route("/ask-mr-m")
 def ask_mr_m():
-    return render_template("ask-mr-m.html")
+    return render_template(
+        "ask-mr-m.html",
+        TURNSTILE_SITE_KEY=os.getenv("TURNSTILE_SITE_KEY", "")
+    )
 
 @app.route("/analytics")
 def analytics():
@@ -83,58 +99,65 @@ def analytics():
 # ------------------------------
 @app.route("/api/chat", methods=["POST"])
 def chat():
-    ip = request.headers.get("X-Forwarded-For", request.remote_addr)
+    ip = request.remote_addr
 
-    # ✅ Rate limit check
-    if not check_and_increment_ip(ip):
-        return jsonify({"error": "You've reached your daily limit. Try again tomorrow."}), 429
-
-    data = request.get_json()
+    # Parse body (keeps your existing shape)
+    data = request.get_json(force=True) or {}
     message = data.get("message")
-    history = data.get("history", [])  # list of dicts: [{role, content}]
+    history = data.get("history", [])          # [{role, content}]
+    token   = data.get("recaptcha_token")      # reCAPTCHA v3/Turnstile token (frontend sends on first message)
+    action  = data.get("recaptcha_action", "chat")
 
     if not message:
         return jsonify({"error": "Message is required."}), 400
 
+    # 0) Tiny burst control: ~1 message per 3s (configurable inside libs/recaptcha.py)
+    if not burst_ok(ip):
+        return jsonify({"error": "Too many requests. Please wait a moment and try again."}), 429
+
+    # 1) Adaptive challenge: only when not yet trusted
+    if not is_trusted(ip):
+        ok, info = verify_challenge(token, ip, expected_action=action)
+        if not ok:
+            # Optional: log `info` for debugging/metrics
+            return jsonify({"error": "challenge_failed", "info": info}), 403
+        mark_trusted(ip)  # trust this IP for a short TTL (default 2h)
+
+    # 2) Daily/IP rate limit (fixed window using your ratelimiter)
+    if not check_and_increment_ip(ip):
+        return jsonify({"error": "You've reached your daily limit. Try again tomorrow."}), 429
+
     try:
-        # Step 1: RAG - Find relevant knowledge
+        # 3) RAG – Find relevant knowledge (unchanged)
         rag_query = build_rag_query(history, message, max_tokens=2500)
         relevant_chunks = query_index(rag_query, index, metadata, top_k=5)
         context = "\n\n".join([f"Source: {c['source_path']}\n{c['text']}" for c in relevant_chunks])
 
-        # Step 2: Build chat messages
-        system_prompt =  {
-                "role": "system",
-                "content": (
-                    "Hello! I am Mr M — Majid's professional AI assistant. "
-                    "I specialize in answering questions about Majid's background, research, publications, work experience, and projects. "
-                    "You may only answer using the provided CONTEXT. "
-                    "If the context does not include the answer, politely say you don't know. Never make assumptions."
-                )
-            }
-        
-        context_prompt = { "role": "system", "content": f"CONTEXT:\n{context}" }
-        user_prompt = { "role": "user", "content": message }
-        
-        # Step 3: Truncate history (optional, keeps last 6 exchanges = 12 messages)
+        # 4) Build messages (unchanged)
+        system_prompt = {
+            "role": "system",
+            "content": (
+                "Hello! I am Mr M — Majid's professional AI assistant. "
+                "I specialize in answering questions about Majid's background, research, publications, work experience, and projects. "
+                "You may only answer using the provided CONTEXT. "
+                "If the context does not include the answer, politely say you don't know. Never make assumptions."
+            )
+        }
+        context_prompt = {"role": "system", "content": f"CONTEXT:\n{context}"}
+        user_prompt = {"role": "user", "content": message}
+
         MAX_HISTORY_MESSAGES = 12
         trimmed_history = history[-MAX_HISTORY_MESSAGES:]
 
-        # Step 4: Compose full message list
-        messages = [
-            system_prompt,
-            context_prompt,
-            *trimmed_history,   # Unpacks prior chat
-            user_prompt
-        ]
+        messages = [system_prompt, context_prompt, *trimmed_history, user_prompt]
 
-        # Step 5: Call OpenAI Chat API
+        # 5) Model call (unchanged)
         response = client.chat.completions.create(
             model="gpt-3.5-turbo",
             messages=messages
         )
         reply = response.choices[0].message.content.strip()
-        return jsonify({"reply": reply})
+        return jsonify({"reply": reply}), 200
 
     except Exception as e:
         print("❌ Error:", e)
@@ -145,7 +168,7 @@ def chat():
 # ------------------------------
 @app.route("/api/quota", methods=["GET"])
 def quota():
-    ip = request.headers.get("X-Forwarded-For", request.remote_addr)
+    ip = request.remote_addr
     return jsonify(get_ip_quota(ip))
 
 # ------------------------------
@@ -169,7 +192,7 @@ def api_analytics_summary():
 # ------------------------------
 @app.route("/api/contact", methods=["POST"])
 def api_contact():
-    ip = request.headers.get("X-Forwarded-For", request.remote_addr)
+    ip = request.remote_addr
     data = request.get_json(silent=True) or request.form
 
     result = send_contact_email(

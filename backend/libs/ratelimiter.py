@@ -4,19 +4,14 @@ import os
 import redis
 from datetime import timedelta
 
-# ----------------------------
-# 🔧 Redis Setup
-# ----------------------------
-REDIS_HOST = os.getenv("REDIS_HOST", "localhost")
-REDIS_PORT = int(os.getenv("REDIS_PORT", 6379))
-REDIS_DB = int(os.getenv("REDIS_DB", 0))
 
 # Connect to Redis
 r = redis.Redis(
-    host=REDIS_HOST,
-    port=REDIS_PORT,
-    db=REDIS_DB,
-    decode_responses=True
+    host=os.getenv("REDIS_HOST", "localhost"),
+    port=int(os.getenv("REDIS_PORT", "6379")),
+    db=int(os.getenv("REDIS_DB", 0)),
+    password=os.getenv("REDIS_PASSWORD"),
+    decode_responses=True,
 )
 
 # ----------------------------
@@ -32,27 +27,15 @@ def _get_ip_key(ip: str) -> str:
 # ✅ Used during chat requests
 # ----------------------------
 def check_and_increment_ip(ip: str) -> bool:
-    """
-    Returns True if IP is under the rate limit and increments usage.
-    Returns False if the IP has exceeded the limit.
-    """
     key = _get_ip_key(ip)
-
     try:
-        current = r.get(key)
-        if current and int(current) >= RATE_LIMIT:
-            return False
-
-        pipe = r.pipeline()
-        pipe.incr(key)
-        pipe.expire(key, WINDOW_SECONDS)  # Resets 24h after first use
-        pipe.execute()
-
-        return True
-
+        new_value = r.incr(key)  # atomic
+        if new_value == 1:
+            r.expire(key, WINDOW_SECONDS)  # set TTL once = fixed window from first hit
+        return new_value <= RATE_LIMIT
     except Exception as e:
         print(f"[RateLimiter] Redis error for IP {ip}: {e}")
-        return True  # Fail-open: allow requests if Redis fails
+        return True  # or False if you prefer fail-closed
 
 # ----------------------------
 # 📊 Used to show quota info
