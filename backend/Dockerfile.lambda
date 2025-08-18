@@ -1,0 +1,29 @@
+# Use Docker Hub's Python via the ECR mirror
+FROM public.ecr.aws/docker/library/python:3.12-slim
+
+# Lambda Web Adapter as an EXTENSION
+COPY --from=public.ecr.aws/awsguru/aws-lambda-adapter:0.9.1 /lambda-adapter /opt/extensions/lambda-adapter
+
+WORKDIR /var/task
+
+# Faster log flushing
+ENV PYTHONUNBUFFERED=1
+
+# Install deps
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt gunicorn
+
+# Copy app code
+COPY . .
+
+# LWA + app config
+ENV PORT=8080 \
+    AWS_LWA_PORT=8080 \
+    AWS_LWA_ASYNC_INIT=true \
+    AWS_LWA_LOG_LEVEL=debug \
+    AWS_LWA_READINESS_CHECK_PROTOCOL=http \
+    AWS_LWA_READINESS_CHECK_PATH=/healthz 
+    # AWS_LWA_REMOVE_BASE_PATH=/prod
+
+# Start your web server (no handler needed)
+CMD ["gunicorn","-b","0.0.0.0:8080","app:app","--workers","1","--threads","4","--timeout","120","--access-logfile","-","--error-logfile","-","--log-level","info"]

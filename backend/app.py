@@ -1,12 +1,11 @@
+# backend/app.py
 import os
-import json
 from pathlib import Path
-from typing import List, Dict
+from functools import lru_cache
 
 from flask import Flask, request, jsonify, render_template
-from flask_cors import CORS
+from flask_cors import CORS  # keep if you use it
 from dotenv import load_dotenv
-from openai import OpenAI
 from werkzeug.middleware.proxy_fix import ProxyFix
 
 from libs.search import get_faiss_index, load_metadata_pickle, query_index, build_rag_query
@@ -14,51 +13,72 @@ from libs.analytics import log_visit, load_analytics_data, summarize_analytics
 from libs.ratelimiter import check_and_increment_ip, get_ip_quota
 from libs.challenge import is_trusted, mark_trusted, burst_ok, verify_challenge
 from libs.contact import send_contact_email
-
+from libs.utils import (
+    get_secret_key,
+    get_turnstile_site_key,
+    get_openai_client,
+)
 
 # ------------------------------
-# 🔐 Load environment and OpenAI
+# 🔐 Environment
 # ------------------------------
 load_dotenv()
-client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
-
-# (optional) avoid doing this at import-time in prod; wrap in try/except or behind a flag
-try:
-    models = client.models.list()
-    print([m.id for m in models.data if "embedding" in m.id])
-except Exception as e:
-    print("Model list skipped:", e)
 
 # ------------------------------
 # ⚙️ Flask
 # ------------------------------
 app = Flask(__name__, static_folder="static", template_folder="templates")
+# Safe placeholder; real key set lazily below
+app.secret_key = os.getenv("SECRET_KEY", "dev-fallback-not-for-prod")
 
-# Enable ProxyFix only when you’re behind a trusted proxy (ALB/CloudFront/Nginx)
+# If you’re behind a trusted proxy (ALB/CloudFront), optionally enable ProxyFix
 if os.getenv("TRUST_PROXY", "false").lower() == "true":
     num = int(os.getenv("NUM_PROXIES", "1"))  # ALB only=1, CloudFront+ALB=2
     app.wsgi_app = ProxyFix(app.wsgi_app, x_for=num, x_proto=num, x_host=num, x_port=num)
 
 app.jinja_env.globals.update(request=request)
 
+# ------------------------------
+# Flask 3.x: use before_request + a one-time flag (replaces before_first_request)
+# --- keep this near your other Flask hooks in app.py ---
+
+_secret_inited = False
+
+@app.before_request
+def _init_secret_key_once():
+    global _secret_inited
+    # Do NOT perform heavy init during health checks
+    if _secret_inited or request.path == "/healthz":
+        return
+    app.secret_key = get_secret_key()  # may fetch from SSM
+    _secret_inited = True
+
+@app.get("/healthz")
+def healthz():
+    # No work, no SSM, no DB, just say we're alive
+    return {"ok": True}, 200
+
+# ------------------------------
+
 def get_client_ip():
-    """
-    Prefer CF-Connecting-IP (when behind Cloudflare). Otherwise fall back to Flask's remote_addr.
-    If you later enable ProxyFix with X-Forwarded-For, that will be respected upstream.
-    """
     ip = request.headers.get("CF-Connecting-IP")
     return ip or request.remote_addr or "0.0.0.0"
 
 # ------------------------------
-# 📂 Load FAISS index & metadata
+# 📂 Lazy FAISS index & metadata
 # ------------------------------
-data_dir = Path(__file__).resolve().parent / "data"
-faiss_index_path = data_dir / "faiss.index"
-chunks_path = data_dir / "metadata.pkl"
-
-index = get_faiss_index(faiss_index_path)
-metadata = load_metadata_pickle(chunks_path)
-print(f"✅ FAISS index loaded with {index.ntotal} vectors")
+@lru_cache(maxsize=1)
+def load_vector_store():
+    data_dir = Path(__file__).resolve().parent / "data"
+    faiss_index_path = data_dir / "faiss.index"
+    chunks_path = data_dir / "metadata.pkl"
+    index = get_faiss_index(faiss_index_path)
+    metadata = load_metadata_pickle(chunks_path)
+    try:
+        print(f"✅ FAISS index loaded with {index.ntotal} vectors")
+    except Exception:
+        pass
+    return index, metadata
 
 # ------------------------------
 # 🌐 Frontend Page Routes
@@ -66,10 +86,6 @@ print(f"✅ FAISS index loaded with {index.ntotal} vectors")
 @app.route("/")
 def home():
     return render_template("index.html")
-
-# @app.route("/about")
-# def about():
-#     return render_template("about.html")
 
 @app.route("/cv")
 def cv():
@@ -93,10 +109,7 @@ def contact():
 
 @app.route("/ask-mr-m")
 def ask_mr_m():
-    return render_template(
-        "ask-mr-m.html",
-        TURNSTILE_SITE_KEY=os.getenv("TURNSTILE_SITE_KEY", "")
-    )
+    return render_template("ask-mr-m.html", TURNSTILE_SITE_KEY=get_turnstile_site_key())
 
 @app.route("/analytics")
 def analytics():
@@ -109,34 +122,29 @@ def analytics():
 def chat():
     ip = get_client_ip()
 
-    # Parse body (keeps your existing shape)
     data = request.get_json(force=True) or {}
     message = data.get("message")
     history = data.get("history", [])          # [{role, content}]
-
-    # Accept BOTH the legacy field and Turnstile’s canonical field
     token = data.get("cf-turnstile-response") or data.get("recaptcha_token")
     action = data.get("action") or data.get("recaptcha_action") or "chat"
 
     if not message:
         return jsonify({"error": "Message is required."}), 400
 
-
-    # 0) Small burst limiter (configured in libs/challenge.py)
+    # 0) Small burst limiter
     if not burst_ok(ip):
         return jsonify({
             "error": "Too many requests. Please wait a moment and try again.",
             "code": "burst"
         }), 429
-    
+
     # 1) Adaptive challenge: only when not yet trusted
     if not is_trusted(ip):
         ok, info = verify_challenge(token, ip, expected_action=action)
-        print("[turnstile]", info)  # remove after testing
+        print("[turnstile]", info)
         if not ok:
-            # Optional: log `info` for debugging/metrics
             return jsonify({"error": "challenge_failed", "info": info}), 403
-        mark_trusted(ip)  # trust this IP for a short TTL (default 2h)
+        mark_trusted(ip)
 
     # 2) Daily/IP limit
     if not check_and_increment_ip(ip):
@@ -144,14 +152,15 @@ def chat():
             "error": "You've reached your daily limit. Try again tomorrow.",
             "code": "daily"
         }), 429
-    
+
     try:
-        # 3) RAG – Find relevant knowledge (unchanged)
+        # 3) RAG – Find relevant knowledge (lazy-load index)
+        index, metadata = load_vector_store()
         rag_query = build_rag_query(history, message, max_tokens=2500)
         relevant_chunks = query_index(rag_query, index, metadata, top_k=5)
         context = "\n\n".join([f"Source: {c['source_path']}\n{c['text']}" for c in relevant_chunks])
 
-        # 4) Build messages (unchanged)
+        # 4) Build messages
         system_prompt = {
             "role": "system",
             "content": (
@@ -169,7 +178,8 @@ def chat():
 
         messages = [system_prompt, context_prompt, *trimmed_history, user_prompt]
 
-        # 5) Model call (unchanged)
+        # 5) Model call (client is lazy)
+        client = get_openai_client()
         response = client.chat.completions.create(
             model="gpt-3.5-turbo",
             messages=messages
@@ -227,7 +237,8 @@ def api_contact():
         return jsonify({"error": result.get("error", "Unknown error")}), 400
 
 # ------------------------------
-# 🚀 Launch
+# 🚀 Launch (local only)
 # ------------------------------
 if __name__ == "__main__":
+    # Default to 5000 locally; your Lambda container sets PORT=8080
     app.run(host="0.0.0.0", port=5000, debug=True)

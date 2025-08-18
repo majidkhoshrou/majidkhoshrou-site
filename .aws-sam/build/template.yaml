@@ -1,0 +1,80 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: "majidkhoshrou-site \u2013 Flask app on Lambda + Lambda Web Adapter."
+Parameters:
+  AppEnv:
+    Type: String
+    Default: prod
+    Description: Environment name (prod/dev/stage)
+Resources:
+  MyHttpApi:
+    Type: AWS::Serverless::HttpApi
+    Properties:
+      StageName: $default
+      CorsConfiguration:
+        AllowOrigins:
+        - '*'
+        AllowHeaders:
+        - '*'
+        AllowMethods:
+        - GET
+        - POST
+        - OPTIONS
+  FlaskFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      PackageType: Image
+      Timeout: 45
+      MemorySize: 1024
+      Architectures:
+      - x86_64
+      Tracing: Active
+      Environment:
+        Variables:
+          FLASK_ENV:
+            Ref: AppEnv
+          SECRET_KEY: ''
+          OPENAI_API_KEY: ''
+          TURNSTILE_SITE_KEY: ''
+      Events:
+        Root:
+          Type: HttpApi
+          Properties:
+            ApiId:
+              Ref: MyHttpApi
+            Path: /
+            Method: ANY
+        Proxy:
+          Type: HttpApi
+          Properties:
+            ApiId:
+              Ref: MyHttpApi
+            Path: /{proxy+}
+            Method: ANY
+      Policies:
+      - Statement:
+        - Effect: Allow
+          Action:
+          - ssm:GetParameter
+          - ssm:GetParameters
+          - ssm:GetParametersByPath
+          Resource:
+          - arn:aws:ssm:*:*:parameter/majidkhoshrou/prod/*
+        - Effect: Allow
+          Action: kms:Decrypt
+          Resource: '*'
+          Condition:
+            ForAnyValue:StringEquals:
+              kms:EncryptionContextKeys:
+              - aws:ssm:parameter-name
+      ImageUri: flaskfunction:v1
+    Metadata:
+      DockerContext: /home/majid/projects/majidkhoshrou.github.io/backend
+      DockerTag: v1
+      Dockerfile: Dockerfile.lambda
+      SamResourceId: FlaskFunction
+Outputs:
+  ApiUrl:
+    Description: Invoke URL for your Flask app
+    Value:
+      Fn::Sub: https://${MyHttpApi}.execute-api.${AWS::Region}.amazonaws.com/

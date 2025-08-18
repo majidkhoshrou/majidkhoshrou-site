@@ -5,12 +5,13 @@ tests/*.html
 tests/*.zip
 
 # Ignore generated output data
-backend/data/
+# backend/data/
 
 # Optional: global Python artifacts (for all dirs)
 __pycache__/
 *.py[cod]
 .env
+.env.prod
 *.log
 
 # Ignore VS Code globally if needed

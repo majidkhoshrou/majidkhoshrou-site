@@ -1,0 +1,11 @@
+version = 0.1
+
+[default.deploy.parameters]
+stack_name = "majidkhoshrou-site"
+resolve_s3 = true
+s3_prefix = "majidkhoshrou-site"
+region = "eu-central-1"
+confirm_changeset = true
+capabilities = "CAPABILITY_IAM"
+parameter_overrides = "AppEnv=\"prod\" SecretKeyParam=\"/majidkhoshrou/prod/SECRET_KEY\""
+image_repositories = ["FlaskFunction=221082206645.dkr.ecr.eu-central-1.amazonaws.com/majidkhoshrousite02c64f3d/flaskfunctionf9708d47repo"]
