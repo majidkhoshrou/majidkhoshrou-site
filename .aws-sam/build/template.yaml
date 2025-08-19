@@ -36,6 +36,9 @@ Resources:
           SECRET_KEY: ''
           OPENAI_API_KEY: ''
           TURNSTILE_SITE_KEY: ''
+          ANALYTICS_S3_BUCKET: mk-analytics-221082206645-eu-central-1
+          ANALYTICS_S3_KEY: analytics/visits.json
+          ANALYTICS_RETENTION_DAYS: '30'
       Events:
         Root:
           Type: HttpApi
@@ -67,6 +70,19 @@ Resources:
             ForAnyValue:StringEquals:
               kms:EncryptionContextKeys:
               - aws:ssm:parameter-name
+      - Statement:
+        - Effect: Allow
+          Action:
+          - s3:GetObject
+          - s3:PutObject
+          Resource: arn:aws:s3:::mk-analytics-221082206645-eu-central-1/analytics/*
+        - Effect: Allow
+          Action: s3:ListBucket
+          Resource: arn:aws:s3:::mk-analytics-221082206645-eu-central-1
+          Condition:
+            StringLike:
+              s3:prefix:
+              - analytics/*
       ImageUri: flaskfunction:v1
     Metadata:
       DockerContext: /home/majid/projects/majidkhoshrou.github.io/backend

@@ -389,3 +389,10 @@ footer {
 .social-links a:hover {
   text-decoration: underline;
 }
+
+.info-icon {
+  font-size: 0.8em;
+  cursor: help;
+  margin-left: 6px;
+}
+

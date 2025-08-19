@@ -202,10 +202,15 @@ def quota():
 # ------------------------------
 # 📊 Analytics API Endpoints
 # ------------------------------
+
 @app.route("/api/log-visit", methods=["POST"])
 def api_log_visit():
-    log_visit()
+    try:
+        log_visit()  # now auto-picks /tmp on Lambda, ./data locally
+    except Exception as e:
+        app.logger.warning("log_visit failed: %s", e)
     return {"status": "logged"}
+
 
 @app.route("/api/analytics-data", methods=["GET"])
 def api_analytics_data():

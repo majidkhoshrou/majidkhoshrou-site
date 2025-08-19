@@ -29,14 +29,14 @@ Resources:
       Environment:
         Variables:
           FLASK_ENV: !Ref AppEnv
-          # If you kept LWA env in Dockerfile, you can drop these next three:
-          # PORT: "8080"
-          # AWS_LWA_PORT: "8080"
-          # (readiness vars can also be dropped if set in Dockerfile)
-          # App secrets are fetched lazily by your code:
+          # App secrets are fetched lazily by your code (env first, then SSM)
           SECRET_KEY: ""
           OPENAI_API_KEY: ""
           TURNSTILE_SITE_KEY: ""
+          # >>> ADDED for S3-backed analytics <<<
+          ANALYTICS_S3_BUCKET: mk-analytics-221082206645-eu-central-1
+          ANALYTICS_S3_KEY: analytics/visits.json
+          ANALYTICS_RETENTION_DAYS: "30"
       Events:
         Root:
           Type: HttpApi
@@ -51,6 +51,7 @@ Resources:
             Path: /{proxy+}
             Method: ANY
       Policies:
+        # existing SSM access (leave as-is)
         - Statement:
             - Effect: Allow
               Action:
@@ -65,6 +66,20 @@ Resources:
               Condition:
                 ForAnyValue:StringEquals:
                   kms:EncryptionContextKeys: ["aws:ssm:parameter-name"]
+        # >>> ADDED S3 permissions for analytics <<<
+        - Statement:
+            - Effect: Allow
+              Action:
+                - s3:GetObject
+                - s3:PutObject
+              Resource: arn:aws:s3:::mk-analytics-221082206645-eu-central-1/analytics/*
+            - Effect: Allow
+              Action: s3:ListBucket
+              Resource: arn:aws:s3:::mk-analytics-221082206645-eu-central-1
+              Condition:
+                StringLike:
+                  s3:prefix:
+                    - analytics/*
     Metadata:
       Dockerfile: Dockerfile.lambda
       DockerContext: backend
