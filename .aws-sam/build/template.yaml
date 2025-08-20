@@ -6,6 +6,17 @@ Parameters:
     Type: String
     Default: prod
     Description: Environment name (prod/dev/stage)
+  CustomDomainName:
+    Type: String
+    Default: majidkhoshrou.com
+    Description: The primary (apex) domain name
+  HostedZoneId:
+    Type: String
+    Description: Route 53 hosted zone ID for majidkhoshrou.com
+  AcmCertificateArn:
+    Type: String
+    Description: ARN of the ACM certificate in eu-central-1 covering majidkhoshrou.com
+      and www.majidkhoshrou.com
 Resources:
   MyHttpApi:
     Type: AWS::Serverless::HttpApi
@@ -114,8 +125,122 @@ Resources:
       DockerTag: v1
       Dockerfile: Dockerfile.lambda
       SamResourceId: FlaskFunction
+  ApiDomainApex:
+    Type: AWS::ApiGatewayV2::DomainName
+    Properties:
+      DomainName:
+        Ref: CustomDomainName
+      DomainNameConfigurations:
+      - CertificateArn:
+          Ref: AcmCertificateArn
+        EndpointType: REGIONAL
+        SecurityPolicy: TLS_1_2
+  ApiMappingApex:
+    Type: AWS::ApiGatewayV2::ApiMapping
+    Properties:
+      ApiId:
+        Ref: MyHttpApi
+      DomainName:
+        Ref: ApiDomainApex
+      Stage: $default
+      ApiMappingKey: ''
+  DnsApexA:
+    Type: AWS::Route53::RecordSet
+    Properties:
+      HostedZoneId:
+        Ref: HostedZoneId
+      Name:
+        Ref: CustomDomainName
+      Type: A
+      AliasTarget:
+        DNSName:
+          Fn::GetAtt:
+          - ApiDomainApex
+          - RegionalDomainName
+        HostedZoneId:
+          Fn::GetAtt:
+          - ApiDomainApex
+          - RegionalHostedZoneId
+  DnsApexAAAA:
+    Type: AWS::Route53::RecordSet
+    Properties:
+      HostedZoneId:
+        Ref: HostedZoneId
+      Name:
+        Ref: CustomDomainName
+      Type: AAAA
+      AliasTarget:
+        DNSName:
+          Fn::GetAtt:
+          - ApiDomainApex
+          - RegionalDomainName
+        HostedZoneId:
+          Fn::GetAtt:
+          - ApiDomainApex
+          - RegionalHostedZoneId
+  ApiDomainWWW:
+    Type: AWS::ApiGatewayV2::DomainName
+    Properties:
+      DomainName:
+        Fn::Sub: www.${CustomDomainName}
+      DomainNameConfigurations:
+      - CertificateArn:
+          Ref: AcmCertificateArn
+        EndpointType: REGIONAL
+        SecurityPolicy: TLS_1_2
+  ApiMappingWWW:
+    Type: AWS::ApiGatewayV2::ApiMapping
+    Properties:
+      ApiId:
+        Ref: MyHttpApi
+      DomainName:
+        Ref: ApiDomainWWW
+      Stage: $default
+      ApiMappingKey: ''
+  DnsWWWA:
+    Type: AWS::Route53::RecordSet
+    Properties:
+      HostedZoneId:
+        Ref: HostedZoneId
+      Name:
+        Fn::Sub: www.${CustomDomainName}
+      Type: A
+      AliasTarget:
+        DNSName:
+          Fn::GetAtt:
+          - ApiDomainWWW
+          - RegionalDomainName
+        HostedZoneId:
+          Fn::GetAtt:
+          - ApiDomainWWW
+          - RegionalHostedZoneId
+  DnsWWWAAAA:
+    Type: AWS::Route53::RecordSet
+    Properties:
+      HostedZoneId:
+        Ref: HostedZoneId
+      Name:
+        Fn::Sub: www.${CustomDomainName}
+      Type: AAAA
+      AliasTarget:
+        DNSName:
+          Fn::GetAtt:
+          - ApiDomainWWW
+          - RegionalDomainName
+        HostedZoneId:
+          Fn::GetAtt:
+          - ApiDomainWWW
+          - RegionalHostedZoneId
 Outputs:
   ApiUrl:
-    Description: Invoke URL for your Flask app
+    Description: "Invoke URL (execute-api) \u2013 still valid"
     Value:
       Fn::Sub: https://${MyHttpApi}.execute-api.${AWS::Region}.amazonaws.com/
+  ApexUrl:
+    Description: Custom domain (apex)
+    Value:
+      Fn::Sub: https://${CustomDomainName}/
+  WwwUrl:
+    Description: Custom domain (www)
+    Value:
+      Fn::Sub: https://www.${CustomDomainName}/

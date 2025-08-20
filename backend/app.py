@@ -231,7 +231,7 @@ def api_analytics_summary():
 # ------------------------------
 @app.route("/api/contact", methods=["POST"])
 def api_contact():
-    ip = request.remote_addr
+    ip = get_client_ip()
     data = request.get_json(silent=True) or request.form
 
     result = send_contact_email(
@@ -239,7 +239,8 @@ def api_contact():
         email=data.get("email", ""),
         message=data.get("message", ""),
         ip=ip,
-        honeypot=data.get("company", ""),  # hidden field from the form
+        honeypot=data.get("company", "") or data.get("hp_field", ""),
+        submitted_at=data.get("submitted_at") or data.get("form_started", ""),
     )
 
     if result.get("ok"):

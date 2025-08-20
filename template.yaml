@@ -8,17 +8,26 @@ Parameters:
     Default: "prod"
     Description: Environment name (prod/dev/stage)
 
+  HostedZoneId:
+    Type: String
+    Description: Route 53 hosted zone ID for majidkhoshrou.com (public zone)
+
+  AcmCertificateArn:
+    Type: String
+    Description: ACM cert ARN in eu-central-1 covering majidkhoshrou.com and www.majidkhoshrou.com
+
 Resources:
   MyHttpApi:
     Type: AWS::Serverless::HttpApi
     Properties:
       StageName: $default
       CorsConfiguration:
-        AllowOrigins: ["*"]       # tighten for your domain
+        # tighten when ready:
+        AllowOrigins: ["*"]
         AllowHeaders: ["*"]
-        AllowMethods: ["GET", "POST", "OPTIONS"]
+        AllowMethods: ["GET","POST","OPTIONS"]
 
-  # --- NEW: DynamoDB table for rate limiting (pay-per-request, TTL enabled) ---
+  # --- DynamoDB table for rate limiting ---
   RateLimitTable:
     Type: AWS::DynamoDB::Table
     Properties:
@@ -51,13 +60,9 @@ Resources:
           ANALYTICS_S3_KEY: analytics/visits.json
           ANALYTICS_RETENTION_DAYS: "30"
 
-          # --- Rate limiter config: use DynamoDB in prod ---
+          # --- Rate limiter config (DynamoDB in prod) ---
           RATE_TABLE_NAME: !Ref RateLimitTable
-          RATE_LIMIT: "6"   # daily cap; adjust as you like
-
-          # Secrets are fetched at runtime from SSM by your code.
-          # (Do NOT put resolve:ssm-secure here.)
-          # SECRET_KEY and TURNSTILE_SITE_KEY can also be fetched by your code.
+          RATE_LIMIT: "6"
       Events:
         Root:
           Type: HttpApi
@@ -72,7 +77,7 @@ Resources:
             Path: /{proxy+}
             Method: ANY
       Policies:
-        # --- SSM Parameter Store (for secrets at runtime) ---
+        # SSM Parameter Store (secrets fetched at runtime by your code)
         - Statement:
             - Effect: Allow
               Action:
@@ -87,8 +92,7 @@ Resources:
               Condition:
                 ForAnyValue:StringEquals:
                   kms:EncryptionContextKeys: ["aws:ssm:parameter-name"]
-
-        # --- S3 permissions for analytics file ---
+        # S3 for analytics
         - Statement:
             - Effect: Allow
               Action:
@@ -100,10 +104,8 @@ Resources:
               Resource: arn:aws:s3:::mk-analytics-221082206645-eu-central-1
               Condition:
                 StringLike:
-                  s3:prefix:
-                    - analytics/*
-
-        # --- NEW: DynamoDB permissions for rate limiting ---
+                  s3:prefix: [ "analytics/*" ]
+        # DynamoDB for rate limiting
         - Statement:
             - Effect: Allow
               Action:
@@ -111,13 +113,95 @@ Resources:
                 - dynamodb:GetItem
                 - dynamodb:PutItem
               Resource: !GetAtt RateLimitTable.Arn
-
     Metadata:
       Dockerfile: Dockerfile.lambda
       DockerContext: backend
       DockerTag: v1
 
+  # --- API Gateway custom domains (apex + www) ---
+  ApiDomainApex:
+    Type: AWS::ApiGatewayV2::DomainName
+    Properties:
+      DomainName: majidkhoshrou.com
+      DomainNameConfigurations:
+        - CertificateArn: !Ref AcmCertificateArn
+          EndpointType: REGIONAL
+          SecurityPolicy: TLS_1_2
+
+  ApiDomainWWW:
+    Type: AWS::ApiGatewayV2::DomainName
+    Properties:
+      DomainName: www.majidkhoshrou.com
+      DomainNameConfigurations:
+        - CertificateArn: !Ref AcmCertificateArn
+          EndpointType: REGIONAL
+          SecurityPolicy: TLS_1_2
+
+  # Map both domains to the $default stage (root path)
+  ApiMappingApex:
+    Type: AWS::ApiGatewayV2::ApiMapping
+    Properties:
+      ApiId: !Ref MyHttpApi
+      DomainName: !Ref ApiDomainApex
+      Stage: '$default'
+      ApiMappingKey: ''
+
+  ApiMappingWWW:
+    Type: AWS::ApiGatewayV2::ApiMapping
+    Properties:
+      ApiId: !Ref MyHttpApi
+      DomainName: !Ref ApiDomainWWW
+      Stage: '$default'
+      ApiMappingKey: ''
+
+  # --- Route 53 records (A/AAAA ALIAS) for apex + www ---
+  DnsApexA:
+    Type: AWS::Route53::RecordSet
+    Properties:
+      HostedZoneId: !Ref HostedZoneId
+      Name: majidkhoshrou.com
+      Type: A
+      AliasTarget:
+        DNSName: !GetAtt ApiDomainApex.RegionalDomainName
+        HostedZoneId: !GetAtt ApiDomainApex.RegionalHostedZoneId
+
+  DnsApexAAAA:
+    Type: AWS::Route53::RecordSet
+    Properties:
+      HostedZoneId: !Ref HostedZoneId
+      Name: majidkhoshrou.com
+      Type: AAAA
+      AliasTarget:
+        DNSName: !GetAtt ApiDomainApex.RegionalDomainName
+        HostedZoneId: !GetAtt ApiDomainApex.RegionalHostedZoneId
+
+  DnsWWWA:
+    Type: AWS::Route53::RecordSet
+    Properties:
+      HostedZoneId: !Ref HostedZoneId
+      Name: www.majidkhoshrou.com
+      Type: A
+      AliasTarget:
+        DNSName: !GetAtt ApiDomainWWW.RegionalDomainName
+        HostedZoneId: !GetAtt ApiDomainWWW.RegionalHostedZoneId
+
+  DnsWWWAAAA:
+    Type: AWS::Route53::RecordSet
+    Properties:
+      HostedZoneId: !Ref HostedZoneId
+      Name: www.majidkhoshrou.com
+      Type: AAAA
+      AliasTarget:
+        DNSName: !GetAtt ApiDomainWWW.RegionalDomainName
+        HostedZoneId: !GetAtt ApiDomainWWW.RegionalHostedZoneId
+
 Outputs:
-  ApiUrl:
-    Description: Invoke URL for your Flask app
+  ApiInvokeUrl:
+    Description: Invoke URL for the default stage (fallback)
     Value: !Sub "https://${MyHttpApi}.execute-api.${AWS::Region}.amazonaws.com/"
+  CustomBaseUrlApex:
+    Description: Custom domain (apex)
+    Value: "https://majidkhoshrou.com/"
+  CustomBaseUrlWWW:
+    Description: Custom domain (www)
+    Value: "https://www.majidkhoshrou.com/"

@@ -1,20 +1,30 @@
 (() => {
   const form = document.getElementById("contactForm");
   const statusEl = document.getElementById("status");
-  if (!form) return;
+  if (!form || !statusEl) return;
 
-  async function submitForm(event) {
-    event.preventDefault();
-    if (!statusEl) return;
-
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
     statusEl.textContent = "Sending…";
 
+    const fd = new FormData(form);
     const payload = {
-      name: form.name.value.trim(),
-      email: form.email.value.trim(),
-      message: form.message.value.trim(),
-      company: form.company.value.trim(), // honeypot
+      name: (fd.get("name") || "").trim(),
+      email: (fd.get("email") || "").trim(),
+      message: (fd.get("message") || "").trim(),
+
+      // Backend expects `company` for the honeypot (historical),
+      // so map your hidden hp_field to that key:
+      company: (fd.get("hp_field") || "").trim(),
+
+      // Pass the human-timing trap too:
+      submitted_at: fd.get("form_started") || ""
     };
+
+    if (!payload.name || !payload.email || !payload.message) {
+      statusEl.textContent = "❌ Please fill in all required fields.";
+      return;
+    }
 
     try {
       const res = await fetch("/api/contact", {
@@ -31,10 +41,8 @@
       } else {
         statusEl.textContent = `❌ ${data.error || "Sorry, something went wrong."}`;
       }
-    } catch (err) {
+    } catch {
       statusEl.textContent = "❌ Network error. Please try again.";
     }
-  }
-
-  form.addEventListener("submit", submitForm);
+  });
 })();
