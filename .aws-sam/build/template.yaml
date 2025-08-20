@@ -20,6 +20,21 @@ Resources:
         - GET
         - POST
         - OPTIONS
+  RateLimitTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName:
+        Fn::Sub: ${AWS::StackName}-ratelimit
+      BillingMode: PAY_PER_REQUEST
+      AttributeDefinitions:
+      - AttributeName: k
+        AttributeType: S
+      KeySchema:
+      - AttributeName: k
+        KeyType: HASH
+      TimeToLiveSpecification:
+        AttributeName: ttl
+        Enabled: true
   FlaskFunction:
     Type: AWS::Serverless::Function
     Properties:
@@ -33,12 +48,12 @@ Resources:
         Variables:
           FLASK_ENV:
             Ref: AppEnv
-          SECRET_KEY: ''
-          OPENAI_API_KEY: ''
-          TURNSTILE_SITE_KEY: ''
           ANALYTICS_S3_BUCKET: mk-analytics-221082206645-eu-central-1
           ANALYTICS_S3_KEY: analytics/visits.json
           ANALYTICS_RETENTION_DAYS: '30'
+          RATE_TABLE_NAME:
+            Ref: RateLimitTable
+          RATE_LIMIT: '6'
       Events:
         Root:
           Type: HttpApi
@@ -83,6 +98,16 @@ Resources:
             StringLike:
               s3:prefix:
               - analytics/*
+      - Statement:
+        - Effect: Allow
+          Action:
+          - dynamodb:UpdateItem
+          - dynamodb:GetItem
+          - dynamodb:PutItem
+          Resource:
+            Fn::GetAtt:
+            - RateLimitTable
+            - Arn
       ImageUri: flaskfunction:v1
     Metadata:
       DockerContext: /home/majid/projects/majidkhoshrou.github.io/backend

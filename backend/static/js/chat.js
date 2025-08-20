@@ -128,38 +128,28 @@ async function sendMessage() {
     content: msg.text
   }));
 
-  // Prepare payload with optional Turnstile token
-  let challenge_token = await getTurnstileTokenIfNeeded(false);
+  // === CHANGED: always fetch a token when a site key exists, then attach it ===
   const actionName = (window.TURNSTILE_ACTION || 'chat');
 
-  const body = {
-    message: text,
-    history,
-    // keep legacy names for compatibility
-    recaptcha_token: challenge_token,
-    recaptcha_action: actionName,
-    // add Turnstile’s canonical names
-    "cf-turnstile-response": challenge_token,
-    action: actionName
-  };
-
-  console.debug("[turnstile] initial token length:", challenge_token ? challenge_token.length : 0);
-
-  // If not client-trusted, try harder to get a token before sending
-  if (!isClientTrusted() && window.TURNSTILE_SITE_KEY) {
-    const deadline = Date.now() + 8000;
-    while (!challenge_token && Date.now() < deadline) {
-      challenge_token = await getTurnstileTokenIfNeeded(true);
-      if (!challenge_token) await new Promise(r => setTimeout(r, 200));
-    }
+  let challenge_token = null;
+  if (window.TURNSTILE_SITE_KEY) {
+    challenge_token = await getTurnstileTokenIfNeeded(true); // force in prod
     if (!challenge_token) {
       typingEl.remove();
       appendMessage('assistant', "Still preparing the verification challenge—please try sending again in a moment.");
       return;
     }
-    body.recaptcha_token = challenge_token;
-    body["cf-turnstile-response"] = challenge_token;
   }
+
+  const body = { message: text, history, action: actionName };
+  if (challenge_token) {
+    body.recaptcha_token = challenge_token;          // legacy name
+    body.recaptcha_action = actionName;              // legacy name
+    body["cf-turnstile-response"] = challenge_token; // canonical name
+  }
+  // === END CHANGE ===
+
+  console.debug("[turnstile] initial token length:", challenge_token ? challenge_token.length : 0);
 
   let attemptedRetry = false;
 
@@ -178,9 +168,10 @@ async function sendMessage() {
       attemptedRetry = true;
       // Force a fresh token and retry once
       challenge_token = await getTurnstileTokenIfNeeded(true);
-      body.recaptcha_token = challenge_token;
-      body["cf-turnstile-response"] = challenge_token;
-
+      if (challenge_token) {
+        body.recaptcha_token = challenge_token;
+        body["cf-turnstile-response"] = challenge_token;
+      }
       response = await doRequest();
       try { data = await response.json(); } catch {}
     }
@@ -220,7 +211,7 @@ async function sendMessage() {
       }
 
       if (response.ok) {
-        markClientTrusted(); // hint to skip token for ~2h
+        markClientTrusted(); // harmless hint; server still verifies
       }
 
       updateQuotaBanner();

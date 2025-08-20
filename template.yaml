@@ -18,6 +18,22 @@ Resources:
         AllowHeaders: ["*"]
         AllowMethods: ["GET", "POST", "OPTIONS"]
 
+  # --- NEW: DynamoDB table for rate limiting (pay-per-request, TTL enabled) ---
+  RateLimitTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: !Sub "${AWS::StackName}-ratelimit"
+      BillingMode: PAY_PER_REQUEST
+      AttributeDefinitions:
+        - AttributeName: k
+          AttributeType: S
+      KeySchema:
+        - AttributeName: k
+          KeyType: HASH
+      TimeToLiveSpecification:
+        AttributeName: ttl
+        Enabled: true
+
   FlaskFunction:
     Type: AWS::Serverless::Function
     Properties:
@@ -29,14 +45,19 @@ Resources:
       Environment:
         Variables:
           FLASK_ENV: !Ref AppEnv
-          # App secrets are fetched lazily by your code (env first, then SSM)
-          SECRET_KEY: ""
-          OPENAI_API_KEY: ""
-          TURNSTILE_SITE_KEY: ""
-          # >>> ADDED for S3-backed analytics <<<
+
+          # --- Analytics in S3 ---
           ANALYTICS_S3_BUCKET: mk-analytics-221082206645-eu-central-1
           ANALYTICS_S3_KEY: analytics/visits.json
           ANALYTICS_RETENTION_DAYS: "30"
+
+          # --- Rate limiter config: use DynamoDB in prod ---
+          RATE_TABLE_NAME: !Ref RateLimitTable
+          RATE_LIMIT: "6"   # daily cap; adjust as you like
+
+          # Secrets are fetched at runtime from SSM by your code.
+          # (Do NOT put resolve:ssm-secure here.)
+          # SECRET_KEY and TURNSTILE_SITE_KEY can also be fetched by your code.
       Events:
         Root:
           Type: HttpApi
@@ -51,7 +72,7 @@ Resources:
             Path: /{proxy+}
             Method: ANY
       Policies:
-        # existing SSM access (leave as-is)
+        # --- SSM Parameter Store (for secrets at runtime) ---
         - Statement:
             - Effect: Allow
               Action:
@@ -66,7 +87,8 @@ Resources:
               Condition:
                 ForAnyValue:StringEquals:
                   kms:EncryptionContextKeys: ["aws:ssm:parameter-name"]
-        # >>> ADDED S3 permissions for analytics <<<
+
+        # --- S3 permissions for analytics file ---
         - Statement:
             - Effect: Allow
               Action:
@@ -80,6 +102,16 @@ Resources:
                 StringLike:
                   s3:prefix:
                     - analytics/*
+
+        # --- NEW: DynamoDB permissions for rate limiting ---
+        - Statement:
+            - Effect: Allow
+              Action:
+                - dynamodb:UpdateItem
+                - dynamodb:GetItem
+                - dynamodb:PutItem
+              Resource: !GetAtt RateLimitTable.Arn
+
     Metadata:
       Dockerfile: Dockerfile.lambda
       DockerContext: backend

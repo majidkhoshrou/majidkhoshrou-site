@@ -61,8 +61,14 @@ def healthz():
 # ------------------------------
 
 def get_client_ip():
+    # Cloudflare first (when fronted by CF), else API Gateway/ALB XFF, else remote_addr
     ip = request.headers.get("CF-Connecting-IP")
-    return ip or request.remote_addr or "0.0.0.0"
+    if ip:
+        return ip
+    xff = request.headers.get("X-Forwarded-For", "")
+    if xff:
+        return xff.split(",")[0].strip()
+    return request.remote_addr or "0.0.0.0"
 
 # ------------------------------
 # 📂 Lazy FAISS index & metadata

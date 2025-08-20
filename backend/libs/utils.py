@@ -32,12 +32,16 @@ def ssm_get(param_name: str, *, decrypt: bool = True, region: str | None = None)
 
 def getenv_or_ssm(env_name: str, ssm_path: str | None = None, *, decrypt: bool = True, default: str | None = None) -> str | None:
     v = os.getenv(env_name)
-    if v:
-        return v
+    if v is not None:
+        v = v.strip()
+        if v:                      # only accept non-empty env values
+            return v
     if ssm_path:
         v = ssm_get(ssm_path, decrypt=decrypt)
-        if v:
-            return v
+        if v is not None:
+            v = v.strip()
+            if v:                  # only accept non-empty SSM values
+                return v
     return _safe_default(env_name, default)
 
 
@@ -51,9 +55,24 @@ def get_secret_key() -> str:
 
 
 @lru_cache(maxsize=1)
-def get_openai_api_key() -> str:
+def _get_openai_api_key_cached() -> str:
+    # env (non-empty) else SSM (non-empty); returns "" if unavailable
     return getenv_or_ssm("OPENAI_API_KEY", "/majidkhoshrou/prod/OPENAI_API_KEY") or ""
 
+def get_openai_api_key() -> str:
+    v = _get_openai_api_key_cached()
+    if v:
+        return v
+    # don't keep empty in cache — clear and let the next call retry
+    try:
+        _get_openai_api_key_cached.cache_clear()
+    except Exception:
+        pass
+    try:
+        ssm_get.cache_clear()  # in case the first SSM read failed/transient
+    except Exception:
+        pass
+    return ""
 
 @lru_cache(maxsize=1)
 def get_turnstile_site_key() -> str:
