@@ -1,45 +1,152 @@
-# Ask Mr M – Personalized AI Assistant
+# majidkhoshrou-site
 
-**Mr M** is a personalized AI assistant trained on the complete professional and academic portfolio of Majid Khoshrou. It uses Retrieval-Augmented Generation (RAG) to answer questions about his research, projects, education, and publications by pulling directly from embedded content — including PDFs, HTML pages, and externally linked sources.
+[![AWS SAM](https://img.shields.io/badge/AWS-SAM-orange?logo=amazon-aws)](https://aws.amazon.com/serverless/sam/)
+[![Docker](https://img.shields.io/badge/Docker-blue?logo=docker)](https://www.docker.com/)
+[![Python](https://img.shields.io/badge/Python-3.10+-blue?logo=python)](https://www.python.org/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](./LICENSE)
 
-## 🔍 What It Does
+**Ask Mr M** — a personalized AI assistant powered by Retrieval-Augmented Generation (RAG).  
+It answers questions about Majid Khoshrou’s professional and academic work by retrieving knowledge from embedded content (research, talks, projects, and more).
 
-- Indexes and embeds all knowledge sources from:
-  - Static PDFs (e.g., papers, reports)
-  - HTML content from `templates/`
-  - External links mentioned in those HTML files
-- Embeds content using OpenAI's `text-embedding-3-small` model
-- Stores and retrieves vector representations using FAISS
-- Uses GPT (via OpenAI API) to answer questions using only relevant context
-- Available through a web interface and `/api/chat` endpoint
-- Tracks visits and usage via basic analytics logging
+This repo uses **Infrastructure as Code (IaC)** with **AWS SAM + CloudFormation** to deploy a **Flask** application to **AWS Lambda** behind **API Gateway**. Local development is supported via **Docker**/**docker-compose**.
 
-## 🧠 Architecture Overview
+---
 
-1. **Knowledge Extraction**
-   - `extract_knowledge.py`: extracts text, cleans it, splits it into overlapping chunks, and collects metadata.
-   - Input: `templates/*.html`, `static/pdfs/*.pdf`, external URLs from `<a>` tags.
-   - Output: `data/knowledge_chunks.json`
+## 🚀 Features
 
-2. **Embedding & Indexing**
-   - `generate_embedding_knowledge.py`: embeds the text chunks using OpenAI embeddings and stores them in FAISS.
-   - Output:
-     - `data/faiss.index`
-     - `data/metadata.pkl`
+- **RAG-based QA** with OpenAI embeddings + FAISS vector search
+- **Flask backend** serving both API and web frontend
+- **Serverless deployment** to **AWS Lambda** via **SAM/CloudFormation**
+- **Local development** with Docker / docker-compose
+- **IaC**: reproducible, versioned infra in `infra/aws-sam/template.yaml`
+- **Knowledge ingestion pipeline** (extract + embed)
+- **Utilities**: analytics, contact, reCAPTCHA, rate limiting, etc.
 
-3. **Web Application**
-   - `app.py`: Flask-based frontend and backend.
-   - `/api/chat`: handles user queries, retrieves top-k similar chunks, sends them as context to OpenAI's GPT, and returns the response.
+---
 
-4. **Frontend**
-   - Static UI in `templates/ask-mr-m.html`
-   - Includes a chat window to interact with Mr M in natural language.
+## 📂 Project Structure
 
-## 🚀 How to Run (using `uv`)
+> All application code is under **`services/mr-m/`**. The top-level `services/` folder is structured to allow additional services in the future.
 
-1. **Install dependencies**
+```
+.
+├── LICENSE
+├── README.md
+├── docker-compose.yml
+├── infra/
+│   └── aws-sam/
+│       ├── template.yaml        # CloudFormation (IaC) for AWS resources
+│       └── samconfig.toml       # SAM CLI config
+└── services/
+    ├── uv.lock                  # dependency lock (if used)
+    ├── README.md                # service-level docs (optional)
+    ├── .dump/                   # (optional) data dumps
+    ├── .venv/                   # (local venv, ignored)
+    └── mr-m/                    # === main application ===
+        ├── app.py               # Flask entry (local)
+        ├── handler.py           # Lambda handler (WSGI/Flask)
+        ├── main.py              # App bootstrap
+        ├── Dockerfile
+        ├── Dockerfile.lambda
+        ├── pyproject.toml
+        ├── requirements.txt
+        ├── .env                 # local env vars (ignored)
+        ├── .env.prod            # production env sample (optional)
+        ├── .dockerignore
+        ├── .python-version
+        ├── data/
+        ├── libs/
+        │   ├── analytics.py
+        │   ├── challenge.py
+        │   ├── contact.py
+        │   ├── make_gif_from_dir.py
+        │   ├── ratelimiter.py
+        │   ├── recaptcha.py
+        │   ├── search.py
+        │   └── utils.py
+        ├── scripts/
+        │   ├── extract_knowledge.py
+        │   └── generate_embedding_knowledge.py
+        ├── static/              # css, js, images, pdfs, videos
+        ├── templates/           # analytics.html, ask-mr-m.html, ...
+        └── tests/
+```
+
+---
+
+## 🛠️ Setup & Development
+
+### Prerequisites
+- [Docker](https://www.docker.com/)
+- [AWS SAM CLI](https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/install-sam-cli.html)
+- Python 3.10+ (for scripts and testing)
+
+> Configure environment variables in `services/mr-m/.env` (and/or `.env.prod`) as needed for local/dev vs prod.
+
+---
+
+### 🔹 Run Locally (Docker)
 
 ```bash
-uv venv
-source .venv/bin/activate
-uv pip install -r requirements.txt
+# From repo root
+docker-compose up --build
+```
+Your Flask app will be available at http://localhost:5000.
+
+---
+
+### 🔹 Deploy to AWS (SAM + Lambda)
+
+```bash
+# From repo root
+cd infra/aws-sam
+
+# Build the serverless application (uses template.yaml)
+sam build
+
+# Deploy (first time: --guided to capture parameters)
+sam deploy --guided
+```
+
+- **IaC**: `template.yaml` defines the Lambda function, permissions, and API Gateway.  
+- **Runtime**: Flask is served by Lambda via `services/mr-m/handler.py`.  
+- **Output**: SAM prints the API Gateway URL on success.
+
+---
+
+## 📚 Knowledge Management
+
+Update Mr M’s knowledge base with the included scripts:
+
+```bash
+# Extract text from PDFs, HTML, or external sources
+python services/mr-m/scripts/extract_knowledge.py
+
+# Generate embeddings and build FAISS index
+python services/mr-m/scripts/generate_embedding_knowledge.py
+```
+
+---
+
+## 🧪 Testing
+
+```bash
+cd services/mr-m
+pytest
+```
+
+---
+
+## 📦 Key Files
+
+- `services/mr-m/Dockerfile` – Local container
+- `services/mr-m/Dockerfile.lambda` – AWS Lambda container image
+- `infra/aws-sam/template.yaml` – IaC (CloudFormation/SAM) for deployment
+- `infra/aws-sam/samconfig.toml` – SAM CLI configuration
+- `docker-compose.yml` – Local dev stack
+
+---
+
+## 📜 License
+
+This project is licensed under the [MIT License](./LICENSE).
