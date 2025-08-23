@@ -37,12 +37,16 @@ def _is_recent_timestamp(ts: str) -> bool:
         return False
 
 def _default_log_dir() -> Path:
+
     override = os.getenv("ANALYTICS_DIR")
     if override:
         return Path(override)
+    
+    # Lambda: ephemeral, safe
     if os.getenv("AWS_EXECUTION_ENV", "").startswith("AWS_Lambda_"):
         return Path("/tmp/data")
-    return Path("data")
+    
+    return Path(__file__).resolve().parent.parent / "data" / "analytics"
 
 def _s3_load() -> List[Dict[str, Any]]:
     if not (S3_BUCKET and _s3):
