@@ -79,7 +79,7 @@ This repo uses **Infrastructure as Code (IaC)** with **AWS SAM + CloudFormation*
 ### Prerequisites
 - [Docker](https://www.docker.com/)
 - [AWS SAM CLI](https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/install-sam-cli.html)
-- Python 3.10+ (for scripts and testing)
+- Python 3.12+ (for scripts and testing)
 
 > Configure environment variables in `services/mr-m/.env` (and/or `.env.prod`) as needed for local/dev vs prod.
 
