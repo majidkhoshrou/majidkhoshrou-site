@@ -57,17 +57,26 @@
       <h2 class="assistant-header">Talk to Mr M — Majid's custom-trained AI Assistant</h2>
 
       <!-- Mr M intro block -->
-    <div class="assistant-intro">
-      <img src="{{ url_for('static', filename='images/ai-assistant.png') }}" alt="Mr M Avatar" class="assistant-avatar">
-      <div>
-        <p><strong>Mr M</strong> is Majid's custom-trained AI assistant. Curious about my research, background, or projects? Just ask!</p>
-        <p class="example-questions"><em>
-          Example questions:<br>
-          “Tell me about his work at Alliander”<br>
-          “What projects has he done in energy forecasting?”
-        </em></p>
+      <div class="assistant-intro">
+        <img src="{{ url_for('static', filename='images/ai-assistant.png') }}" alt="Mr M Avatar" class="assistant-avatar">
+        <div>
+          <p><strong>Mr M</strong> is Majid's custom-trained AI assistant. Curious about my research, background, or projects? Just ask!</p>
+          <p class="example-questions"><em>
+            Example questions:<br>
+            “Tell me about his work at Alliander”<br>
+            “What projects has he done in energy forecasting?”
+          </em></p>
+
+          <!-- Context notice -->
+          <div class="context-tip">
+            <span class="context-tip__icon" aria-hidden="true">🧠</span>
+            <span class="context-tip__text">
+              Mr M remembers your conversation. If your next question is on a totally different topic, you’ll get the best results by refreshing this page first.
+            </span>
+          </div>
+        </div>
       </div>
-    </div>
+
 
     <div id="quota-banner" class="quota-banner"></div>
       <!-- Chat messages go here -->

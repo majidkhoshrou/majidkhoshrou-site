@@ -1,26 +1,18 @@
 from pathlib import Path
 from typing import List, Dict, Any
-import json
+import os
 import numpy as np
 import faiss
-from openai import OpenAI
-from dotenv import load_dotenv
-import os
 import tiktoken
+from functools import lru_cache
+from libs.utils import get_openai_client  # reads OPENAI_API_KEY from env or SSM
 
-load_dotenv()
-client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
+@lru_cache(maxsize=1)
+def _client():
+    return get_openai_client()
 
 def get_faiss_index(index_path: Path) -> faiss.Index:
-    """
-    Load a FAISS index from a given file path.
-
-    Args:
-        index_path (Path): Path to the FAISS index file.
-
-    Returns:
-        faiss.Index: The loaded FAISS index.
-    """
+    """Load a FAISS index from a given file path."""
     return faiss.read_index(str(index_path))
 
 def load_metadata_pickle(path: Path) -> List[Dict]:
@@ -28,19 +20,18 @@ def load_metadata_pickle(path: Path) -> List[Dict]:
     with open(path, "rb") as f:
         return pickle.load(f)
 
-
 def query_index(
-    question: str, 
-    index: faiss.Index, 
-    metadata: List[Dict[str, Any]], 
+    question: str,
+    index: faiss.Index,
+    metadata: List[Dict[str, Any]],
     top_k: int = 5
 ) -> List[Dict[str, Any]]:
-    
-    response = client.embeddings.create(
+    # Build the query embedding using a lazily created OpenAI client
+    response = _client().embeddings.create(
         input=question,
         model="text-embedding-3-small"
     )
-    query_vector = np.array(response.data[0].embedding).astype("float32").reshape(1, -1)
+    query_vector = np.asarray(response.data[0].embedding, dtype="float32").reshape(1, -1)
 
     distances, indices = index.search(query_vector, top_k)
 
@@ -51,28 +42,22 @@ def query_index(
     return results
 
 def build_rag_query(history, current_message, max_tokens=2500):
-
     encoding = tiktoken.encoding_for_model("gpt-3.5-turbo")
 
     current_tokens = encoding.encode(current_message)
     current_token_count = len(current_tokens)
 
-    # Ensure current message fits by reducing budget for history
     remaining_tokens = max_tokens - current_token_count
     if remaining_tokens < 0:
-        # If the current message alone exceeds max_tokens, truncate it
-        truncated_current = encoding.decode(current_tokens[:max_tokens])
-        return truncated_current.strip()
+        return encoding.decode(current_tokens[:max_tokens]).strip()
 
-    # Reverse user messages (most recent first)
     user_messages = [
         msg["content"] for msg in reversed(history)
-        if msg["role"] == "user"
+        if msg.get("role") == "user"
     ]
 
     total_tokens = 0
     selected = []
-
     for msg in user_messages:
         msg_tokens = encoding.encode(msg)
         token_count = len(msg_tokens)
@@ -83,12 +68,3 @@ def build_rag_query(history, current_message, max_tokens=2500):
 
     selected.append(current_message)
     return " ".join(selected).strip()
-
-
-# Add distance
-# something to do!
-# for i, idx in enumerate(indices[0]):
-#     if idx < len(metadata):
-#         match = metadata[idx].copy()
-#         match["distance"] = float(distances[0][i])
-#         results.append(match)

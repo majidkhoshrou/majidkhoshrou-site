@@ -281,6 +281,40 @@ function loadChatHistory() {
   });
 }
 
+// === Context tip helpers =====================================================
+const CONTEXT_TIP_KEY = "mrM_context_tip_dismissed"; // used if you add a dismiss button
+
+function hideContextTipIfDismissed() {
+  const tip = document.getElementById("context-tip");
+  if (!tip) return;
+  if (localStorage.getItem(CONTEXT_TIP_KEY) === "1") {
+    try { tip.remove(); } catch {}
+  }
+}
+
+function bindContextTip() {
+  const tip = document.getElementById("context-tip");
+  if (!tip) return;
+
+  // Inline "Start new chat" button inside the intro block
+  const newChatBtn = document.getElementById("new-chat-btn");
+  newChatBtn?.addEventListener("click", async () => {
+    // Optional: clear server-side history if you implement it
+    try { await fetch("/api/clear-chat", { method: "POST" }); } catch {}
+    // Clear client-side session history just to be explicit
+    sessionStorage.removeItem("chatHistory");
+    location.reload();
+  });
+
+  // Optional dismiss (only if you add a button with this id)
+  const dismissBtn = document.getElementById("dismiss-tip-btn");
+  dismissBtn?.addEventListener("click", () => {
+    localStorage.setItem(CONTEXT_TIP_KEY, "1");
+    try { tip.remove(); } catch {}
+  });
+}
+
+
 window.onload = () => {
   sessionStorage.removeItem('chatHistory');
   // Pre-render Turnstile early so the first message has a token
@@ -290,4 +324,8 @@ window.onload = () => {
   loadChatHistory();
   document.getElementById('user-input').focus();
   updateQuotaBanner();
+
+    // NEW: context tip behaviors
+  hideContextTipIfDismissed();   // hides it if user dismissed previously
+  bindContextTip();              // wires up "new chat" (and optional dismiss)
 };

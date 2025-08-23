@@ -2,12 +2,20 @@
 import os
 import requests
 from typing import Tuple, Dict, Any, Optional
+from functools import lru_cache
 
 # Reuse your Redis client from ratelimiter
 try:
     from libs.ratelimiter import r  # type: ignore
 except Exception:
     r = None  # graceful fallback if Redis isn't available yet
+
+# Fallback import: read from env or SSM when available
+try:
+    from libs.utils import getenv_or_ssm   # expects (name, ssm_path)
+except Exception:
+    def getenv_or_ssm(name, ssm_path=None, **_):
+        return os.getenv(name)
 
 # ----------------------------
 # Config (env-driven)
@@ -25,8 +33,23 @@ BURST_LIMIT = int(os.getenv("BURST_LIMIT", "1"))
 DEV_BYPASS_RECAPTCHA = os.getenv("DEV_BYPASS_RECAPTCHA", "true").lower() == "true"
 
 # Provider secrets
-TURNSTILE_SECRET = os.getenv("TURNSTILE_SECRET")          # for Cloudflare Turnstile
-RECAPTCHA_SECRET = os.getenv("RECAPTCHA_SECRET")          # for Google reCAPTCHA v3
+# Provider secrets — lazy + SSM fallback
+@lru_cache(maxsize=1)
+def _turnstile_secret() -> str:
+    return (
+        os.getenv("TURNSTILE_SECRET")
+        or getenv_or_ssm("TURNSTILE_SECRET", "/majidkhoshrou/prod/TURNSTILE_SECRET")
+        or ""
+    )
+
+@lru_cache(maxsize=1)
+def _recaptcha_secret() -> str:
+    return (
+        os.getenv("RECAPTCHA_SECRET")
+        or getenv_or_ssm("RECAPTCHA_SECRET", "/majidkhoshrou/prod/RECAPTCHA_SECRET")
+        or ""
+    )
+
 RECAPTCHA_MIN_SCORE = float(os.getenv("RECAPTCHA_MIN_SCORE", "0.6"))
 
 # ----------------------------
@@ -108,7 +131,9 @@ def verify_turnstile(
     expected_action: str = "chat",
     timeout: float = 5.0
 ) -> Tuple[bool, Dict[str, Any]]:
-    if not TURNSTILE_SECRET:
+    
+    secret = _turnstile_secret()
+    if not secret:
         return False, {"error": "TURNSTILE_SECRET not configured"}
     if not token:
         return False, {"error": "missing_token"}
@@ -116,9 +141,10 @@ def verify_turnstile(
     try:
         resp = requests.post(
             "https://challenges.cloudflare.com/turnstile/v0/siteverify",
-            data={"secret": TURNSTILE_SECRET, "response": token, "remoteip": remoteip},
+            data={"secret": secret, "response": token, "remoteip": remoteip},
             timeout=timeout,
         )
+
         data = resp.json()
     except Exception as e:
         return False, {"error": "verify_request_failed", "exception": str(e)}
@@ -141,7 +167,9 @@ def verify_recaptcha(
 ) -> Tuple[bool, Dict[str, Any]]:
     if min_score is None:
         min_score = RECAPTCHA_MIN_SCORE
-    if not RECAPTCHA_SECRET:
+
+    secret = _recaptcha_secret()
+    if not secret:
         return False, {"error": "RECAPTCHA_SECRET not configured"}
     if not token:
         return False, {"error": "missing_token"}
@@ -149,7 +177,7 @@ def verify_recaptcha(
     try:
         resp = requests.post(
             "https://www.google.com/recaptcha/api/siteverify",
-            data={"secret": RECAPTCHA_SECRET, "response": token, "remoteip": remoteip},
+            data={"secret": secret, "response": token, "remoteip": remoteip},
             timeout=timeout,
         )
         data = resp.json()
@@ -179,7 +207,7 @@ def verify_challenge(
     returns True when DEV_BYPASS_RECAPTCHA=true.
     """
     # Dev bypass: local/private IPs and no provider secrets → allow
-    if DEV_BYPASS_RECAPTCHA and _is_local(remoteip) and not (TURNSTILE_SECRET or RECAPTCHA_SECRET):
+    if DEV_BYPASS_RECAPTCHA and _is_local(remoteip) and not (_turnstile_secret() or _recaptcha_secret()):
         return True, {"dev_bypass": True}
 
     if CHALLENGE_PROVIDER == "turnstile":

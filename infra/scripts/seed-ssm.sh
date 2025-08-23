@@ -8,7 +8,7 @@ set -euo pipefail
 #   PROFILE=default
 #   REGION=eu-central-1
 
-ENV_FILE="${1:-./backend/.env.prod}"
+ENV_FILE="${1:-./services/mr-m/.env.prod}"
 PROFILE="${2:-default}"
 REGION="${3:-eu-central-1}"
 
@@ -24,6 +24,7 @@ declare -A TYPES=(
   [TURNSTILE_SITE_KEY]=String
   [TURNSTILE_SECRET]=SecureString
   [SMTP_USER]=String
+  [CONTACT_RECIPIENT]=String
   [SMTP_PASSWORD]=SecureString
   [REDIS_PASSWORD]=SecureString
 )

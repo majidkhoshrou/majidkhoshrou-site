@@ -207,3 +207,26 @@
   color: #b30000;
   border-left: 4px solid #e74c3c;
 }
+
+
+
+.context-tip {
+  margin-top: .75rem;
+  padding: .6rem .75rem;
+  border-left: 3px solid #4a90e2;
+  background: #f7faff;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  line-height: 1.4;
+}
+.context-tip__icon { margin-right: .35rem; }
+.btn-link {
+  background: none;
+  border: none;
+  color: #4a90e2;
+  text-decoration: underline;
+  cursor: pointer;
+  padding: 0;
+  font: inherit;
+}
+.btn-link:hover { text-decoration: none; }
