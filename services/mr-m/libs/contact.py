@@ -7,7 +7,7 @@ import smtplib
 
 # Optional: pull secrets from SSM if not in env
 try:
-    from libs.utils import getenv_or_ssm
+    from libs.utils import getenv_or_ssm, first_nonempty_env
 except Exception:
     def getenv_or_ssm(env_name, ssm_path=None, **_):
         return os.getenv(env_name)
@@ -77,17 +77,43 @@ def send_contact_email(
         return {"ok": False, "error": "Message is too long."}
 
     # SMTP / Gmail config (env first, then SSM fallback)
-    smtp_host = os.getenv("SMTP_HOST") or os.getenv("SMTP_SERVER") or "smtp.gmail.com"
-    smtp_port = int(os.getenv("SMTP_PORT", os.getenv("MAIL_PORT", "587")))
-    smtp_user = getenv_or_ssm("SMTP_USERNAME", "/majidkhoshrou/prod/SMTP_USER") or \
-                getenv_or_ssm("SMTP_USER", "/majidkhoshrou/prod/SMTP_USER")
-    smtp_pass = getenv_or_ssm("SMTP_PASSWORD", "/majidkhoshrou/prod/SMTP_PASSWORD") or \
-                getenv_or_ssm("SMTP_PASS", "/majidkhoshrou/prod/SMTP_PASSWORD")
+    from libs.utils import getenv_or_ssm, first_nonempty_env
+
+    smtp_host = first_nonempty_env("SMTP_HOST", "SMTP_SERVER") or "smtp.gmail.com"
+    smtp_port = int(first_nonempty_env("SMTP_PORT", "MAIL_PORT") or "587")
     use_tls   = (os.getenv("SMTP_USE_TLS", "true").lower() == "true")
-    recipient = os.getenv("CONTACT_RECIPIENT") or smtp_user
+
+    smtp_user = (
+        first_nonempty_env("SMTP_USERNAME", "SMTP_USER")
+        or getenv_or_ssm("SMTP_USERNAME", "/majidkhoshrou/prod/SMTP_USER")
+        or getenv_or_ssm("SMTP_USER",     "/majidkhoshrou/prod/SMTP_USER")
+    )
+
+    smtp_pass = (
+        first_nonempty_env("SMTP_PASSWORD", "SMTP_PASS")
+        or getenv_or_ssm("SMTP_PASSWORD", "/majidkhoshrou/prod/SMTP_PASSWORD")
+        or getenv_or_ssm("SMTP_PASS",     "/majidkhoshrou/prod/SMTP_PASSWORD")
+    )
+
+    recipient = (
+        first_nonempty_env("CONTACT_RECIPIENT")
+        or getenv_or_ssm("CONTACT_RECIPIENT", "/majidkhoshrou/prod/CONTACT_RECIPIENT")
+    )
 
     if not all([smtp_host, smtp_port, smtp_user, smtp_pass, recipient]):
         return {"ok": False, "error": "Email service is not configured on the server."}
+
+    # smtp_host = os.getenv("SMTP_HOST") or os.getenv("SMTP_SERVER") or "smtp.gmail.com"
+    # smtp_port = int(os.getenv("SMTP_PORT", os.getenv("MAIL_PORT", "587")))
+    # smtp_user = getenv_or_ssm("SMTP_USERNAME", "/majidkhoshrou/prod/SMTP_USER") or \
+                # getenv_or_ssm("SMTP_USER", "/majidkhoshrou/prod/SMTP_USER")
+    # smtp_pass = getenv_or_ssm("SMTP_PASSWORD", "/majidkhoshrou/prod/SMTP_PASSWORD") or \
+                # getenv_or_ssm("SMTP_PASS", "/majidkhoshrou/prod/SMTP_PASSWORD")
+    # use_tls   = (os.getenv("SMTP_USE_TLS", "true").lower() == "true")
+    # recipient = os.getenv("CONTACT_RECIPIENT") or smtp_user
+
+    # if not all([smtp_host, smtp_port, smtp_user, smtp_pass, recipient]):
+    #     return {"ok": False, "error": "Email service is not configured on the server."}
 
     subject = f"New message from {name} (Contact Form)"
     body = (

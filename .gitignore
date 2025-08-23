@@ -10,8 +10,22 @@ tests/*.zip
 # Optional: global Python artifacts (for all dirs)
 __pycache__/
 *.py[cod]
+
 .env
+.env.*
 .env.prod
+
+/.env
+/services/mr-m/.env
+/services/mr-m/.env.prod
+
+/services/mr-m/.env
+/services/mr-m/.env.prod
+/services/mr-m/data/analytics/
+/services/mr-m/data/raw/
+/services/mr-m/data/artifacts/
+
+
 *.log
 
 # Ignore VS Code globally if needed

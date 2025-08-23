@@ -114,8 +114,8 @@ Resources:
                 - dynamodb:PutItem
               Resource: !GetAtt RateLimitTable.Arn
     Metadata:
-      Dockerfile: Dockerfile.lambda
-      DockerContext: backend
+      Dockerfile: ../../services/mr-m/Dockerfile.lambda
+      DockerContext: ../../services/mr-m
       DockerTag: v1
 
   # --- API Gateway custom domains (apex + www) ---

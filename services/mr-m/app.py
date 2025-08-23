@@ -233,20 +233,22 @@ def api_analytics_summary():
 def api_contact():
     ip = get_client_ip()
     data = request.get_json(silent=True) or request.form
-
-    result = send_contact_email(
-        name=data.get("name", ""),
-        email=data.get("email", ""),
-        message=data.get("message", ""),
-        ip=ip,
-        honeypot=data.get("company", "") or data.get("hp_field", ""),
-        submitted_at=data.get("submitted_at") or data.get("form_started", ""),
-    )
-
-    if result.get("ok"):
-        return jsonify({"status": "sent"}), 200
-    else:
-        return jsonify({"error": result.get("error", "Unknown error")}), 400
+    try:
+        result = send_contact_email(
+            name=data.get("name", ""),
+            email=data.get("email", ""),
+            message=data.get("message", ""),
+            ip=ip,
+            honeypot=data.get("company", "") or data.get("hp_field", ""),
+            submitted_at=data.get("submitted_at") or data.get("form_started", ""),
+        )
+        if result.get("ok"):
+            return jsonify({"status": "sent"}), 200
+        else:
+            return jsonify({"error": result.get("error", "Email send failed")}), 400
+    except Exception as e:
+        app.logger.exception("contact failed")
+        return jsonify({"error": "contact_send_exception"}), 500
 
 # ------------------------------
 # 🚀 Launch (local only)

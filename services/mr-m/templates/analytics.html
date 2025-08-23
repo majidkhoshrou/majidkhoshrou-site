@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="description" content="Majid Khoshrou – Data Scientist specialized in machine learning, forecasting, and real-time analytics." />
+  <meta http-equiv="pragma" content="no-cache"/>
+  <meta property="og:title" content="Majid Khoshrou - Analytics">
+  <meta property="og:description" content="Forecasting, machine learning, and real-time analytics in energy & mobility.">
+  <meta property="og:image" content="{{ url_for('static', filename='images/majid_tudelft_02.png', _external=True) }}">
+  <meta property="og:type" content="website">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/analytics-style.css') }}">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+  <title>Majid Khoshrou - Analytics</title>
+  <link rel="icon" href="{{ url_for('static', filename='images/MK.jpeg') }}">
+</head>
+<body>
+
+  <header>
+    <div class="header-container">
+      <img src="{{ url_for('static', filename='images/majid_tudelft_02.png') }}" alt="Majid Khoshrou" class="profile-photo">
+      <h1>Majid Khoshrou</h1>
+      <p>Data Scientist | Machine Learning | Generative AI | Real-Time Analytics</p>
+    </div>
+    <nav>
+      <ul>
+        <li><a href="{{ url_for('home') }}" class="{% if request.endpoint == 'home' %}active{% endif %}">Home</a></li>
+        <li><a href="{{ url_for('research') }}" class="{% if request.endpoint == 'research' %}active{% endif %}">Publications</a></li>
+        <li><a href="{{ url_for('projects') }}" class="{% if request.endpoint == 'projects' %}active{% endif %}">Projects</a></li>
+        <li><a href="{{ url_for('talks') }}" class="{% if request.endpoint == 'talks' %}active{% endif %}">Talks</a></li>
+        <li><a href="{{ url_for('analytics') }}" class="{% if request.endpoint == 'analytics' %}active{% endif %}">Analytics</a></li>
+        <li><a href="{{ url_for('ask_mr_m') }}" class="{% if request.endpoint == 'ask_mr_m' %}active{% endif %}">Ask Mr M</a></li>
+        <li><a href="{{ url_for('contact') }}" class="{% if request.endpoint == 'contact' %}active{% endif %}">Contact</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <section>
+      <h2>
+        Visitor Analytics
+        <span class="info-icon" title="To comply with GDPR regulations, visitor analytics are stored and displayed only for the past 30 days.">ℹ️</span>
+      </h2>
+      <p>Total Visits: <strong id="total-visits">Loading...</strong></p>
+      <p>VPN Users: <strong id="vpn-count">...</strong> &nbsp;|&nbsp;
+         Unknown Country: <strong id="unknown-country-count">...</strong></p>
+    </section>
+
+    <!-- Map -->
+    <section>
+      <h3>Visitor Locations</h3>
+      <div id="map" style="height: 500px; border-radius: 8px;"></div>
+    </section>
+
+    <!-- Daily Visits -->
+    <section class="chart-section">
+      <h3>Daily Visits</h3>
+      <canvas id="dailyChart"></canvas>
+    </section>
+
+    <!-- Device Types -->
+    <section class="chart-section pie-section">
+      <h3>Device Types</h3>
+      <div class="chart-wrapper">
+        <canvas id="deviceChart"></canvas>
+      </div>
+    </section>
+
+    <!-- Page Popularity Chart -->
+    <section class="chart-section">
+      <h3>Page Visit Popularity</h3>
+      <p>Most Visited Tab: <strong id="top-page">Loading...</strong></p>
+      <canvas id="pageChart"></canvas>
+    </section>
+
+    <!-- Toggle Filter -->
+    <section class="chart-section">
+      <h3>Filter by Device / Country</h3>
+      <label for="groupFilter">Group by:</label>
+      <select id="groupFilter">
+        <option value="by_device">Device Type</option>
+        <option value="by_country">Country</option>
+      </select>
+      <canvas id="groupChart"></canvas>
+    </section>
+  </main>
+
+  <footer>
+    <p>&copy; 2025 Majid Khoshrou</p>
+    <div class="social-links">
+      <a href="https://www.linkedin.com/in/majid-khoshrou-a2728349/" target="_blank">LinkedIn</a> |
+      <a href="https://scholar.google.com/citations?user=RPdtjy0AAAAJ&hl=nl&oi=ao" target="_blank">Google Scholar</a> |
+      <a href="https://github.com/majidkhoshrou" target="_blank">GitHub</a>
+    </div>
+  </footer>
+
+  <!-- libs -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+
+  <!-- your page logic -->
+  <script defer src="{{ url_for('static', filename='js/analytics.js') }}?v=1"></script>
+</body>
+</html>

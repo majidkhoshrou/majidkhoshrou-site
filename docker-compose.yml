@@ -1,29 +1,34 @@
-
 services:
   web:
     build:
-      context: ./backend
+      context: ./services/mr-m
+      dockerfile: Dockerfile
     ports:
       - "5000:5000"
+    env_file:
+      - ./services/mr-m/.env
+    environment:
+      PYTHONUNBUFFERED: "1"
+      FLASK_ENV: development
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
     depends_on:
       redis:
         condition: service_healthy
-    env_file:
-      - ./backend/.env
-    environment:
-      REDIS_HOST: redis
-      REDIS_PORT: 6379
-      PYTHONUNBUFFERED: "1"
-      FLASK_ENV: production
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:5000/healthz"]
+      interval: 10s
+      timeout: 3s
+      retries: 5
     restart: unless-stopped
 
   redis:
     image: redis:7-alpine
     env_file:
-      - ./backend/.env
-    command: sh -lc "exec redis-server --appendonly yes --requirepass \"$REDIS_PASSWORD\""
+      - ./services/mr-m/.env      # contains REDIS_PASSWORD
+    command: sh -lc 'exec redis-server --appendonly yes --requirepass "$${REDIS_PASSWORD}"'
     healthcheck:
-      test: ["CMD-SHELL", "redis-cli -a \"$REDIS_PASSWORD\" PING || exit 1"]
+      test: ["CMD-SHELL", 'redis-cli -a "$${REDIS_PASSWORD}" PING || exit 1']
       interval: 10s
       timeout: 3s
       retries: 5

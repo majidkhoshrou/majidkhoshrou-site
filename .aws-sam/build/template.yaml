@@ -6,17 +6,12 @@ Parameters:
     Type: String
     Default: prod
     Description: Environment name (prod/dev/stage)
-  CustomDomainName:
-    Type: String
-    Default: majidkhoshrou.com
-    Description: The primary (apex) domain name
   HostedZoneId:
     Type: String
-    Description: Route 53 hosted zone ID for majidkhoshrou.com
+    Description: Route 53 hosted zone ID for majidkhoshrou.com (public zone)
   AcmCertificateArn:
     Type: String
-    Description: ARN of the ACM certificate in eu-central-1 covering majidkhoshrou.com
-      and www.majidkhoshrou.com
+    Description: ACM cert ARN in eu-central-1 covering majidkhoshrou.com and www.majidkhoshrou.com
 Resources:
   MyHttpApi:
     Type: AWS::Serverless::HttpApi
@@ -128,8 +123,16 @@ Resources:
   ApiDomainApex:
     Type: AWS::ApiGatewayV2::DomainName
     Properties:
-      DomainName:
-        Ref: CustomDomainName
+      DomainName: majidkhoshrou.com
+      DomainNameConfigurations:
+      - CertificateArn:
+          Ref: AcmCertificateArn
+        EndpointType: REGIONAL
+        SecurityPolicy: TLS_1_2
+  ApiDomainWWW:
+    Type: AWS::ApiGatewayV2::DomainName
+    Properties:
+      DomainName: www.majidkhoshrou.com
       DomainNameConfigurations:
       - CertificateArn:
           Ref: AcmCertificateArn
@@ -144,13 +147,21 @@ Resources:
         Ref: ApiDomainApex
       Stage: $default
       ApiMappingKey: ''
+  ApiMappingWWW:
+    Type: AWS::ApiGatewayV2::ApiMapping
+    Properties:
+      ApiId:
+        Ref: MyHttpApi
+      DomainName:
+        Ref: ApiDomainWWW
+      Stage: $default
+      ApiMappingKey: ''
   DnsApexA:
     Type: AWS::Route53::RecordSet
     Properties:
       HostedZoneId:
         Ref: HostedZoneId
-      Name:
-        Ref: CustomDomainName
+      Name: majidkhoshrou.com
       Type: A
       AliasTarget:
         DNSName:
@@ -166,8 +177,7 @@ Resources:
     Properties:
       HostedZoneId:
         Ref: HostedZoneId
-      Name:
-        Ref: CustomDomainName
+      Name: majidkhoshrou.com
       Type: AAAA
       AliasTarget:
         DNSName:
@@ -178,32 +188,12 @@ Resources:
           Fn::GetAtt:
           - ApiDomainApex
           - RegionalHostedZoneId
-  ApiDomainWWW:
-    Type: AWS::ApiGatewayV2::DomainName
-    Properties:
-      DomainName:
-        Fn::Sub: www.${CustomDomainName}
-      DomainNameConfigurations:
-      - CertificateArn:
-          Ref: AcmCertificateArn
-        EndpointType: REGIONAL
-        SecurityPolicy: TLS_1_2
-  ApiMappingWWW:
-    Type: AWS::ApiGatewayV2::ApiMapping
-    Properties:
-      ApiId:
-        Ref: MyHttpApi
-      DomainName:
-        Ref: ApiDomainWWW
-      Stage: $default
-      ApiMappingKey: ''
   DnsWWWA:
     Type: AWS::Route53::RecordSet
     Properties:
       HostedZoneId:
         Ref: HostedZoneId
-      Name:
-        Fn::Sub: www.${CustomDomainName}
+      Name: www.majidkhoshrou.com
       Type: A
       AliasTarget:
         DNSName:
@@ -219,8 +209,7 @@ Resources:
     Properties:
       HostedZoneId:
         Ref: HostedZoneId
-      Name:
-        Fn::Sub: www.${CustomDomainName}
+      Name: www.majidkhoshrou.com
       Type: AAAA
       AliasTarget:
         DNSName:
@@ -232,15 +221,13 @@ Resources:
           - ApiDomainWWW
           - RegionalHostedZoneId
 Outputs:
-  ApiUrl:
-    Description: "Invoke URL (execute-api) \u2013 still valid"
+  ApiInvokeUrl:
+    Description: Invoke URL for the default stage (fallback)
     Value:
       Fn::Sub: https://${MyHttpApi}.execute-api.${AWS::Region}.amazonaws.com/
-  ApexUrl:
+  CustomBaseUrlApex:
     Description: Custom domain (apex)
-    Value:
-      Fn::Sub: https://${CustomDomainName}/
-  WwwUrl:
+    Value: https://majidkhoshrou.com/
+  CustomBaseUrlWWW:
     Description: Custom domain (www)
-    Value:
-      Fn::Sub: https://www.${CustomDomainName}/
+    Value: https://www.majidkhoshrou.com/

@@ -4,7 +4,7 @@ import secrets
 from functools import lru_cache
 
 import boto3
-from botocore.exceptions import ClientError
+from botocore.exceptions import ClientError, BotoCoreError, NoCredentialsError
 
 
 @lru_cache(maxsize=None)
@@ -25,25 +25,42 @@ def ssm_get(param_name: str, *, decrypt: bool = True, region: str | None = None)
     try:
         resp = _ssm_client(region).get_parameter(Name=param_name, WithDecryption=decrypt)
         return resp["Parameter"]["Value"]
-    except ClientError as e:
+    except (NoCredentialsError, BotoCoreError, ClientError) as e:
         print(f"[warn] SSM get_parameter failed for {param_name}: {e}")
         return None
 
 
-def getenv_or_ssm(env_name: str, ssm_path: str | None = None, *, decrypt: bool = True, default: str | None = None) -> str | None:
+def getenv_or_ssm(
+    env_name: str,
+    ssm_path: str | None = None,
+    *,
+    decrypt: bool = True,
+    default: str | None = None
+) -> str | None:
     v = os.getenv(env_name)
     if v is not None:
         v = v.strip()
-        if v:                      # only accept non-empty env values
+        if v:
             return v
     if ssm_path:
-        v = ssm_get(ssm_path, decrypt=decrypt)
-        if v is not None:
-            v = v.strip()
-            if v:                  # only accept non-empty SSM values
-                return v
+        try:
+            v = ssm_get(ssm_path, decrypt=decrypt)
+            if v is not None:
+                v = v.strip()
+                if v:
+                    return v
+        except (NoCredentialsError, BotoCoreError, ClientError):
+            # Fail soft: let caller try other fallbacks
+            pass
     return _safe_default(env_name, default)
 
+# --- convenience: try multiple env names before SSM ---
+def first_nonempty_env(*names: str) -> str | None:
+    for n in names:
+        v = os.getenv(n)
+        if v and v.strip():
+            return v.strip()
+    return None
 
 # ------------------------------
 # 🔐 Lazy, cached getters (as requested)
