@@ -1,11 +1,21 @@
 version = 0.1
 
-[default.deploy.parameters]
+[dev.deploy.parameters]
+stack_name = "majidkhoshrou-site-dev"
+resolve_s3 = true
+s3_prefix = "majidkhoshrou-site-dev"
+region = "eu-central-1"
+confirm_changeset = true
+capabilities = "CAPABILITY_IAM"
+parameter_overrides = "AppEnv=\"dev\" HostedZoneId=\"Z09340153PV7V99GDBD4W\" AcmCertificateArn=\"arn:aws:acm:eu-central-1:221082206645:certificate/ba5aeb2c-76f5-4712-95b8-82ee195a4a3e\" UseCustomDomain=\"false\" DevSubdomain=\"dev\""
+image_repositories = ["FlaskFunction=221082206645.dkr.ecr.eu-central-1.amazonaws.com/majidkhoshrousite02c64f3d/flaskfunctionf9708d47repo"]
+
+[prod.deploy.parameters]
 stack_name = "majidkhoshrou-site"
 resolve_s3 = true
 s3_prefix = "majidkhoshrou-site"
 region = "eu-central-1"
 confirm_changeset = true
 capabilities = "CAPABILITY_IAM"
-parameter_overrides = "AppEnv=\"prod\" HostedZoneId=\"Z09340153PV7V99GDBD4W\" AcmCertificateArn=\"arn:aws:acm:eu-central-1:221082206645:certificate/ba5aeb2c-76f5-4712-95b8-82ee195a4a3e\""
+parameter_overrides = "AppEnv=\"prod\" HostedZoneId=\"Z09340153PV7V99GDBD4W\" AcmCertificateArn=\"arn:aws:acm:eu-central-1:221082206645:certificate/ba5aeb2c-76f5-4712-95b8-82ee195a4a3e\" UseCustomDomain=\"true\""
 image_repositories = ["FlaskFunction=221082206645.dkr.ecr.eu-central-1.amazonaws.com/majidkhoshrousite02c64f3d/flaskfunctionf9708d47repo"]

@@ -6,6 +6,7 @@ Parameters:
   AppEnv:
     Type: String
     Default: "prod"
+    AllowedValues: ["dev","stage","prod"]
     Description: Environment name (prod/dev/stage)
 
   HostedZoneId:
@@ -14,7 +15,24 @@ Parameters:
 
   AcmCertificateArn:
     Type: String
-    Description: ACM cert ARN in eu-central-1 covering majidkhoshrou.com and www.majidkhoshrou.com
+    Description: ACM cert ARN in eu-central-1 covering majidkhoshrou.com and *.majidkhoshrou.com
+
+  UseCustomDomain:
+    Type: String
+    Default: "true"        # prod keeps pretty URLs; for dev you can pass false to save $
+    AllowedValues: ["true","false"]
+    Description: Whether to create custom domains and Route53 records for this stack
+
+  DevSubdomain:
+    Type: String
+    Default: "dev"
+    Description: Subdomain to use for non-prod (e.g., dev.majidkhoshrou.com)
+
+Conditions:
+  IsProd: !Equals [!Ref AppEnv, "prod"]
+  UseDomain: !Equals [!Ref UseCustomDomain, "true"]
+  UseDomainProd: !And [!Condition IsProd, !Condition UseDomain]
+  UseDomainNonProd: !And [!Not [!Condition IsProd], !Condition UseDomain]
 
 Resources:
   MyHttpApi:
@@ -22,16 +40,15 @@ Resources:
     Properties:
       StageName: $default
       CorsConfiguration:
-        # tighten when ready:
         AllowOrigins: ["*"]
         AllowHeaders: ["*"]
         AllowMethods: ["GET","POST","OPTIONS"]
 
-  # --- DynamoDB table for rate limiting ---
+  # --- DynamoDB table for rate limiting (env-scoped) ---
   RateLimitTable:
     Type: AWS::DynamoDB::Table
     Properties:
-      TableName: !Sub "${AWS::StackName}-ratelimit"
+      TableName: !Sub "${AWS::StackName}-${AppEnv}-ratelimit"
       BillingMode: PAY_PER_REQUEST
       AttributeDefinitions:
         - AttributeName: k
@@ -43,6 +60,7 @@ Resources:
         AttributeName: ttl
         Enabled: true
 
+  # --- Lambda with alias + CodeDeploy canary ---
   FlaskFunction:
     Type: AWS::Serverless::Function
     Properties:
@@ -51,16 +69,20 @@ Resources:
       MemorySize: 1024
       Architectures: [x86_64]
       Tracing: Active
+
+      # >>> Option A: zero-downtime rollouts
+      AutoPublishAlias: live
+      DeploymentPreference:
+        Type: Canary10Percent5Minutes
+        Alarms:
+          - !Ref LambdaErrorAlarm     # optional but recommended
+
       Environment:
         Variables:
           FLASK_ENV: !Ref AppEnv
-
-          # --- Analytics in S3 ---
           ANALYTICS_S3_BUCKET: mk-analytics-221082206645-eu-central-1
           ANALYTICS_S3_KEY: analytics/visits.json
           ANALYTICS_RETENTION_DAYS: "30"
-
-          # --- Rate limiter config (DynamoDB in prod) ---
           RATE_TABLE_NAME: !Ref RateLimitTable
           RATE_LIMIT: "6"
 
@@ -77,8 +99,9 @@ Resources:
             ApiId: !Ref MyHttpApi
             Path: /{proxy+}
             Method: ANY
+
       Policies:
-        # SSM Parameter Store (secrets fetched at runtime by your code)
+        # SSM Parameter Store (env-scoped secrets: /majidkhoshrou/{env}/*)
         - Statement:
             - Effect: Allow
               Action:
@@ -86,14 +109,15 @@ Resources:
                 - ssm:GetParameters
                 - ssm:GetParametersByPath
               Resource:
-                - arn:aws:ssm:*:*:parameter/majidkhoshrou/prod/*
+                - !Sub arn:aws:ssm:*:*:parameter/majidkhoshrou/${AppEnv}/*
             - Effect: Allow
               Action: kms:Decrypt
-              Resource: "*"
+              Resource: "*"  # (tighten to your CMK if you have one)
               Condition:
                 ForAnyValue:StringEquals:
                   kms:EncryptionContextKeys: ["aws:ssm:parameter-name"]
-        # S3 for analytics
+
+        # S3 for analytics (unchanged)
         - Statement:
             - Effect: Allow
               Action:
@@ -106,6 +130,7 @@ Resources:
               Condition:
                 StringLike:
                   s3:prefix: [ "analytics/*" ]
+
         # DynamoDB for rate limiting
         - Statement:
             - Effect: Allow
@@ -114,14 +139,34 @@ Resources:
                 - dynamodb:GetItem
                 - dynamodb:PutItem
               Resource: !GetAtt RateLimitTable.Arn
+
     Metadata:
       Dockerfile: Dockerfile.lambda
       DockerContext: ../../services/mr-m
       DockerTag: v1
 
-  # --- API Gateway custom domains (apex + www) ---
+  # --- Canary rollback alarm (optional but useful) ---
+  LambdaErrorAlarm:
+    Type: AWS::CloudWatch::Alarm
+    Properties:
+      AlarmName: !Sub "${AWS::StackName}-${AppEnv}-lambda-errors"
+      Namespace: AWS/Lambda
+      MetricName: Errors
+      Dimensions:
+        - Name: FunctionName
+          Value: !Ref FlaskFunction
+      Statistic: Sum
+      Period: 60
+      EvaluationPeriods: 1
+      Threshold: 1
+      ComparisonOperator: GreaterThanOrEqualToThreshold
+      TreatMissingData: notBreaching
+
+  # ------------------ Custom domains ------------------
+  # PROD: apex + www
   ApiDomainApex:
     Type: AWS::ApiGatewayV2::DomainName
+    Condition: UseDomainProd
     Properties:
       DomainName: majidkhoshrou.com
       DomainNameConfigurations:
@@ -131,6 +176,7 @@ Resources:
 
   ApiDomainWWW:
     Type: AWS::ApiGatewayV2::DomainName
+    Condition: UseDomainProd
     Properties:
       DomainName: www.majidkhoshrou.com
       DomainNameConfigurations:
@@ -138,9 +184,9 @@ Resources:
           EndpointType: REGIONAL
           SecurityPolicy: TLS_1_2
 
-  # Map both domains to the $default stage (root path)
   ApiMappingApex:
     Type: AWS::ApiGatewayV2::ApiMapping
+    Condition: UseDomainProd
     Properties:
       ApiId: !Ref MyHttpApi
       DomainName: !Ref ApiDomainApex
@@ -149,15 +195,16 @@ Resources:
 
   ApiMappingWWW:
     Type: AWS::ApiGatewayV2::ApiMapping
+    Condition: UseDomainProd
     Properties:
       ApiId: !Ref MyHttpApi
       DomainName: !Ref ApiDomainWWW
       Stage: '$default'
       ApiMappingKey: ''
 
-  # --- Route 53 records (A/AAAA ALIAS) for apex + www ---
   DnsApexA:
     Type: AWS::Route53::RecordSet
+    Condition: UseDomainProd
     Properties:
       HostedZoneId: !Ref HostedZoneId
       Name: majidkhoshrou.com
@@ -168,6 +215,7 @@ Resources:
 
   DnsApexAAAA:
     Type: AWS::Route53::RecordSet
+    Condition: UseDomainProd
     Properties:
       HostedZoneId: !Ref HostedZoneId
       Name: majidkhoshrou.com
@@ -178,6 +226,7 @@ Resources:
 
   DnsWWWA:
     Type: AWS::Route53::RecordSet
+    Condition: UseDomainProd
     Properties:
       HostedZoneId: !Ref HostedZoneId
       Name: www.majidkhoshrou.com
@@ -188,6 +237,7 @@ Resources:
 
   DnsWWWAAAA:
     Type: AWS::Route53::RecordSet
+    Condition: UseDomainProd
     Properties:
       HostedZoneId: !Ref HostedZoneId
       Name: www.majidkhoshrou.com
@@ -196,13 +246,60 @@ Resources:
         DNSName: !GetAtt ApiDomainWWW.RegionalDomainName
         HostedZoneId: !GetAtt ApiDomainWWW.RegionalHostedZoneId
 
+  # DEV/NON-PROD: optional pretty subdomain (off by default via params)
+  ApiDomainDev:
+    Type: AWS::ApiGatewayV2::DomainName
+    Condition: UseDomainNonProd
+    Properties:
+      DomainName: !Sub "${DevSubdomain}.majidkhoshrou.com"
+      DomainNameConfigurations:
+        - CertificateArn: !Ref AcmCertificateArn
+          EndpointType: REGIONAL
+          SecurityPolicy: TLS_1_2
+
+  ApiMappingDev:
+    Type: AWS::ApiGatewayV2::ApiMapping
+    Condition: UseDomainNonProd
+    Properties:
+      ApiId: !Ref MyHttpApi
+      DomainName: !Ref ApiDomainDev
+      Stage: '$default'
+
+  DnsDevA:
+    Type: AWS::Route53::RecordSet
+    Condition: UseDomainNonProd
+    Properties:
+      HostedZoneId: !Ref HostedZoneId
+      Name: !Sub "${DevSubdomain}.majidkhoshrou.com"
+      Type: A
+      AliasTarget:
+        DNSName: !GetAtt ApiDomainDev.RegionalDomainName
+        HostedZoneId: !GetAtt ApiDomainDev.RegionalHostedZoneId
+
+  DnsDevAAAA:
+    Type: AWS::Route53::RecordSet
+    Condition: UseDomainNonProd
+    Properties:
+      HostedZoneId: !Ref HostedZoneId
+      Name: !Sub "${DevSubdomain}.majidkhoshrou.com"
+      Type: AAAA
+      AliasTarget:
+        DNSName: !GetAtt ApiDomainDev.RegionalDomainName
+        HostedZoneId: !GetAtt ApiDomainDev.RegionalHostedZoneId
+
 Outputs:
   ApiInvokeUrl:
     Description: Invoke URL for the default stage (fallback)
     Value: !Sub "https://${MyHttpApi}.execute-api.${AWS::Region}.amazonaws.com/"
   CustomBaseUrlApex:
+    Condition: UseDomainProd
     Description: Custom domain (apex)
     Value: "https://majidkhoshrou.com/"
   CustomBaseUrlWWW:
+    Condition: UseDomainProd
     Description: Custom domain (www)
     Value: "https://www.majidkhoshrou.com/"
+  CustomBaseUrlDev:
+    Condition: UseDomainNonProd
+    Description: Custom domain (non-prod)
+    Value: !Sub "https://${DevSubdomain}.majidkhoshrou.com/"

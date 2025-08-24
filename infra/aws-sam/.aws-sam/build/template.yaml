@@ -5,13 +5,46 @@ Parameters:
   AppEnv:
     Type: String
     Default: prod
+    AllowedValues:
+    - dev
+    - stage
+    - prod
     Description: Environment name (prod/dev/stage)
   HostedZoneId:
     Type: String
     Description: Route 53 hosted zone ID for majidkhoshrou.com (public zone)
   AcmCertificateArn:
     Type: String
-    Description: ACM cert ARN in eu-central-1 covering majidkhoshrou.com and www.majidkhoshrou.com
+    Description: ACM cert ARN in eu-central-1 covering majidkhoshrou.com and *.majidkhoshrou.com
+  UseCustomDomain:
+    Type: String
+    Default: 'true'
+    AllowedValues:
+    - 'true'
+    - 'false'
+    Description: Whether to create custom domains and Route53 records for this stack
+  DevSubdomain:
+    Type: String
+    Default: dev
+    Description: Subdomain to use for non-prod (e.g., dev.majidkhoshrou.com)
+Conditions:
+  IsProd:
+    Fn::Equals:
+    - Ref: AppEnv
+    - prod
+  UseDomain:
+    Fn::Equals:
+    - Ref: UseCustomDomain
+    - 'true'
+  UseDomainProd:
+    Fn::And:
+    - Condition: IsProd
+    - Condition: UseDomain
+  UseDomainNonProd:
+    Fn::And:
+    - Fn::Not:
+      - Condition: IsProd
+    - Condition: UseDomain
 Resources:
   MyHttpApi:
     Type: AWS::Serverless::HttpApi
@@ -30,7 +63,7 @@ Resources:
     Type: AWS::DynamoDB::Table
     Properties:
       TableName:
-        Fn::Sub: ${AWS::StackName}-ratelimit
+        Fn::Sub: ${AWS::StackName}-${AppEnv}-ratelimit
       BillingMode: PAY_PER_REQUEST
       AttributeDefinitions:
       - AttributeName: k
@@ -50,6 +83,11 @@ Resources:
       Architectures:
       - x86_64
       Tracing: Active
+      AutoPublishAlias: live
+      DeploymentPreference:
+        Type: Canary10Percent5Minutes
+        Alarms:
+        - Ref: LambdaErrorAlarm
       Environment:
         Variables:
           FLASK_ENV:
@@ -83,7 +121,7 @@ Resources:
           - ssm:GetParameters
           - ssm:GetParametersByPath
           Resource:
-          - arn:aws:ssm:*:*:parameter/majidkhoshrou/prod/*
+          - Fn::Sub: arn:aws:ssm:*:*:parameter/majidkhoshrou/${AppEnv}/*
         - Effect: Allow
           Action: kms:Decrypt
           Resource: '*'
@@ -116,12 +154,30 @@ Resources:
             - Arn
       ImageUri: flaskfunction:v1
     Metadata:
-      DockerContext: /home/majid/projects/majidkhoshrou.github.io/services/mr-m
+      DockerContext: /home/majid/projects/majidkhoshrou-site/services/mr-m
       DockerTag: v1
       Dockerfile: Dockerfile.lambda
       SamResourceId: FlaskFunction
+  LambdaErrorAlarm:
+    Type: AWS::CloudWatch::Alarm
+    Properties:
+      AlarmName:
+        Fn::Sub: ${AWS::StackName}-${AppEnv}-lambda-errors
+      Namespace: AWS/Lambda
+      MetricName: Errors
+      Dimensions:
+      - Name: FunctionName
+        Value:
+          Ref: FlaskFunction
+      Statistic: Sum
+      Period: 60
+      EvaluationPeriods: 1
+      Threshold: 1
+      ComparisonOperator: GreaterThanOrEqualToThreshold
+      TreatMissingData: notBreaching
   ApiDomainApex:
     Type: AWS::ApiGatewayV2::DomainName
+    Condition: UseDomainProd
     Properties:
       DomainName: majidkhoshrou.com
       DomainNameConfigurations:
@@ -131,6 +187,7 @@ Resources:
         SecurityPolicy: TLS_1_2
   ApiDomainWWW:
     Type: AWS::ApiGatewayV2::DomainName
+    Condition: UseDomainProd
     Properties:
       DomainName: www.majidkhoshrou.com
       DomainNameConfigurations:
@@ -140,6 +197,7 @@ Resources:
         SecurityPolicy: TLS_1_2
   ApiMappingApex:
     Type: AWS::ApiGatewayV2::ApiMapping
+    Condition: UseDomainProd
     Properties:
       ApiId:
         Ref: MyHttpApi
@@ -149,6 +207,7 @@ Resources:
       ApiMappingKey: ''
   ApiMappingWWW:
     Type: AWS::ApiGatewayV2::ApiMapping
+    Condition: UseDomainProd
     Properties:
       ApiId:
         Ref: MyHttpApi
@@ -158,6 +217,7 @@ Resources:
       ApiMappingKey: ''
   DnsApexA:
     Type: AWS::Route53::RecordSet
+    Condition: UseDomainProd
     Properties:
       HostedZoneId:
         Ref: HostedZoneId
@@ -174,6 +234,7 @@ Resources:
           - RegionalHostedZoneId
   DnsApexAAAA:
     Type: AWS::Route53::RecordSet
+    Condition: UseDomainProd
     Properties:
       HostedZoneId:
         Ref: HostedZoneId
@@ -190,6 +251,7 @@ Resources:
           - RegionalHostedZoneId
   DnsWWWA:
     Type: AWS::Route53::RecordSet
+    Condition: UseDomainProd
     Properties:
       HostedZoneId:
         Ref: HostedZoneId
@@ -206,6 +268,7 @@ Resources:
           - RegionalHostedZoneId
   DnsWWWAAAA:
     Type: AWS::Route53::RecordSet
+    Condition: UseDomainProd
     Properties:
       HostedZoneId:
         Ref: HostedZoneId
@@ -220,14 +283,77 @@ Resources:
           Fn::GetAtt:
           - ApiDomainWWW
           - RegionalHostedZoneId
+  ApiDomainDev:
+    Type: AWS::ApiGatewayV2::DomainName
+    Condition: UseDomainNonProd
+    Properties:
+      DomainName:
+        Fn::Sub: ${DevSubdomain}.majidkhoshrou.com
+      DomainNameConfigurations:
+      - CertificateArn:
+          Ref: AcmCertificateArn
+        EndpointType: REGIONAL
+        SecurityPolicy: TLS_1_2
+  ApiMappingDev:
+    Type: AWS::ApiGatewayV2::ApiMapping
+    Condition: UseDomainNonProd
+    Properties:
+      ApiId:
+        Ref: MyHttpApi
+      DomainName:
+        Ref: ApiDomainDev
+      Stage: $default
+  DnsDevA:
+    Type: AWS::Route53::RecordSet
+    Condition: UseDomainNonProd
+    Properties:
+      HostedZoneId:
+        Ref: HostedZoneId
+      Name:
+        Fn::Sub: ${DevSubdomain}.majidkhoshrou.com
+      Type: A
+      AliasTarget:
+        DNSName:
+          Fn::GetAtt:
+          - ApiDomainDev
+          - RegionalDomainName
+        HostedZoneId:
+          Fn::GetAtt:
+          - ApiDomainDev
+          - RegionalHostedZoneId
+  DnsDevAAAA:
+    Type: AWS::Route53::RecordSet
+    Condition: UseDomainNonProd
+    Properties:
+      HostedZoneId:
+        Ref: HostedZoneId
+      Name:
+        Fn::Sub: ${DevSubdomain}.majidkhoshrou.com
+      Type: AAAA
+      AliasTarget:
+        DNSName:
+          Fn::GetAtt:
+          - ApiDomainDev
+          - RegionalDomainName
+        HostedZoneId:
+          Fn::GetAtt:
+          - ApiDomainDev
+          - RegionalHostedZoneId
 Outputs:
   ApiInvokeUrl:
     Description: Invoke URL for the default stage (fallback)
     Value:
       Fn::Sub: https://${MyHttpApi}.execute-api.${AWS::Region}.amazonaws.com/
   CustomBaseUrlApex:
+    Condition: UseDomainProd
     Description: Custom domain (apex)
     Value: https://majidkhoshrou.com/
   CustomBaseUrlWWW:
+    Condition: UseDomainProd
     Description: Custom domain (www)
     Value: https://www.majidkhoshrou.com/
+  CustomBaseUrlDev:
+    Condition: UseDomainNonProd
+    Description: Custom domain (non-prod)
+    Value:
+      Fn::Sub: https://${DevSubdomain}.majidkhoshrou.com/
