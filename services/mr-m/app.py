@@ -8,6 +8,10 @@ from flask_cors import CORS  # keep if you use it
 from dotenv import load_dotenv
 from werkzeug.middleware.proxy_fix import ProxyFix
 
+import json
+from assist.tools import TOOLS
+from assist.handlers_sql import latest_publications, coauthors_of, venues_of
+
 from libs.search import get_faiss_index, load_metadata_pickle, query_index, build_rag_query
 from libs.analytics import log_visit, load_analytics_data, summarize_analytics
 from libs.ratelimiter import check_and_increment_ip, get_ip_quota
@@ -93,10 +97,6 @@ def load_vector_store():
 def home():
     return render_template("index.html")
 
-@app.route("/cv")
-def cv():
-    return render_template("cv.html")
-
 @app.route("/projects")
 def projects():
     return render_template("projects.html")
@@ -126,6 +126,11 @@ def analytics():
 # ------------------------------
 @app.route("/api/chat", methods=["POST"])
 def chat():
+    import json
+    from assist.tools import TOOLS
+    from assist.handlers_sql import latest_publications, coauthors_of, venues_of
+    from assist.names import canonicalize_author  # <— NEW
+
     ip = get_client_ip()
 
     data = request.get_json(force=True) or {}
@@ -160,13 +165,115 @@ def chat():
         }), 429
 
     try:
-        # 3) RAG – Find relevant knowledge (lazy-load index)
+        # 3) Router-first: let the model decide (publications vs knowledge)
+        client = get_openai_client()
+
+        router_system = {
+            "role": "system",
+            "content": (
+                "Decide which tool to call.\n"
+                "- If the question is about publication metadata (latest/first N, co-authors, venues), call query_publications.\n"
+                "- Otherwise, call search_knowledge with the user's text.\n"
+                "- Use the canonical author name 'Khoshrou, Abdolrahman' when the user refers to Majid.\n"
+                "- Do NOT treat 'Mr-M' (the assistant) as a person/author. Mr-M is Majid's (Abdolrahman's) AI-Assistant.\n"
+                "- If neither tool applies, do not call tools."
+            )
+        }
+        MAX_HISTORY_MESSAGES = 12
+        trimmed_history = history[-MAX_HISTORY_MESSAGES:]
+        router_messages = [router_system, *trimmed_history, {"role": "user", "content": message}]
+
+        router_resp = client.chat.completions.create(
+            model="gpt-4o-mini",          # tool-capable model
+            messages=router_messages,
+            tools=TOOLS,
+            tool_choice="auto"
+        )
+
+        tool_calls = router_resp.choices[0].message.tool_calls or []
+        if tool_calls:
+            for t in tool_calls:
+                name = t.function.name
+                args = json.loads(t.function.arguments or "{}")
+
+                if name == "query_publications":
+                    sel    = args["select"]
+                    # NEW: normalize nicknames/misspellings; block 'Mr-M'
+                    author = canonicalize_author(args.get("author"))
+                    limit  = args.get("limit", 5)
+                    first  = args.get("first", False)
+
+                    # If the model tried to use 'Mr-M' as the author, don't hit the DB
+                    if author is None:
+                        return jsonify({
+                            "reply": "Mr-M is the assistant, not the author of publications. "
+                                     "Try asking about Majid (Abdolrahman Khoshrou)."
+                        }), 200
+
+                    if sel == "rows":
+                        rows = latest_publications(author, limit=limit, first=first)
+                        if not rows:
+                            return jsonify({"reply": "_No results found._"}), 200
+
+                        # Format as numbered list
+                        lines = []
+                        for i, r in enumerate(rows, start=1):
+                            lines.append(
+                                f"{i}. {r['title']} ({r['year']})\n"
+                                f"   Authors: {r['authors']}\n"
+                                f"   Venue: {r.get('venue','')}"
+                            )
+
+                        return jsonify({"reply": "\n".join(lines)}), 200
+
+                    if sel == "coauthors":
+                        names = coauthors_of(author)
+                        reply = "_No co-authors found._" if not names else "**Co-authors:** " + ", ".join(names)
+                        return jsonify({"reply": reply}), 200
+
+                    if sel == "venues":
+                        items = venues_of(author)
+                        if not items:
+                            return jsonify({"reply": "_No venues found._"}), 200
+                        hdr = "| Venue | Count |\n|---|---|"
+                        lines = [f"| {v} | {c} |" for v, c in items]
+                        return jsonify({"reply": "\n".join([hdr] + lines)}), 200
+
+                if name == "search_knowledge":
+                    # Use your FAISS pipeline with the requested top_k (default 5)
+                    top_k = int(args.get("top_k", 5)) or 5
+
+                    index, metadata = load_vector_store()
+                    rag_query = build_rag_query(trimmed_history, message, max_tokens=4000)
+                    chunks = query_index(rag_query, index, metadata, top_k=top_k)
+
+                    context = "\n\n".join([f"Source: {c['source_path']}\n{c['text']}" for c in chunks])
+                    qa_messages = [
+                        {
+                            "role": "system",
+                            "content": (
+                                "Hello! I am Mr M — Majid's professional AI assistant.\n"
+                                "Answer only using the provided CONTEXT. "
+                                "If the context does not include the answer, say you don't know."
+                            )
+                        },
+                        {"role": "system", "content": f"CONTEXT:\n{context}"},
+                        *trimmed_history,
+                        {"role": "user", "content": message}
+                    ]
+                    qa_resp = client.chat.completions.create(
+                        model="gpt-3.5-turbo",
+                        messages=qa_messages
+                    )
+                    reply = qa_resp.choices[0].message.content.strip()
+                    return jsonify({"reply": reply}), 200
+
+        # 4) Fallback — your original RAG flow (in case no tool was chosen)
         index, metadata = load_vector_store()
-        rag_query = build_rag_query(history, message, max_tokens=2500)
+        rag_query = build_rag_query(trimmed_history, message, max_tokens=4000)
         relevant_chunks = query_index(rag_query, index, metadata, top_k=5)
         context = "\n\n".join([f"Source: {c['source_path']}\n{c['text']}" for c in relevant_chunks])
 
-        # 4) Build messages
         system_prompt = {
             "role": "system",
             "content": (
@@ -178,14 +285,8 @@ def chat():
         }
         context_prompt = {"role": "system", "content": f"CONTEXT:\n{context}"}
         user_prompt = {"role": "user", "content": message}
-
-        MAX_HISTORY_MESSAGES = 12
-        trimmed_history = history[-MAX_HISTORY_MESSAGES:]
-
         messages = [system_prompt, context_prompt, *trimmed_history, user_prompt]
 
-        # 5) Model call (client is lazy)
-        client = get_openai_client()
         response = client.chat.completions.create(
             model="gpt-3.5-turbo",
             messages=messages

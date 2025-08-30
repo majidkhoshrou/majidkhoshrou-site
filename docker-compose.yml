@@ -12,6 +12,9 @@ services:
       FLASK_ENV: development
       REDIS_HOST: redis
       REDIS_PORT: 6379
+      DB_PATH: /app/data/artifacts/catalog.db     # <— point to the file in-container
+    volumes:
+      - ./services/mr-m/data/artifacts:/app/data/artifacts:rw  # <— mount the folder with the DB
     depends_on:
       redis:
         condition: service_healthy
@@ -25,7 +28,7 @@ services:
   redis:
     image: redis:7-alpine
     env_file:
-      - ./services/mr-m/.env      # contains REDIS_PASSWORD
+      - ./services/mr-m/.env
     command: sh -lc 'exec redis-server --appendonly yes --requirepass "$${REDIS_PASSWORD}"'
     healthcheck:
       test: ["CMD-SHELL", 'redis-cli -a "$${REDIS_PASSWORD}" PING || exit 1']
