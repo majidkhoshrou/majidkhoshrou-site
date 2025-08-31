@@ -13,6 +13,11 @@ ENV PYTHONUNBUFFERED=1
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt gunicorn
 
+# copy only the minimal runtime data
+COPY data/artifacts/catalog.db data/artifacts/catalog.db
+COPY data/faiss.index data/faiss.index
+COPY data/metadata.pkl data/metadata.pkl
+
 # Copy app code
 COPY . .
 
@@ -23,7 +28,6 @@ ENV PORT=8080 \
     AWS_LWA_LOG_LEVEL=debug \
     AWS_LWA_READINESS_CHECK_PROTOCOL=http \
     AWS_LWA_READINESS_CHECK_PATH=/healthz 
-    # AWS_LWA_REMOVE_BASE_PATH=/prod
 
 # Start your web server (no handler needed)
 CMD ["gunicorn","-b","0.0.0.0:8080","app:app","--workers","1","--threads","4","--timeout","120","--access-logfile","-","--error-logfile","-","--log-level","info"]

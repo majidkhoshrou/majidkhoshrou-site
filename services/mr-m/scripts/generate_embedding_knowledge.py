@@ -137,7 +137,7 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Generate FAISS index with OpenAI embeddings.")
     parser.add_argument("--model", default="text-embedding-3-small", help="Embedding model to use.")
     parser.add_argument("--rebuild", action="store_true", help="Force full rebuild of index.")
-    parser.add_argument("--input", default="data/knowledge_chunks.json", help="Input JSON file")
+    parser.add_argument("--input", default="data/artifacts/knowledge_chunks.json", help="Input JSON file")
     parser.add_argument("--index", default="data/faiss.index", help="Output FAISS index file")
     parser.add_argument("--metadata", default="data/metadata.pkl", help="Output metadata file")
     args = parser.parse_args()

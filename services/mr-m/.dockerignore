@@ -2,12 +2,14 @@ __pycache__/
 .venv/
 .git/
 tests/
-
-# data hygiene
-data/analytics/
-data/raw/
-data/artifacts/
-
-# envs
 .env
 .env.*
+
+# ignore all data by default…
+data/**
+
+# …but re-include only what Lambda needs
+!data/artifacts/
+!data/artifacts/catalog.db
+!data/faiss.index
+!data/metadata.pkl

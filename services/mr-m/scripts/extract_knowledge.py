@@ -39,7 +39,7 @@ def clean_text(text: str) -> str:
 nlp = spacy.load("en_core_web_sm")
 html_dir = Path("templates")
 pdf_dir = Path("static/pdfs")
-output_path = Path("data/knowledge_chunks.json")
+output_path = Path("data/artifacts/knowledge_chunks.json")
 
 html_files = list(html_dir.glob("**/*.html"))
 pdf_files = list(pdf_dir.glob("**/*.pdf"))
