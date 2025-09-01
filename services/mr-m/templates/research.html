@@ -22,6 +22,23 @@
       margin-bottom: 15px;
     }
   </style>
+
+    <!-- Structured data (JSON-LD) -->
+<script type="application/ld+json">
+{{ {
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "name": "Majid Khoshrou",
+  "jobTitle": "Senior Data Scientist",
+  "url": "https://majidkhoshrou.com",
+  "image": url_for('static', filename='images/majid_tudelft_02.png', _external=True),
+  "sameAs": [
+    "https://www.linkedin.com/in/majid-khoshrou-a2728349/",
+    "https://scholar.google.com/citations?user=RPdtjy0AAAAJ",
+    "https://github.com/majidkhoshrou"
+  ]
+} | tojson }}
+</script>
 </head>
 <body>
   <header>
@@ -49,7 +66,7 @@
       <p>
         This page highlights selected publications, with a focus on machine learning, data-driven analysis, forecasting, and intelligent systems. 
         While my primary focus today is on real-world applications in industry, I continue to collaborate on research projects from time to time. 
-        These publications reflect the foundation—and the curiosity—that continue to shape my applied work.
+        These publications reflect the foundation-and the curiosity-that continue to shape my applied work.
       </p>
     </section>
     <section id="publications"></section>

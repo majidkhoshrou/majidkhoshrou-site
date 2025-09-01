@@ -36,7 +36,7 @@
   <main>
     <section class="intro">
       <h2>Projects</h2>
-      <p>This is a selection of projects showcasing my work in machine learning, forecasting, and applied AI — including generative AI applications like Mr M, a personalized assistant trained on my own research and project data.</p>
+      <p>This is a selection of projects showcasing my work in machine learning, forecasting, and applied AI - including generative AI applications like Mr M, a personalized assistant trained on my own research and project data.</p>
     </section>
     <section class="highlights">
 
@@ -45,33 +45,41 @@
           <img src="{{ url_for('static', filename='gifs/ask_mr_m.gif') }}" alt="Talk to Mr M" class="project-media">
         </div>
         <div class="project-info">
-          <h3>Mr M — Majid's AI Assistant
+          <h3>Mr M - Majid's AI Assistant
             <span class="badge">Generative AI</span>
             <span class="badge">LLM + RAG</span>
             <span class="badge">Knowledge Engineering</span>
           </h3>
           
           <!-- <p>
-            <a href="https://github.com/majidkhoshrou/majidkhoshrou-site" target="_blank">Mr M</a> is a custom-built AI assistant trained entirely on my own academic and professional materials — including research papers, personal website content, and relevant project documentation. Its goal is to make my expertise, background, and ongoing work easily accessible through natural language queries. All underlying data sources (HTML, PDFs, external links) are processed, cleaned, and embedded using <a href="https://platform.openai.com/docs/quickstart" target="_blank">OpenAI's models</a> and indexed via <a href="https://github.com/facebookresearch/faiss/wiki" target="_blank">FAISS</a>.
+            <a href="https://github.com/majidkhoshrou/majidkhoshrou-site" target="_blank">Mr M</a> is a custom-built AI assistant trained entirely on my own academic and professional materials - including research papers, personal website content, and relevant project documentation. Its goal is to make my expertise, background, and ongoing work easily accessible through natural language queries. All underlying data sources (HTML, PDFs, external links) are processed, cleaned, and embedded using <a href="https://platform.openai.com/docs/quickstart" target="_blank">OpenAI's models</a> and indexed via <a href="https://github.com/facebookresearch/faiss/wiki" target="_blank">FAISS</a>.
           </p>
           <p>
-            One of the major challenges in building Mr M was designing a robust pipeline that could unify information from diverse formats while preserving context fidelity. I implemented automatic text extraction, chunking with overlap, and semantic embedding, all wrapped in a context-restricted QA system to ensure trustworthy answers. The final result is an explainable, domain-specific AI system that can accurately respond to questions like "What are Majid’s latest projects?" or "Tell me about his academic research" — with traceability to the original sources.
+            One of the major challenges in building Mr M was designing a robust pipeline that could unify information from diverse formats while preserving context fidelity. I implemented automatic text extraction, chunking with overlap, and semantic embedding, all wrapped in a context-restricted QA system to ensure trustworthy answers. The final result is an explainable, domain-specific AI system that can accurately respond to questions like "What are Majid’s latest projects?" or "Tell me about his academic research" - with traceability to the original sources.
           </p> -->
 
           <p>
-            <a href="https://github.com/majidkhoshrou/majidkhoshrou-site" target="_blank">Mr M</a> is a custom-built AI assistant trained entirely on my own academic and professional materials — including research papers, personal website content, and relevant project documentation. Its purpose is to make my expertise, background, and ongoing work easily accessible through natural language queries. All underlying data sources (HTML, PDFs, external links) are processed, cleaned, and embedded using <a href="https://platform.openai.com/docs/quickstart" target="_blank">OpenAI's models</a> and indexed via <a href="https://github.com/facebookresearch/faiss/wiki" target="_blank">FAISS</a>.
+            <a href="https://github.com/majidkhoshrou/majidkhoshrou-site" target="_blank">Mr M</a> is a custom-built AI assistant trained entirely on my own academic and professional materials - including research papers, personal website content, and relevant project documentation. Its purpose is to make my expertise, background, and ongoing work easily accessible through natural language queries. All underlying data sources (HTML, PDFs, external links) are processed, cleaned, and embedded using <a href="https://platform.openai.com/docs/quickstart" target="_blank">OpenAI's models</a> and indexed via <a href="https://github.com/facebookresearch/faiss/wiki" target="_blank">FAISS</a>.
           </p>
 
           <p>
-            One of the major challenges in building Mr M was designing a robust pipeline that could unify information from diverse formats while preserving context fidelity. I implemented automatic text extraction, chunking with overlap, and semantic embedding, all wrapped in a context-restricted QA system to ensure trustworthy answers. The result is an explainable, domain-specific AI system that can accurately respond to questions like "What are Majid’s latest projects?" or "Tell me about his academic research" — with traceability to the original sources.
+            One of the major challenges in building Mr M was designing a robust pipeline that could unify information from diverse formats while preserving context fidelity. I implemented automatic text extraction, chunking with overlap, and semantic embedding, all wrapped in a context-restricted QA system to ensure trustworthy answers. The result is an explainable, domain-specific AI system that can accurately respond to questions like "What are Majid’s latest projects?" or "Tell me about his academic research" - with traceability to the original sources.
           </p>
 
           <p>
-            Beyond the AI layer, the system is engineered for <strong>scalability and reliability</strong>. The application runs locally with Flask but is fully deployable to the cloud using <a href="https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/what-is-sam.html" target="_blank">AWS SAM</a> and <a href="https://aws.amazon.com/cloudformation/" target="_blank">CloudFormation</a>, following an Infrastructure-as-Code approach. This enables seamless deployment to AWS Lambda and API Gateway, with all resources versioned and automated. The architecture also includes Dockerized builds, production-ready environment configurations, and modular services for analytics, search, and security (rate limiting, CAPTCHA).
+            <!-- Beyond the AI layer, the system is engineered for <strong>scalability and reliability</strong>. The application runs locally with Flask but is fully deployable to the cloud using <a href="https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/what-is-sam.html" target="_blank">AWS SAM</a> and <a href="https://aws.amazon.com/cloudformation/" target="_blank">CloudFormation</a>, following an Infrastructure-as-Code approach. This enables seamless deployment to AWS Lambda and API Gateway, with all resources versioned and automated. The architecture also includes Dockerized builds, production-ready environment configurations, and modular services for analytics, search, and security (rate limiting, CAPTCHA). -->
+            Beyond the AI layer, the system is engineered for <strong>scalability and reliability</strong>. 
+            The application runs locally with Flask but is fully deployable to the cloud using 
+            <a href="https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/what-is-sam.html" target="_blank" rel="noopener">AWS SAM</a> and 
+            <a href="https://aws.amazon.com/cloudformation/" target="_blank" rel="noopener">CloudFormation</a>, following an Infrastructure-as-Code approach. 
+            This enables seamless deployment to AWS Lambda and API Gateway, with all resources versioned and automated. 
+            The architecture also includes Dockerized builds, production-ready environment configurations, and modular services for analytics, search, and security 
+            (<a href="https://developers.cloudflare.com/turnstile/" target="_blank" rel="noopener">Cloudflare Turnstile</a> for bot protection and abuse prevention).
+
           </p>
 
           <p>
-            In short, Mr M is not just an AI experiment — it is a <strong>production-grade, cloud-native assistant</strong> that combines personal knowledge management with professional software engineering practices.
+            In short, Mr M is not just an AI experiment - it is a <strong>production-grade, cloud-native assistant</strong> that combines personal knowledge management with professional software engineering practices.
           </p>
 
 
@@ -83,23 +91,23 @@
           <img src="{{ url_for('static', filename='gifs/probabilistic_forecasting.gif') }}" alt="Short Term Forecasts" class="project-media">
         </div>
         <div class="project-info">
-        <h3>Improving Day-Ahead Load Forecasts Under Delayed Feedback — Alliander
+        <h3>Improving Day-Ahead Load Forecasts Under Delayed Feedback - Alliander
           <span class="badge">Time Series</span>
           <span class="badge">Energy Forecasting</span>
           <span class="badge">Open Source</span>
         </h3>
           <!-- <p>
-            Since June 2024, I've been part of the Short-Term Energy Forecasts (STEF) team at Alliander, where I focus on improving allocation forecasts for the day-ahead energy market. This wasn’t a typical forecasting problem — the target variable (Total Load) becomes available only in delayed stages: first after 3 days, then revised at 5 and 8 days, and finalized after 10 days. This delay made accurate training, evaluation, and monitoring significantly more complex.
+            Since June 2024, I've been part of the Short-Term Energy Forecasts (STEF) team at Alliander, where I focus on improving allocation forecasts for the day-ahead energy market. This wasn’t a typical forecasting problem - the target variable (Total Load) becomes available only in delayed stages: first after 3 days, then revised at 5 and 8 days, and finalized after 10 days. This delay made accurate training, evaluation, and monitoring significantly more complex.
           </p>
           <p>
-            To tackle these challenges, I fixed long-standing bugs in the model pipeline, introduced features that better captured seasonality and holiday effects, and implemented a new concept we call <i>data balancing</i>. Instead of using an entire year of historical data, we now focus the training set on periods most relevant to the forecast horizon — improving signal quality and reducing noise. These improvements led to a 30% increase in forecast accuracy and are projected to save over €1.3 million annually. All enhancements have been contributed to <a href="https://github.com/OpenSTEF" target="_blank">OpenSTEF</a>, Alliander’s open-source forecasting library, supporting both internal teams and the wider energy forecasting community.
+            To tackle these challenges, I fixed long-standing bugs in the model pipeline, introduced features that better captured seasonality and holiday effects, and implemented a new concept we call <i>data balancing</i>. Instead of using an entire year of historical data, we now focus the training set on periods most relevant to the forecast horizon - improving signal quality and reducing noise. These improvements led to a 30% increase in forecast accuracy and are projected to save over €1.3 million annually. All enhancements have been contributed to <a href="https://github.com/OpenSTEF" target="_blank">OpenSTEF</a>, Alliander’s open-source forecasting library, supporting both internal teams and the wider energy forecasting community.
           </p> -->
           <p>
             Since June 2024, I've been part of the Short-Term Energy Forecasts (STEF) team at Alliander, where I work on improving allocation forecasts for the day-ahead energy market. Unlike typical forecasting problems, our target variable (Total Load) is only available in delayed stages: first after 3 days, then revised at 5 and 8 days, and finalized after 10 days. This delay made accurate training, evaluation, and monitoring significantly more complex.
           </p>
 
           <p>
-            To overcome these challenges, I fixed long-standing bugs in the model pipeline, introduced features that better captured seasonality and holiday effects, and implemented a new concept we call <i>data balancing</i>. Instead of training on an entire year of historical data, we now focus the training set on periods most relevant to the forecast horizon — improving signal quality while reducing noise. These improvements led to a <strong>30% increase in forecast accuracy</strong> and are projected to save over <strong>€1.3 million annually</strong>. All enhancements have been contributed to <a href="https://github.com/OpenSTEF" target="_blank">OpenSTEF</a>, Alliander’s open-source forecasting library, benefiting both internal teams and the wider energy forecasting community.
+            To overcome these challenges, I fixed long-standing bugs in the model pipeline, introduced features that better captured seasonality and holiday effects, and implemented a new concept we call <i>data balancing</i>. Instead of training on an entire year of historical data, we now focus the training set on periods most relevant to the forecast horizon - improving signal quality while reducing noise. These improvements led to a <strong>30% increase in forecast accuracy</strong> and are projected to save over <strong>€1.3 million annually</strong>. All enhancements have been contributed to <a href="https://github.com/OpenSTEF" target="_blank">OpenSTEF</a>, Alliander’s open-source forecasting library, benefiting both internal teams and the wider energy forecasting community.
           </p>
 
         </div>
@@ -110,7 +118,7 @@
           <img src="{{ url_for('static', filename='gifs/risk_assessment.gif') }}" alt="Risk Assessment" class="project-media">
         </div>
         <div class="project-info">
-          <h3>Operational Risk Framework for MV Grids — Alliander
+          <h3>Operational Risk Framework for MV Grids - Alliander
             <span class="badge">Reliability Engineering</span>
             <span class="badge">Decision Intelligence</span>
             <span class="badge">Data Strategy</span>
@@ -140,7 +148,7 @@
           </p>
 
           <p>
-            The algorithm was deployed in a leader–follower fleet structure, enabling AUVs to dynamically adjust their formation in response to local variations in Conductivity-Temperature-Depth (CTD) measurements. By exchanging GMM parameters during coordinated resurfacing, the system quantified distributional differences using variational distance and adapted formation geometry accordingly — allowing the fleet to “zoom in” on regions with high environmental variability. <a href="https://github.com/majidkhoshrou/AUV_Path_Planning_GMM" target="_blank">Extensive simulations</a> confirmed the method’s robustness and efficiency across both uniform and complex oceanographic conditions.
+            The algorithm was deployed in a leader–follower fleet structure, enabling AUVs to dynamically adjust their formation in response to local variations in Conductivity-Temperature-Depth (CTD) measurements. By exchanging GMM parameters during coordinated resurfacing, the system quantified distributional differences using variational distance and adapted formation geometry accordingly - allowing the fleet to “zoom in” on regions with high environmental variability. <a href="https://github.com/majidkhoshrou/AUV_Path_Planning_GMM" target="_blank">Extensive simulations</a> confirmed the method’s robustness and efficiency across both uniform and complex oceanographic conditions.
           </p>
         </div>
       </div>

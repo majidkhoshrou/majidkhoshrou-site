@@ -14,6 +14,23 @@
   <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
   <title>Majid Khoshrou - Analytics</title>
   <link rel="icon" href="{{ url_for('static', filename='images/MK.jpeg') }}">
+
+    <!-- Structured data (JSON-LD) -->
+<script type="application/ld+json">
+{{ {
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "name": "Majid Khoshrou",
+  "jobTitle": "Senior Data Scientist",
+  "url": "https://majidkhoshrou.com",
+  "image": url_for('static', filename='images/majid_tudelft_02.png', _external=True),
+  "sameAs": [
+    "https://www.linkedin.com/in/majid-khoshrou-a2728349/",
+    "https://scholar.google.com/citations?user=RPdtjy0AAAAJ",
+    "https://github.com/majidkhoshrou"
+  ]
+} | tojson }}
+</script>
 </head>
 <body>
 

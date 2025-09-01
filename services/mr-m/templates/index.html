@@ -3,24 +3,41 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <meta name="description" content="Majid Khoshrou - Data Scientist specialized in machine learning, forecasting, and generative AI." />
+  <meta name="description" content="Majid Khoshrou - Senior Data Scientist specializing in forecasting, machine learning, and generative AI (RAG, LLMs)." />
   <meta http-equiv="pragma" content="no-cache"/>
   <meta property="og:title" content="Majid Khoshrou - Home">
-  <meta property="og:description" content="Forecasting, machine learning, generative AI, and real-time analytics in energy & mobility.">
+  <meta property="og:description" content="Forecasting, time series, generative AI, and real-time analytics in energy & mobility."/>
   <meta property="og:image" content="{{ url_for('static', filename='images/majid_tudelft_02.png', _external=True) }}">
   <meta property="og:type" content="website">
   <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
   <title>Majid Khoshrou - Home</title>
   <link rel="icon" href="{{ url_for('static', filename='images/MK.jpeg') }}">
+
+  <!-- Structured data (JSON-LD) -->
+<script type="application/ld+json">
+{{ {
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "name": "Majid Khoshrou",
+  "jobTitle": "Senior Data Scientist",
+  "url": "https://majidkhoshrou.com",
+  "image": url_for('static', filename='images/majid_tudelft_02.png', _external=True),
+  "sameAs": [
+    "https://www.linkedin.com/in/majid-khoshrou-a2728349/",
+    "https://scholar.google.com/citations?user=RPdtjy0AAAAJ",
+    "https://github.com/majidkhoshrou"
+  ]
+} | tojson }}
+</script>
 </head>
 <body>
   <header>
     <div class="header-container">
-      <img src="{{ url_for('static', filename='images/majid_tudelft_02.png') }}" alt="Majid Khoshrou" class="profile-photo" loading="lazy">
+      <img src="{{ url_for('static', filename='images/majid_tudelft_02.png') }}" alt="Portrait of Majid Khoshrou" class="profile-photo" loading="lazy">
       <h1>Majid Khoshrou</h1>
-      <p>Data Scientist | Machine Learning | Generative AI | Real-Time Analytics</p>
+      <p>Senior Data Scientist · Forecasting · Generative AI (RAG/LLMs) · Real-Time Analytics</p>
     </div>
-    <nav>
+    <nav aria-label="Primary">
       <ul>
         <li><a href="{{ url_for('home') }}" class="{% if request.endpoint == 'home' %}active{% endif %}">Home</a></li>
         <li><a href="{{ url_for('research') }}" class="{% if request.endpoint == 'research' %}active{% endif %}">Publications</a></li>
@@ -33,35 +50,46 @@
     </nav>
   </header>
 
-<main>
-    <section class="biography">
-      <h2>Biography</h2>
-      <p>
-        I’m a Data Scientist with over a decade of experience bridging academia and industry, where I’ve tackled complex, high-impact problems through machine learning, generative AI, and real-time decision systems. My specialty lies in designing intelligent systems that bring clarity to complexity — from energy forecasting models to adaptive AI assistants.
-        <br><br>
-        I’m a passionate advocate for open-source innovation and regularly contribute to projects that emphasize transparency, reproducibility, and collaborative progress. My work spans diverse domains — including energy, robotics, marine science, social behavior analysis, and explainable AI — all connected by a commitment to applied, ethical AI.
-        <br><br>
-        I also explore creative uses of generative AI. One example is my assistant, 
-        <a href="{{ url_for('ask_mr_m') }}" class="{% if request.endpoint == 'ask_mr_m' %}active{% endif %}">Mr M</a>, who can answer questions about my work — from digestible summaries of publications to in-depth technical walkthroughs.
-      </p>
-      <p>
-      <p>
-        I was born and raised in <a href="https://en.wikipedia.org/wiki/Qaem_Shahr" target="_blank">Qaem Shahr</a>, in the heart of <a href="https://en.wikipedia.org/wiki/Mazandaran_province" target="_blank">Mazandaran</a> — a lush region in northern Iran nestled between the Alborz Mountains and the Caspian Sea, known for its rice paddies, citrus orchards, and misty forests. That environment continues to shape my values, curiosity, and commitment to building systems that are both intelligent and sustainable.
-        <br><br>
-        I earned my bachelor’s degree in Electrical Engineering from <a href="https://en.wikipedia.org/wiki/Babol_Noshirvani_University_of_Technology" target="_blank">Babol Noshirvani University of Technology</a>. In 2012, I moved to Portugal to pursue a master’s degree in <a href="https://www.up.pt/feup/en/study/masters-degree/master-programmes/feup/22862/" target="_blank"> Informatics and Computing Engineering</a> at the University of Porto, where I discovered my passion for data science and analytics. 
-        Alongside my studies, I joined the <a href="https://c2sr.fe.up.pt/about-us/" target="_blank">Cyber-Physical Control Systems and Robotics Lab (C2SR)</a> as a machine learning researcher, working on autonomous vehicle navigation and path planning. During that time, I developed an online unsupervised learning algorithm for Gaussian Mixture Models, applied to autonomous underwater vehicle path planning — an early step in my journey toward intelligent systems that learn and adapt in real-time.
-      </p>
-      <p>
-        In late 2015, I began my PhD at the <a href="https://www.cwi.nl/en/groups/intelligent-and-autonomous-systems/" target="_blank">Intelligent and Autonomous Systems</a> group at the <a href="https://www.cwi.nl/en/about/history/" target="_blank">Dutch National Research Center for Mathematics and Computer Science (CWI)</a>, in partnership with the <a href="https://www.tudelft.nl/ewi/over-de-faculteit/afdelingen/electrical-sustainable-energy/intelligent-electrical-power-grids-iepg-group" target="_blank">Intelligent Electrical Power Grids (IEPG)</a> group at <a href="https://en.wikipedia.org/wiki/Delft_University_of_Technology" target="_blank">TU Delft</a>. My research centered on data-driven methods for time series analysis and forecasting in smart energy systems — blending theoretical rigor with real-world complexity.
-        <br><br>
-        From 2020 to the end of 2022, I continued at CWI as a postdoctoral researcher. While I valued the depth of academic inquiry, I increasingly sought work where innovation meets real-world impact — where ideas don’t just live in papers, but shape systems, decisions, and lives.
-        <br><br>
-        In January 2023, I joined <a href="https://www.alliander.com/en/organisation/" target="_blank">Alliander</a> in Arnhem as a Senior Data Scientist. I now lead initiatives in grid forecasting, energy market optimization, and risk modeling. My recent focus has been on developing real-time forecasting models for the Dutch energy market and building AI systems that are not only scalable, but also explainable and production-ready.
-      </p>
+  <main>
+  <section class="biography">
+    <h2>Biography</h2>
+
+    <p>
+      I'm a Data Scientist with over a decade of experience bridging academia and industry, building intelligent, production-ready systems for energy, mobility, and infrastructure. My work focuses on forecasting, probabilistic modeling, and generative AI - including <a href="{{ url_for('ask_mr_m') }}">Mr M</a>, my domain-specific AI assistant powered by Retrieval-Augmented Generation (RAG).
+    </p>
+
+    <p>
+      I'm a passionate advocate for open-source innovation (e.g., OpenSTEF) and care deeply about explainability, reproducibility, and measurable impact. My projects span energy, robotics, marine science, social behavior analysis, and explainable AI - all connected by a commitment to applied, ethical AI.
+    </p>
+
+    <p>
+      I was born and raised in <a href="https://en.wikipedia.org/wiki/Qaem_Shahr" target="_blank" rel="noopener">Qaem Shahr</a>, in the heart of <a href="https://en.wikipedia.org/wiki/Mazandaran_province" target="_blank" rel="noopener">Mazandaran</a> - a lush region in northern Iran nestled between the Alborz Mountains and the Caspian Sea. That environment continues to shape my values, curiosity, and commitment to building systems that are both intelligent and sustainable.
+    </p>
+
+    <p>
+      I earned my bachelor's degree in Electrical Engineering from
+      <a href="https://en.wikipedia.org/wiki/Babol_Noshirvani_University_of_Technology" target="_blank" rel="noopener">Babol Noshirvani University of Technology</a>. In 2012, I moved to Portugal to pursue a master's degree in
+      <a href="https://www.up.pt/feup/en/study/masters-degree/master-programmes/feup/22862/" target="_blank" rel="noopener">Informatics and Computing Engineering</a> at the University of Porto, where I also joined the
+      <a href="https://c2sr.fe.up.pt/about-us/" target="_blank" rel="noopener">Cyber-Physical Control Systems and Robotics Lab (C2SR)</a>. There, I developed online unsupervised learning algorithms for Gaussian Mixture Models applied to autonomous underwater vehicle navigation - an early step in building systems that adapt in real time.
+    </p>
+
+    <p>
+      In late 2015, I began my PhD at the
+      <a href="https://www.cwi.nl/en/groups/intelligent-and-autonomous-systems/" target="_blank" rel="noopener">Intelligent and Autonomous Systems</a> group at the
+      <a href="https://www.cwi.nl/en/about/history/" target="_blank" rel="noopener">Dutch National Research Center for Mathematics and Computer Science (CWI)</a>, in partnership with the
+      <a href="https://www.tudelft.nl/ewi/over-de-faculteit/afdelingen/electrical-sustainable-energy/intelligent-electrical-power-grids-iepg-group" target="_blank" rel="noopener">Intelligent Electrical Power Grids (IEPG)</a> group at
+      <a href="https://en.wikipedia.org/wiki/Delft_University_of_Technology" target="_blank" rel="noopener">TU Delft</a>. My research centered on data-driven methods for time-series analysis and forecasting in smart energy systems - blending theoretical rigor with real-world complexity.
+    </p>
+
+    <p>
+      From 2020 to the end of 2022, I continued at CWI as a postdoctoral researcher. While I valued the depth of academic inquiry, I increasingly sought work where innovation meets real-world impact - where ideas don't just live in papers, but shape systems, decisions, and lives.
+    </p>
+
+    <p>
+      In January 2023, I joined <a href="https://www.alliander.com/en/organisation/" target="_blank" rel="noopener">Alliander</a> in Arnhem as a Senior Data Scientist. I now lead initiatives in grid forecasting, energy market optimization, and risk modeling, with a focus on developing real-time forecasting models for the Dutch energy market and building AI systems that are not only scalable, but also explainable and production-ready.
+    </p>
 
       <div class="bio-flex">
-        <p class="bio-last">
-        </p>
         <div class="cta-buttons">
           <a href="{{ url_for('static', filename='pdfs/CV_Majid_Khoshrou.pdf') }}" class="button" download title="2-page resume (PDF)">📄 Download CV</a>
           <a href="{{ url_for('contact') }}" class="button" title="Get in touch">📧 Contact Me</a>
@@ -72,39 +100,74 @@
     <section class="experience">
       <h2>Work Experience</h2>
       <ul>
-        <li><strong>Senior Data Scientist – Alliander (2023–Present)</strong><br>Boosted forecast accuracy, enabled cost savings, and contributed to OpenSTEF.</li>
-        <li><strong>Postdoctoral Researcher – CWI (2020–2022)</strong><br>Forecasted EV demand, co-taught AI topics, and integrated carbon metrics.</li>
-        <li><strong>Data Scientist – Maistering (2019–2020)</strong><br>Built segmentation models and deployed ML-powered product features.</li>
-        <li><strong>PhD Researcher – CWI & TU Delft (2015–2019)</strong><br>Advanced probabilistic models and anomaly detection for smart energy systems.</li>
+        <li>
+          <strong>Senior Data Scientist - Alliander</strong> <em>(Jan 2023 – Present)</em><br>
+          Increased day‑ahead allocation forecast accuracy by <strong>30%</strong>, enabling ~<strong>€1.3M/year</strong> savings; improved OpenSTEF library robustness; developed statistical risk models for grid reliability; standardized model validation across teams.
+        </li>
+        <li>
+          <strong>Postdoctoral Researcher - Centrum Wiskunde &amp; Informatica (CWI)</strong> <em>(Jul 2020 – Dec 2022)</em><br>
+          Built EV charging demand forecasts for urban planning; introduced carbon‑impact metrics for server clusters; co‑taught AI and game theory.
+        </li>
+        <li>
+          <strong>Data Scientist - Maistering B.V.</strong> <em>(Nov 2019 – Jul 2020)</em><br>
+          Delivered ML‑powered product features and customer segmentation that improved marketing ROI; accelerated analytics deployment with cross‑team collaboration.
+        </li>
+        <li>
+          <strong>PhD Researcher - CWI &amp; TU Delft</strong> <em>(Dec 2015 – Nov 2019)</em><br>
+          Advanced probabilistic forecasting and anomaly detection for smart grids; published peer‑reviewed work in time series analysis.
+        </li>
+        <li>
+          <strong>Machine Learning Researcher - C2SR Lab (University of Porto)</strong> <em>(May 2013 – Oct 2015)</em><br>
+          Developed real‑time unsupervised learning for marine robotics navigation and adaptive sampling.
+        </li>
+        <li>
+          <strong>Project Member - EDSAB Co.</strong> <em>(Feb 2011 – Feb 2012)</em><br>
+          Built ML models for anomaly and fraud detection in national smart‑meter data; produced long‑term energy demand forecasts.
+        </li>
       </ul>
     </section>
 
     <section class="skills">
-      <h2>Skills & Technologies</h2>
+      <h2>Skills &amp; Technologies</h2>
       <ul>
-        <li><strong>Languages:</strong> Python, SQL, MATLAB, PySpark, Bash</li>
-        <li><strong>ML Frameworks:</strong> Scikit-learn, TensorFlow, PyTorch, XGBoost, LightGBM</li>
-        <li><strong>Cloud & Tools:</strong> AWS, GCP, Azure, Databricks, Docker, Git</li>
-        <li><strong>Visualization:</strong> Power BI, Tableau, Plotly, Matplotlib, Seaborn</li>
-        <li><strong>Generative AI:</strong> OpenAI APIs, Embedding Pipelines, RAG systems</li>
+        <li><strong>Programming &amp; ML:</strong> Python, SQL, MATLAB, PySpark, Bash, scikit‑learn, Pandas, NumPy, TensorFlow, PyTorch, XGBoost, LightGBM, spaCy</li>
+        <li><strong>Generative AI &amp; LLMs:</strong> RAG, OpenAI APIs, LangChain, Prompt Engineering, Embedding Pipelines, FAISS Indexing</li>
+        <li><strong>Data &amp; Cloud Platforms:</strong> AWS, GCP, Azure, Databricks, Docker, Git</li>
+        <li><strong>Analytics &amp; Visualization:</strong> Power BI, Tableau, Matplotlib, Seaborn, Plotly</li>
+        <li><strong>Methods:</strong> Time Series Forecasting, NLP, Risk Modeling, Probabilistic Modeling, Anomaly Detection</li>
+        <li><strong>Collaboration:</strong> Agile/Scrum, JIRA, Confluence, Stakeholder Engagement</li>
+        <li><strong>Open Source:</strong> Contributor to OpenSTEF (Energy Forecasting Library)</li>
+        <li><strong>Languages:</strong> English (Fluent), Dutch (Intermediate), Persian (Native)</li>
       </ul>
     </section>
 
     <section class="education">
-      <h2>Education & Credentials</h2>
+      <h2>Education &amp; Credentials</h2>
       <ul>
-        <li>PhD in Artificial Intelligence – TU Delft & CWI (2015–2022)</li>
-        <li>MSc in Information Engineering – University of Porto (2012–2015)</li>
-        <li>BSc in Electrical Power Engineering – Babol Noshirvani University (2002–2007)</li>
-        <li>Advanced Data Analytics Certificate – Google/Coursera (2024)</li>
-        <li>Google IT Support Certificate – Google/Coursera (2021)</li>
+        <li><strong>PhD in Artificial Intelligence</strong> - CWI &amp; Delft University of Technology <em>(2015–2022)</em><br>
+          Thesis: “Singular Value Decomposition for Time Series Analysis in Smart Energy Systems”
+        </li>
+        <li><strong>MSc in Information Engineering</strong> - University of Porto <em>(2012–2015)</em><br>
+          Thesis: “Real‑Time Unsupervised Motion Learning for Autonomous Underwater Vehicles”
+        </li>
+        <li><strong>BSc in Electrical Power Engineering</strong> - Babol Noshirvani University of Technology <em>(2002–2007)</em></li>
+        <li><strong>Certificates:</strong> Google Advanced Data Analytics (2024); Google IT Support (2021); DataCamp - Statistics Fundamentals with Python (2019); Data Scientist with Python (2019)</li>
+      </ul>
+    </section>
+
+    <section class="projects-highlight">
+      <h2>Featured Project</h2>
+      <ul>
+        <li><strong>Mr M - Domain‑Specific Generative AI Assistant</strong> <em>(2025–Present)</em><br>
+          Personal AI assistant with a robust RAG pipeline (OpenAI embeddings + FAISS) for context‑aware Q&A over my research and projects, with traceable answers linked to original sources.
+        </li>
       </ul>
     </section>
 
     <section class="personal">
       <h2>Beyond Work</h2>
       <p>
-        Outside of data science, I enjoy fitness, photography, chess, and visiting museums. I'm also fascinated by how different cultures live, learn, and solve problems—insights I often draw on when approaching systems design or applied AI. Whether exploring a city or experimenting with new tech, I tend to follow the same curiosity that drives my work.
+        Outside data science, I enjoy fitness, photography, chess, and visiting museums. I'm fascinated by how different cultures learn and solve problems - perspectives I bring to system design and applied AI.
       </p>
     </section>
 
@@ -112,13 +175,13 @@
       <h2>Explore</h2>
       <div class="cards">
         <div class="card">
-          <h3>Research & Publications</h3>
-          <p>Peer-reviewed work in time series, forecasting, and smart energy systems.</p>
+          <h3>Research &amp; Publications</h3>
+          <p>Peer‑reviewed work in time series, forecasting, and smart energy systems.</p>
           <a href="{{ url_for('research') }}" class="button">Learn More</a>
         </div>
         <div class="card">
           <h3>Projects</h3>
-          <p>Real-world applications and open-source contributions.</p>
+          <p>Real‑world applications and open‑source contributions.</p>
           <a href="{{ url_for('projects') }}" class="button">View Projects</a>
         </div>
         <div class="card">
@@ -128,21 +191,19 @@
         </div>
         <div class="card">
           <h3>Ask Mr M</h3>
-          <p>Talk to my AI assistant trained on my work and career history.</p>
+          <p>Talk to my AI assistant trained on my publications and career history.</p>
           <a href="{{ url_for('ask_mr_m') }}" class="button">Chat Now</a>
         </div>
       </div>
     </section>
-
-
   </main>
 
   <footer>
     <p>&copy; 2025 Majid Khoshrou</p>
     <div class="social-links">
-      <a href="https://www.linkedin.com/in/majid-khoshrou-a2728349/" target="_blank">LinkedIn</a> |
-      <a href="https://scholar.google.com/citations?user=RPdtjy0AAAAJ" target="_blank">Google Scholar</a> |
-      <a href="https://github.com/majidkhoshrou" target="_blank">GitHub</a>
+      <a href="https://www.linkedin.com/in/majid-khoshrou-a2728349/" target="_blank" rel="noopener">LinkedIn</a> |
+      <a href="https://scholar.google.com/citations?user=RPdtjy0AAAAJ" target="_blank" rel="noopener">Google Scholar</a> |
+      <a href="https://github.com/majidkhoshrou" target="_blank" rel="noopener">GitHub</a>
     </div>
   </footer>
 
