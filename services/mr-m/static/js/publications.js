@@ -32,7 +32,7 @@ fetch('/static/data/publications.json')
         ${doiLink ? `<p><a href="${doiLink}" target="_blank">View DOI</a></p>` : ''}
         <div class="abstract-actions">
           <button onclick="toggleAbstract(${index})">Read Abstract</button>
-          <a href="/ask-mr-m?query=${encodeURIComponent('Tell me more about the publication titled: ' + pub.title)}" class="chat-link">
+          <a href="/ask-mr-m?query=${encodeURIComponent('Explain ' + pub.title)}" class="chat-link">
             💬 Ask Mr <i>M</i>
           </a>
         </div>

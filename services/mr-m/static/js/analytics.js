@@ -18,7 +18,7 @@
     "United States": "United States of America",
     Russia: "Russian Federation",
     Vietnam: "Viet Nam",
-    Iran: "Iran, Islamic Republic of",
+    Iran: "Iran",
     Syria: "Syrian Arab Republic",
     "South Korea": "Korea, Republic of",
     "North Korea": "Korea, Democratic People's Republic of",
