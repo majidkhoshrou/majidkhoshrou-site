@@ -90,28 +90,21 @@
         <div class="project-media-container">
           <img src="{{ url_for('static', filename='gifs/probabilistic_forecasting.gif') }}" alt="Short Term Forecasts" class="project-media">
         </div>
-        <div class="project-info">
+      <div class="project-info">
         <h3>Improving Day-Ahead Load Forecasts Under Delayed Feedback - Alliander
           <span class="badge">Time Series</span>
           <span class="badge">Energy Forecasting</span>
           <span class="badge">Open Source</span>
         </h3>
-          <!-- <p>
-            Since June 2024, I've been part of the Short-Term Energy Forecasts (STEF) team at Alliander, where I focus on improving allocation forecasts for the day-ahead energy market. This wasn’t a typical forecasting problem - the target variable (Total Load) becomes available only in delayed stages: first after 3 days, then revised at 5 and 8 days, and finalized after 10 days. This delay made accurate training, evaluation, and monitoring significantly more complex.
-          </p>
-          <p>
-            To tackle these challenges, I fixed long-standing bugs in the model pipeline, introduced features that better captured seasonality and holiday effects, and implemented a new concept we call <i>data balancing</i>. Instead of using an entire year of historical data, we now focus the training set on periods most relevant to the forecast horizon - improving signal quality and reducing noise. These improvements led to a 30% increase in forecast accuracy and are projected to save over €1.3 million annually. All enhancements have been contributed to <a href="https://github.com/OpenSTEF" target="_blank">OpenSTEF</a>, Alliander’s open-source forecasting library, supporting both internal teams and the wider energy forecasting community.
-          </p> -->
-          <p>
-            Since June 2024, I've been part of the Short-Term Energy Forecasts (STEF) team at Alliander, where I work on improving allocation forecasts for the day-ahead energy market. Unlike typical forecasting problems, our target variable (Total Load) is only available in delayed stages: first after 3 days, then revised at 5 and 8 days, and finalized after 10 days. This delay made accurate training, evaluation, and monitoring significantly more complex.
-          </p>
+        <p>
+          Since June 2024, I've been part of the Short-Term Energy Forecasts (STEF) team at Alliander, where I work on improving allocation forecasts for the day-ahead energy market. Unlike typical forecasting problems, our target variable (Total Load) is only available in delayed stages: first after 3 days, then revised at 5 and 8 days, and finalized after 10 days. This delay made accurate training, evaluation, and monitoring significantly more complex.
+        </p>
 
-          <p>
-            To overcome these challenges, I fixed long-standing bugs in the model pipeline, introduced features that better captured seasonality and holiday effects, and implemented a new concept we call <i>data balancing</i>. Instead of training on an entire year of historical data, we now focus the training set on periods most relevant to the forecast horizon - improving signal quality while reducing noise. These improvements led to a <strong>30% increase in forecast accuracy</strong> and are projected to save over <strong>€1.3 million annually</strong>. All enhancements have been contributed to <a href="https://github.com/OpenSTEF" target="_blank">OpenSTEF</a>, Alliander’s open-source forecasting library, benefiting both internal teams and the wider energy forecasting community.
-          </p>
-
-        </div>
+        <p>
+          To overcome these challenges, I fixed long-standing bugs in the model pipeline, introduced features that better captured seasonality and holiday effects, and implemented a new concept we call <i>data balancing</i>. Instead of training on an entire year of historical data, we now focus the training set on periods most relevant to the forecast horizon — improving signal quality while reducing noise. These improvements led to a <strong>~30% increase in forecast accuracy</strong> and are projected to generate <strong>seven-figure annual cost savings</strong>. All enhancements have been contributed to <a href="https://github.com/OpenSTEF" target="_blank">OpenSTEF</a>, Alliander’s open-source forecasting library, benefiting both internal teams and the wider energy forecasting community.
+        </p>
       </div>
+
 
       <div class="project">
         <div class="project-media-container">

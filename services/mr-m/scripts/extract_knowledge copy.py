@@ -11,19 +11,6 @@ import re
 import tiktoken
 from tqdm import tqdm
 from io import BytesIO
-import sys
-from pathlib import Path
-
-BASE_DIR = Path(__file__).resolve().parent.parent
-sys.path.append(str(BASE_DIR))
-
-# NEW: helpers for external URLs (Wikipedia API, robots, polite fetch, etc.)
-from libs.web_utils import (
-    polite_get,
-    is_wikipedia,
-    is_google_scholar,
-    fetch_wikipedia_text,
-)
 
 # ---------- Paths (repo-relative, NOT cwd-relative)
 BASE_DIR = Path(__file__).resolve().parent.parent     # …/mr-m
@@ -139,7 +126,7 @@ for pdf_file in tqdm(pdf_files, desc="Processing PDFs"):
             "chunk_id": f"{base['id']}_{idx}",
         })
 
-# ---------- Process external URLs (polite + site-specific via libs/)
+# ---------- Process external URLs
 for url in tqdm(external_urls, desc="Processing External URLs"):
     base = {
         "id": str(uuid.uuid4()),
@@ -148,41 +135,18 @@ for url in tqdm(external_urls, desc="Processing External URLs"):
         "source_path": url,
     }
     try:
-        # Skip sites that forbid scraping or are known to rate-limit hard
-        if is_google_scholar(url):
-            print(f"Skipping Google Scholar (ToS/robots): {url}")
-            continue
-
-        # Prefer provider APIs when available (Wikipedia)
-        if is_wikipedia(url):
-            try:
-                title, text = fetch_wikipedia_text(url)
-                base["title"] = title
-                text = clean_text(text)
-                for idx, chunk in enumerate(split_text_into_chunks(text, MAX_TOKENS, OVERLAP_TOKENS), start=1):
-                    knowledge_chunks.append({
-                        **base,
-                        "text": chunk,
-                        "token_count": count_tokens(chunk),
-                        "chunk_id": f"{base['id']}_{idx}",
-                    })
-                continue  # handled; go to next URL
-            except Exception as e:
-                print(f"Wikipedia API fallback failed for {url}: {e}")
-                # fall through to generic fetch (may still 403 depending on site)
-
-        # Generic polite fetch with retries/backoff + robots.txt
-        resp = polite_get(url)
+        resp = requests.get(url, timeout=20)
+        resp.raise_for_status()
         ctype = (resp.headers.get("Content-Type") or "").lower()
 
-        if "html" in ctype or (ctype == "" and resp.text.strip().startswith("<")):
+        if "html" in ctype:
             soup = BeautifulSoup(resp.text, "html.parser")
-            for tag in soup(["header", "nav", "footer", "script", "style", "noscript"]):
+            for tag in soup(["header", "nav", "footer", "script", "style"]):
                 tag.decompose()
             base["title"] = (soup.title.string or "").strip() if soup.title else "Untitled"
             text = clean_text(soup.get_text(strip=False))
 
-        elif "pdf" in ctype or url.lower().endswith(".pdf"):
+        elif "pdf" in ctype:
             pdf_stream = BytesIO(resp.content)
             doc = fitz.open(stream=pdf_stream, filetype="pdf")
             text = "".join(page.get_text("text") for page in doc)
@@ -191,7 +155,7 @@ for url in tqdm(external_urls, desc="Processing External URLs"):
             text = clean_text(text)
 
         else:
-            print(f"Unsupported content type: {ctype or 'unknown'} for URL: {url}")
+            print(f"Unsupported content type: {ctype} for URL: {url}")
             continue
 
         for idx, chunk in enumerate(split_text_into_chunks(text, MAX_TOKENS, OVERLAP_TOKENS), start=1):
@@ -202,12 +166,8 @@ for url in tqdm(external_urls, desc="Processing External URLs"):
                 "chunk_id": f"{base['id']}_{idx}",
             })
 
-    except requests.HTTPError as e:
-        print(f"HTTP error for {url}: {e}")
     except requests.RequestException as e:
-        print(f"Network error for {url}: {e}")
-    except Exception as e:
-        print(f"Unhandled error for {url}: {e}")
+        print(f"Error fetching {url}: {e}")
 
 # ---------- Save
 with OUTPUT_PATH.open("w", encoding="utf-8") as f:
